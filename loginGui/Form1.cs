@@ -2,68 +2,102 @@ namespace loginGui
 {
     public partial class loginSreen : Form
     {
-        private bool isPlaceholderTextBox1, isPlaceholderTextBox2 = true;
+        private bool isPlaceholderEmailTextBox, isPlaceholderPassTextBox = true;
 
         public loginSreen()
         {
             InitializeComponent();
 
+            //Ustawianie kursora/focusu na label
             LoginLabel.Select();
 
-            SetPlaceholderTextBox1(this, EventArgs.Empty);
-            SetPlaceholderTextBox2(this, EventArgs.Empty);
+            //Placeholdery i textboxy
+            SetPlaceholderEmailTextBox(this, EventArgs.Empty);
+            SetPlaceholderPassTextBox(this, EventArgs.Empty);
 
-            EmailTextBox.GotFocus += RemovePlaceholderTextBox1;
-            EmailTextBox.LostFocus += SetPlaceholderTextBox1;
+            EmailTextBox.GotFocus += RemovePlaceholderEmailTextBox;
+            EmailTextBox.LostFocus += SetPlaceholderEmailTextBox;
 
-            PassTextBox.GotFocus += RemovePlaceholderTextBox2;
-            PassTextBox.LostFocus += SetPlaceholderTextBox2;
+            PassTextBox.GotFocus += RemovePlaceholderPassTextBox;
+            PassTextBox.LostFocus += SetPlaceholderPassTextBox;
+
+            //Ustawianie domyœlnie gwiadek do has³a i reakcja na checkbox
+            
+            //PassTextBox.PasswordChar = '*';
+
+            ShowPassCheckBox.CheckedChanged += ShowPassCheckBox_CheckedChanged;
+
 
         }
 
-        private void SetPlaceholderTextBox1(object? sender, EventArgs e)
+        private void SetPlaceholderEmailTextBox(object? sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(EmailTextBox.Text))
             {
                 EmailTextBox.Text = "Enter your email";
                 EmailTextBox.ForeColor = ColorTranslator.FromHtml("#656565");
-                isPlaceholderTextBox1 = true;
+                isPlaceholderEmailTextBox = true;
             }
         }
 
-        private void RemovePlaceholderTextBox1(object? sender, EventArgs s)
+        private void RemovePlaceholderEmailTextBox(object? sender, EventArgs s)
         {
-            if (isPlaceholderTextBox1)
+            if (isPlaceholderEmailTextBox)
             {
                 EmailTextBox.Text = "";
                 EmailTextBox.ForeColor = Color.White;
-                isPlaceholderTextBox1 = false;
+                isPlaceholderEmailTextBox = false;
             }
         }
 
-        private void SetPlaceholderTextBox2(object? sender, EventArgs e)
+        private void SetPlaceholderPassTextBox(object? sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(PassTextBox.Text))
             {
                 PassTextBox.Text = "Enter your password";
                 PassTextBox.ForeColor = ColorTranslator.FromHtml("#656565");
-                isPlaceholderTextBox2 = true;
+                isPlaceholderPassTextBox = true;
+                PassTextBox.PasswordChar = '\0';
             }
         }
 
-        private void RemovePlaceholderTextBox2(object? sender, EventArgs s)
+        private void RemovePlaceholderPassTextBox(object? sender, EventArgs s)
         {
-            if (isPlaceholderTextBox2)
+            if (isPlaceholderPassTextBox)
             {
                 PassTextBox.Text = "";
                 PassTextBox.ForeColor = Color.White;
-                isPlaceholderTextBox2 = false;
+                isPlaceholderPassTextBox = false;
+                PassTextBox.PasswordChar = '*';
             }
         }
 
+        //wyjsæie z aplikacji
         private void CloseButton_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        //Pokazywanie i ukrywanie has³a
+        private void ShowPassCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            // Jeœli checkbox jest zaznaczony, poka¿ has³o
+            if (ShowPassCheckBox.Checked)
+            {
+                PassTextBox.PasswordChar = '\0'; // Ods³oniêcie has³a
+            }
+            else
+            {
+                
+                if(isPlaceholderPassTextBox)
+                {
+                    PassTextBox.PasswordChar = '\0';
+                }
+                else
+                {
+                    PassTextBox.PasswordChar = '*'; // Ukrycie has³a gwiazdkami
+                }
+            }
         }
     }
 }

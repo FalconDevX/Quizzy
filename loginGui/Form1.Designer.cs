@@ -34,6 +34,7 @@
             PassTextBox = new TextBox();
             button1 = new Button();
             CloseButton = new Button();
+            ShowPassCheckBox = new CheckBox();
             SuspendLayout();
             // 
             // LoginLabel
@@ -75,7 +76,7 @@
             button1.FlatStyle = FlatStyle.Flat;
             button1.Font = new Font("Segoe UI Semibold", 16F, FontStyle.Bold, GraphicsUnit.Point, 238);
             button1.ForeColor = Color.FromArgb(252, 252, 252);
-            button1.Location = new Point(567, 377);
+            button1.Location = new Point(554, 392);
             button1.Name = "button1";
             button1.Size = new Size(162, 77);
             button1.TabIndex = 3;
@@ -96,12 +97,26 @@
             CloseButton.UseVisualStyleBackColor = false;
             CloseButton.Click += CloseButton_Click;
             // 
+            // ShowPassCheckBox
+            // 
+            ShowPassCheckBox.AutoSize = true;
+            ShowPassCheckBox.Cursor = Cursors.Hand;
+            ShowPassCheckBox.ForeColor = Color.FromArgb(252, 252, 252);
+            ShowPassCheckBox.Location = new Point(555, 340);
+            ShowPassCheckBox.Name = "ShowPassCheckBox";
+            ShowPassCheckBox.Size = new Size(180, 32);
+            ShowPassCheckBox.TabIndex = 5;
+            ShowPassCheckBox.Text = "Show password";
+            ShowPassCheckBox.UseVisualStyleBackColor = true;
+            ShowPassCheckBox.CheckedChanged += ShowPassCheckBox_CheckedChanged;
+            // 
             // loginSreen
             // 
             AutoScaleDimensions = new SizeF(11F, 28F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(15, 15, 15);
             ClientSize = new Size(1328, 778);
+            Controls.Add(ShowPassCheckBox);
             Controls.Add(CloseButton);
             Controls.Add(button1);
             Controls.Add(PassTextBox);
@@ -123,5 +138,6 @@
         private TextBox PassTextBox;
         private Button button1;
         private Button CloseButton;
+        private CheckBox ShowPassCheckBox;
     }
 }
