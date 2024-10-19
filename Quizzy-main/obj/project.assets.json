@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Quizzy\\master\\Quizzy-master\\Quizzy-master\\Quizzy-master.csproj",
-      "projectName": "Quizzy-master",
-      "projectPath": "C:\\Quizzy\\master\\Quizzy-master\\Quizzy-master\\Quizzy-master.csproj",
+      "projectUniqueName": "C:\\Quizzy\\master\\Quizzy-main\\Quizzy-main\\Quizzy-main\\Quizzy-main.csproj",
+      "projectName": "Quizzy-main",
+      "projectPath": "C:\\Quizzy\\master\\Quizzy-main\\Quizzy-main\\Quizzy-main\\Quizzy-main.csproj",
       "packagesPath": "C:\\Users\\mateu\\.nuget\\packages\\",
-      "outputPath": "C:\\Quizzy\\master\\Quizzy-master\\Quizzy-master\\obj\\",
+      "outputPath": "C:\\Quizzy\\master\\Quizzy-main\\Quizzy-main\\Quizzy-main\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\mateu\\AppData\\Roaming\\NuGet\\NuGet.Config",

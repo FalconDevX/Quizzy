@@ -1,4 +1,4 @@
-namespace Quizzy_master
+namespace Quizzy_main
 {
     internal static class Program
     {

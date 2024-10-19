@@ -1,4 +1,4 @@
-namespace Quizzy_master
+namespace Quizzy_main
 {
     public partial class Form1 : Form
     {
