@@ -3,16 +3,32 @@
   "WorkspaceRootPath": "C:\\Quizzy\\loginGui\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B530077B-B1DF-4883-8BA7-240DAB898DA1}|loginGui\\loginGui.csproj|c:\\quizzy\\logingui\\logingui\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B530077B-B1DF-4883-8BA7-240DAB898DA1}|loginGui\\loginGui.csproj|solutionrelative:logingui\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{66BE406C-DAB8-4206-A210-A2458A825715}|Solution Items{66BE406C-DAB8-4206-A210-A2458A825715}|C:\\Quizzy\\loginGui\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{66BE406C-DAB8-4206-A210-A2458A825715}|Solution Items{66BE406C-DAB8-4206-A210-A2458A825715}|solutionrelative:.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B530077B-B1DF-4883-8BA7-240DAB898DA1}|loginGui\\loginGui.csproj|c:\\quizzy\\logingui\\logingui\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{B530077B-B1DF-4883-8BA7-240DAB898DA1}|loginGui\\loginGui.csproj|solutionrelative:logingui\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{B530077B-B1DF-4883-8BA7-240DAB898DA1}|loginGui\\loginGui.csproj|c:\\quizzy\\logingui\\logingui\\mainmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B530077B-B1DF-4883-8BA7-240DAB898DA1}|loginGui\\loginGui.csproj|solutionrelative:logingui\\mainmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B530077B-B1DF-4883-8BA7-240DAB898DA1}|loginGui\\loginGui.csproj|c:\\quizzy\\logingui\\logingui\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B530077B-B1DF-4883-8BA7-240DAB898DA1}|loginGui\\loginGui.csproj|solutionrelative:logingui\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B530077B-B1DF-4883-8BA7-240DAB898DA1}|loginGui\\loginGui.csproj|c:\\quizzy\\logingui\\logingui\\mainmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{B530077B-B1DF-4883-8BA7-240DAB898DA1}|loginGui\\loginGui.csproj|solutionrelative:logingui\\mainmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B530077B-B1DF-4883-8BA7-240DAB898DA1}|loginGui\\loginGui.csproj|c:\\quizzy\\logingui\\logingui\\registergui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B530077B-B1DF-4883-8BA7-240DAB898DA1}|loginGui\\loginGui.csproj|solutionrelative:logingui\\registergui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B530077B-B1DF-4883-8BA7-240DAB898DA1}|loginGui\\loginGui.csproj|c:\\quizzy\\logingui\\logingui\\registergui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{B530077B-B1DF-4883-8BA7-240DAB898DA1}|loginGui\\loginGui.csproj|solutionrelative:logingui\\registergui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B530077B-B1DF-4883-8BA7-240DAB898DA1}|loginGui\\loginGui.csproj|c:\\quizzy\\logingui\\logingui\\logingui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B530077B-B1DF-4883-8BA7-240DAB898DA1}|loginGui\\loginGui.csproj|solutionrelative:logingui\\logingui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B530077B-B1DF-4883-8BA7-240DAB898DA1}|loginGui\\loginGui.csproj|c:\\quizzy\\logingui\\logingui\\logingui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{B530077B-B1DF-4883-8BA7-240DAB898DA1}|loginGui\\loginGui.csproj|solutionrelative:logingui\\logingui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
   "DocumentGroupContainers": [
@@ -21,45 +37,95 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 200,
+          "DockedWidth": 198,
           "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Form1.cs",
-              "DocumentMoniker": "C:\\Quizzy\\loginGui\\loginGui\\Form1.cs",
-              "RelativeDocumentMoniker": "loginGui\\Form1.cs",
-              "ToolTip": "C:\\Quizzy\\loginGui\\loginGui\\Form1.cs",
-              "RelativeToolTip": "loginGui\\Form1.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAAwBoAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-19T11:56:23.199Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Quizzy\\loginGui\\loginGui\\Program.cs",
-              "RelativeDocumentMoniker": "loginGui\\Program.cs",
-              "ToolTip": "C:\\Quizzy\\loginGui\\loginGui\\Program.cs",
-              "RelativeToolTip": "loginGui\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-19T11:55:45.701Z",
+              "Title": ".gitignore",
+              "DocumentMoniker": "C:\\Quizzy\\loginGui\\.gitignore",
+              "RelativeDocumentMoniker": ".gitignore",
+              "ToolTip": "C:\\Quizzy\\loginGui\\.gitignore",
+              "RelativeToolTip": ".gitignore",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-10-19T21:05:26.908Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Form1.cs [Design]",
-              "DocumentMoniker": "C:\\Quizzy\\loginGui\\loginGui\\Form1.cs",
-              "RelativeDocumentMoniker": "loginGui\\Form1.cs",
-              "ToolTip": "C:\\Quizzy\\loginGui\\loginGui\\Form1.cs [Design]",
-              "RelativeToolTip": "loginGui\\Form1.cs [Design]",
+              "Title": "MainMenu.cs",
+              "DocumentMoniker": "C:\\Quizzy\\loginGui\\loginGui\\MainMenu.cs",
+              "RelativeDocumentMoniker": "loginGui\\MainMenu.cs",
+              "ToolTip": "C:\\Quizzy\\loginGui\\loginGui\\MainMenu.cs",
+              "RelativeToolTip": "loginGui\\MainMenu.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAAwAcAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-19T11:55:45.215Z",
+              "WhenOpened": "2024-10-19T20:55:15.368Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MainMenu.cs [Design]",
+              "DocumentMoniker": "C:\\Quizzy\\loginGui\\loginGui\\MainMenu.cs",
+              "RelativeDocumentMoniker": "loginGui\\MainMenu.cs",
+              "ToolTip": "C:\\Quizzy\\loginGui\\loginGui\\MainMenu.cs [Design]",
+              "RelativeToolTip": "loginGui\\MainMenu.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-19T20:48:31.483Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "registerGui.cs",
+              "DocumentMoniker": "C:\\Quizzy\\loginGui\\loginGui\\registerGui.cs",
+              "RelativeDocumentMoniker": "loginGui\\registerGui.cs",
+              "ToolTip": "C:\\Quizzy\\loginGui\\loginGui\\registerGui.cs",
+              "RelativeToolTip": "loginGui\\registerGui.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAABAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-19T19:24:59.806Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "loginGui.cs",
+              "DocumentMoniker": "C:\\Quizzy\\loginGui\\loginGui\\loginGui.cs",
+              "RelativeDocumentMoniker": "loginGui\\loginGui.cs",
+              "ToolTip": "C:\\Quizzy\\loginGui\\loginGui\\loginGui.cs",
+              "RelativeToolTip": "loginGui\\loginGui.cs",
+              "ViewState": "AgIAAFwAAAAAAAAAAAAcwG4AAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-19T19:33:07.799Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "registerGui.cs [Design]",
+              "DocumentMoniker": "C:\\Quizzy\\loginGui\\loginGui\\registerGui.cs",
+              "RelativeDocumentMoniker": "loginGui\\registerGui.cs",
+              "ToolTip": "C:\\Quizzy\\loginGui\\loginGui\\registerGui.cs [Design]",
+              "RelativeToolTip": "loginGui\\registerGui.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-19T18:53:35.404Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "loginGui.cs [Design]",
+              "DocumentMoniker": "C:\\Quizzy\\loginGui\\loginGui\\loginGui.cs",
+              "RelativeDocumentMoniker": "loginGui\\loginGui.cs",
+              "ToolTip": "C:\\Quizzy\\loginGui\\loginGui\\loginGui.cs [Design]",
+              "RelativeToolTip": "loginGui\\loginGui.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-19T18:53:15.154Z",
               "EditorCaption": " [Design]"
             }
           ]

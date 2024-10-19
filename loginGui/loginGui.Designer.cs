@@ -35,11 +35,13 @@
             button1 = new Button();
             CloseButton = new Button();
             ShowPassCheckBox = new CheckBox();
+            LackAccountLabel = new Label();
             SuspendLayout();
             // 
             // LoginLabel
             // 
             LoginLabel.AutoSize = true;
+            LoginLabel.BackColor = Color.Transparent;
             LoginLabel.Font = new Font("Segoe UI", 26F, FontStyle.Bold, GraphicsUnit.Point, 238);
             LoginLabel.ForeColor = Color.FromArgb(252, 252, 252);
             LoginLabel.Location = new Point(554, 129);
@@ -76,12 +78,13 @@
             button1.FlatStyle = FlatStyle.Flat;
             button1.Font = new Font("Segoe UI Semibold", 16F, FontStyle.Bold, GraphicsUnit.Point, 238);
             button1.ForeColor = Color.FromArgb(252, 252, 252);
-            button1.Location = new Point(554, 392);
+            button1.Location = new Point(563, 388);
             button1.Name = "button1";
             button1.Size = new Size(162, 77);
             button1.TabIndex = 3;
             button1.Text = "Login";
             button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
             // 
             // CloseButton
             // 
@@ -102,7 +105,7 @@
             ShowPassCheckBox.AutoSize = true;
             ShowPassCheckBox.Cursor = Cursors.Hand;
             ShowPassCheckBox.ForeColor = Color.FromArgb(252, 252, 252);
-            ShowPassCheckBox.Location = new Point(555, 340);
+            ShowPassCheckBox.Location = new Point(559, 342);
             ShowPassCheckBox.Name = "ShowPassCheckBox";
             ShowPassCheckBox.Size = new Size(180, 32);
             ShowPassCheckBox.TabIndex = 5;
@@ -110,12 +113,26 @@
             ShowPassCheckBox.UseVisualStyleBackColor = true;
             ShowPassCheckBox.CheckedChanged += ShowPassCheckBox_CheckedChanged;
             // 
+            // LackAccountLabel
+            // 
+            LackAccountLabel.AutoSize = true;
+            LackAccountLabel.Cursor = Cursors.Hand;
+            LackAccountLabel.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 238);
+            LackAccountLabel.ForeColor = Color.FromArgb(131, 131, 131);
+            LackAccountLabel.Location = new Point(534, 479);
+            LackAccountLabel.Name = "LackAccountLabel";
+            LackAccountLabel.Size = new Size(215, 28);
+            LackAccountLabel.TabIndex = 14;
+            LackAccountLabel.Text = "Don't have an account";
+            LackAccountLabel.Click += LackAccountLabel_Click;
+            // 
             // loginSreen
             // 
             AutoScaleDimensions = new SizeF(11F, 28F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(15, 15, 15);
             ClientSize = new Size(1328, 778);
+            Controls.Add(LackAccountLabel);
             Controls.Add(ShowPassCheckBox);
             Controls.Add(CloseButton);
             Controls.Add(button1);
@@ -139,5 +156,6 @@
         private Button button1;
         private Button CloseButton;
         private CheckBox ShowPassCheckBox;
+        private Label LackAccountLabel;
     }
 }

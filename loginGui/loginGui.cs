@@ -21,10 +21,6 @@ namespace loginGui
             PassTextBox.GotFocus += RemovePlaceholderPassTextBox;
             PassTextBox.LostFocus += SetPlaceholderPassTextBox;
 
-            //Ustawianie domyœlnie gwiadek do has³a i reakcja na checkbox
-            
-            //PassTextBox.PasswordChar = '*';
-
             ShowPassCheckBox.CheckedChanged += ShowPassCheckBox_CheckedChanged;
 
 
@@ -88,8 +84,8 @@ namespace loginGui
             }
             else
             {
-                
-                if(isPlaceholderPassTextBox)
+
+                if (isPlaceholderPassTextBox)
                 {
                     PassTextBox.PasswordChar = '\0';
                 }
@@ -98,6 +94,22 @@ namespace loginGui
                     PassTextBox.PasswordChar = '*'; // Ukrycie has³a gwiazdkami
                 }
             }
+        }
+
+        private void LackAccountLabel_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            registerGui registerForm = new registerGui();
+            registerForm.ShowDialog();
+            this.Close();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            MainMenu MainMenuForm = new MainMenu();
+            MainMenuForm.ShowDialog();
+            this.Close();
         }
     }
 }
