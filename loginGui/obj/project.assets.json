@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Quizzy\\loginGui\\loginGui\\loginGui\\loginGui.csproj",
+      "projectUniqueName": "C:\\Quizzy\\loginGui\\loginGui\\loginGui.csproj",
       "projectName": "loginGui",
-      "projectPath": "C:\\Quizzy\\loginGui\\loginGui\\loginGui\\loginGui.csproj",
+      "projectPath": "C:\\Quizzy\\loginGui\\loginGui\\loginGui.csproj",
       "packagesPath": "C:\\Users\\mateu\\.nuget\\packages\\",
-      "outputPath": "C:\\Quizzy\\loginGui\\loginGui\\loginGui\\obj\\",
+      "outputPath": "C:\\Quizzy\\loginGui\\loginGui\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\mateu\\AppData\\Roaming\\NuGet\\NuGet.Config",
