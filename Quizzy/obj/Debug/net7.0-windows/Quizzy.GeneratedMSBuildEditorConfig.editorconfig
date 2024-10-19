@@ -2,10 +2,10 @@ is_global = true
 build_property.ApplicationManifest = 
 build_property.StartupObject = 
 build_property.ApplicationDefaultFont = 
-build_property.ApplicationHighDpiMode = 
+build_property.ApplicationHighDpiMode = SystemAware
 build_property.ApplicationUseCompatibleTextRendering = 
 build_property.ApplicationVisualStyles = 
-build_property.TargetFramework = net8.0-windows
+build_property.TargetFramework = net7.0-windows
 build_property.TargetPlatformMinVersion = 7.0
 build_property.UsingMicrosoftNETSdkWeb = 
 build_property.ProjectTypeGuids = 
@@ -14,10 +14,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Quizzy
-<<<<<<< HEAD
 build_property.ProjectDir = C:\Users\mateu\source\repos\Quizzy\Quizzy\
-=======
-build_property.ProjectDir = C:\Users\mateu\source\repos\matnowjunior\Quizzy\Quizzy\
->>>>>>> 8422ead8c5426fbebe39218f8061c8c75996fafd
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

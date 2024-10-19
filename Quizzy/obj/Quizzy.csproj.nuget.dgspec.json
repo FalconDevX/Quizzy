@@ -1,6 +1,19 @@
 {
   "format": 1,
   "restore": {
+<<<<<<< HEAD
+    "C:\\Users\\mateu\\source\\repos\\Quizzy\\Quizzy\\Quizzy.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\mateu\\source\\repos\\Quizzy\\Quizzy\\Quizzy.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\mateu\\source\\repos\\Quizzy\\Quizzy\\Quizzy.csproj",
+        "projectName": "Quizzy",
+        "projectPath": "C:\\Users\\mateu\\source\\repos\\Quizzy\\Quizzy\\Quizzy.csproj",
+        "packagesPath": "C:\\Users\\mateu\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\mateu\\source\\repos\\Quizzy\\Quizzy\\obj\\",
+=======
     "C:\\Users\\mateu\\source\\repos\\matnowjunior\\Quizzy\\Quizzy\\Quizzy.csproj": {}
   },
   "projects": {
@@ -12,21 +25,31 @@
         "projectPath": "C:\\Users\\mateu\\source\\repos\\matnowjunior\\Quizzy\\Quizzy\\Quizzy.csproj",
         "packagesPath": "C:\\Users\\mateu\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\mateu\\source\\repos\\matnowjunior\\Quizzy\\Quizzy\\obj\\",
+>>>>>>> 8422ead8c5426fbebe39218f8061c8c75996fafd
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\mateu\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
+<<<<<<< HEAD
+          "net7.0-windows"
+=======
           "net8.0-windows"
+>>>>>>> 8422ead8c5426fbebe39218f8061c8c75996fafd
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
+<<<<<<< HEAD
+          "net7.0-windows7.0": {
+            "targetAlias": "net7.0-windows",
+=======
           "net8.0-windows7.0": {
             "targetAlias": "net8.0-windows",
+>>>>>>> 8422ead8c5426fbebe39218f8061c8c75996fafd
             "projectReferences": {}
           }
         },
@@ -42,8 +65,13 @@
         }
       },
       "frameworks": {
+<<<<<<< HEAD
+        "net7.0-windows7.0": {
+          "targetAlias": "net7.0-windows",
+=======
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
+>>>>>>> 8422ead8c5426fbebe39218f8061c8c75996fafd
           "imports": [
             "net461",
             "net462",
@@ -55,6 +83,27 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+<<<<<<< HEAD
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[7.0.20, 7.0.20]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[7.0.20, 7.0.20]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[7.0.20, 7.0.20]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[7.0.20, 7.0.20]"
+            }
+          ],
+=======
+>>>>>>> 8422ead8c5426fbebe39218f8061c8c75996fafd
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
@@ -63,7 +112,11 @@
               "privateAssets": "none"
             }
           },
+<<<<<<< HEAD
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403\\RuntimeIdentifierGraph.json"
+=======
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+>>>>>>> 8422ead8c5426fbebe39218f8061c8c75996fafd
         }
       }
     }
