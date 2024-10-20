@@ -17,4 +17,4 @@ C:\Quizzy\loginGui\loginGui\obj\Debug\net8.0-windows\ref\loginGui.dll
 C:\Quizzy\loginGui\loginGui\obj\Debug\net8.0-windows\loginGui.loginSreen.resources
 C:\Quizzy\loginGui\loginGui\obj\Debug\net8.0-windows\loginGui.Properties.Resources.resources
 C:\Quizzy\loginGui\loginGui\obj\Debug\net8.0-windows\loginGui.registerGui.resources
-C:\Quizzy\loginGui\loginGui\obj\Debug\net8.0-windows\loginGui.MainMenu.resources
+C:\Quizzy\loginGui\loginGui\obj\Debug\net8.0-windows\loginGui.StartScreen.resources

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("loginGui")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3c91dae3eb0e9e23ffe69959c56df874671a3268")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+558a28c94cf2ea7ecf94a3e45f1f36f6f1f927d7")]
 [assembly: System.Reflection.AssemblyProductAttribute("loginGui")]
 [assembly: System.Reflection.AssemblyTitleAttribute("loginGui")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

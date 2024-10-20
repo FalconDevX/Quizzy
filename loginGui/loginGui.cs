@@ -13,6 +13,8 @@ namespace loginGui
             //Ustawianie kursora/focusu na label
             LoginLabel.Select();
 
+            QuizzyLogo.SendToBack();
+
             InvalidEmailLabel.Visible = false;
 
             //Placeholdery i textboxy
@@ -22,11 +24,12 @@ namespace loginGui
             EmailTextBox.GotFocus += RemovePlaceholderEmailTextBox;
             EmailTextBox.LostFocus += SetPlaceholderEmailTextBox;
             EmailTextBox.TextChanged += EmailTextBox_TextChanged;
+            EmailTextBox.GotFocus += HideInvalidEmailLabel;
 
             PassTextBox.GotFocus += RemovePlaceholderPassTextBox;
             PassTextBox.LostFocus += SetPlaceholderPassTextBox;
 
-            ShowPassCheckBox.CheckedChanged += ShowPassCheckBox_CheckedChanged;        
+            ShowPassCheckBox.CheckedChanged += ShowPassCheckBox_CheckedChanged;
 
         }
 
@@ -49,6 +52,16 @@ namespace loginGui
                 InvalidEmailLabel.Visible = false;
             }
         }
+
+        private void HideInvalidEmailLabel(object? sender, EventArgs s)
+        {
+            InvalidEmailLabel.Visible = false;
+        }
+
+
+
+
+
 
         private void RemovePlaceholderEmailTextBox(object? sender, EventArgs s)
         {
@@ -82,12 +95,6 @@ namespace loginGui
             }
         }
 
-        //wyjsæie z aplikacji
-        private void CloseButton_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
         //Pokazywanie i ukrywanie has³a
         private void ShowPassCheckBox_CheckedChanged(object? sender, EventArgs e)
         {
@@ -118,19 +125,17 @@ namespace loginGui
         }
 
         private void LackAccountLabel_Click(object sender, EventArgs e)
-        { 
-            this.Hide();
-            registerGui registerForm = new registerGui();
-            registerForm.ShowDialog();
-            this.Close();
+        {
+            StartScreen startscreen = (StartScreen)this.Owner;
+            startscreen.ShowRegister();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             this.Hide();
-            MainMenu MainMenuForm = new MainMenu();
+            StartScreen MainMenuForm = new StartScreen();
             MainMenuForm.ShowDialog();
-            this.Close();
+            //this.Close();
         }
 
         private bool IsValidEmail(string email)
@@ -138,6 +143,11 @@ namespace loginGui
             // Wyra¿enie regularne do sprawdzenia e-maila
             string pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
             return Regex.IsMatch(email, pattern);
+        }
+
+        private void CloseButton_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

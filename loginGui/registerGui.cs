@@ -14,11 +14,14 @@ namespace loginGui
     public partial class registerGui : Form
     {
         private bool isPlaceholderEmailTextBox, isPlaceholderPassTextBox, isPlaceholderRepPassTextBox = true;
+
         public registerGui()
         {
             InitializeComponent();
 
             RegisterLabel.Select();
+
+            PassNotMatchLabel.Visible = false;
 
             SetPlaceholderEmailTextBox(this, EventArgs.Empty);
             SetPlaceholderPassTextBox(this, EventArgs.Empty);
@@ -27,6 +30,7 @@ namespace loginGui
             EmailTextBox.GotFocus += RemovePlaceholderEmailTextBox;
             EmailTextBox.LostFocus += SetPlaceholderEmailTextBox;
             EmailTextBox.TextChanged += EmailTextBox_TextChanged;
+            EmailTextBox.GotFocus += HideInvalidEmailLabel;
 
             PassTextBox.GotFocus += RemovePlaceholderPassTextBox;
             PassTextBox.LostFocus += SetPlaceholderPassTextBox;
@@ -34,20 +38,28 @@ namespace loginGui
             RepPassTextBox.GotFocus += RemovePlaceholderRepPassTextBox;
             RepPassTextBox.LostFocus += SetPlaceholderRepPassTextBox;
 
+            PassTextBox.TextChanged += CheckPassMatch;
+            RepPassTextBox.TextChanged += CheckPassMatch;
+
+            RepPassTextBox.GotFocus += CheckPassMatch;
+            PassTextBox.GotFocus += CheckPassMatch;
+
+            PassTextBox.LostFocus += CheckPassMatch;
+            RepPassTextBox.LostFocus += CheckPassMatch;
+
+
             ShowPassCheckBox.CheckedChanged += ShowPassCheckBox_CheckedChanged;
         }
 
         private void YesAccountLabel_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            loginSreen loginForm = new loginSreen();
-            loginForm.ShowDialog();
-            this.Close();
+            StartScreen startscreen = (StartScreen)this.Owner;
+            startscreen.ShowLogin();
         }
 
-        private void CloseButton_Click(object sender, EventArgs e)
+        private void HideInvalidEmailLabel(object? sender, EventArgs s)
         {
-            Application.Exit();
+            InvalidEmailLabel.Visible = false;
         }
 
         private void SetPlaceholderEmailTextBox(object? sender, EventArgs e)
@@ -124,7 +136,7 @@ namespace loginGui
             }
         }
 
-        private void ShowPassCheckBox_CheckedChanged(object sender, EventArgs e)
+        private void ShowPassCheckBox_CheckedChanged(object? sender, EventArgs e)
         {
             SetPasswordChar();
         }
@@ -159,9 +171,37 @@ namespace loginGui
             return Regex.IsMatch(email, pattern);
         }
 
+        private bool IsPassMatch(string pass1, string pass2)
+        {
+            if (pass1 == pass2)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private void CheckPassMatch(object? sender, EventArgs e)
+        {
+            if (!isPlaceholderPassTextBox && !isPlaceholderRepPassTextBox && !IsPassMatch(PassTextBox.Text, RepPassTextBox.Text) && !PassTextBox.Focused && !RepPassTextBox.Focused)
+            {
+                PassNotMatchLabel.Visible = true;
+            }
+            else
+            {
+                PassNotMatchLabel.Visible = false;
+            }
+        }
         private void RegisterButton_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void CloseButton_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

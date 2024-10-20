@@ -1,6 +1,6 @@
 ﻿namespace loginGui
 {
-    partial class MainMenu
+    partial class StartScreen
     {
         /// <summary>
         /// Required designer variable.
@@ -28,20 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StartScreen));
             SuspendLayout();
             // 
-            // MainMenu
+            // StartScreen
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(15, 15, 15);
-            ClientSize = new Size(1920, 1080);
+            ClientSize = new Size(1328, 778);
             FormBorderStyle = FormBorderStyle.None;
-            Name = "MainMenu";
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Name = "StartScreen";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "MainMenu";
-            WindowState = FormWindowState.Maximized;
-            Load += MainMenu_Load;
             ResumeLayout(false);
         }
 

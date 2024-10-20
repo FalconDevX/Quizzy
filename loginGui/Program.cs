@@ -6,7 +6,10 @@ namespace loginGui
         static void Main()
         {
             ApplicationConfiguration.Initialize();
-            Application.Run(new loginSreen());
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new StartScreen());
+            //1328
         }
     }
 }
