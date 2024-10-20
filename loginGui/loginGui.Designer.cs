@@ -36,6 +36,7 @@
             CloseButton = new Button();
             ShowPassCheckBox = new CheckBox();
             LackAccountLabel = new Label();
+            InvalidEmailLabel = new Label();
             SuspendLayout();
             // 
             // LoginLabel
@@ -126,12 +127,23 @@
             LackAccountLabel.Text = "Don't have an account";
             LackAccountLabel.Click += LackAccountLabel_Click;
             // 
+            // InvalidEmailLabel
+            // 
+            InvalidEmailLabel.AutoSize = true;
+            InvalidEmailLabel.ForeColor = Color.FromArgb(192, 0, 0);
+            InvalidEmailLabel.Location = new Point(580, 263);
+            InvalidEmailLabel.Name = "InvalidEmailLabel";
+            InvalidEmailLabel.Size = new Size(127, 28);
+            InvalidEmailLabel.TabIndex = 15;
+            InvalidEmailLabel.Text = "Invalid email";
+            // 
             // loginSreen
             // 
             AutoScaleDimensions = new SizeF(11F, 28F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(15, 15, 15);
             ClientSize = new Size(1328, 778);
+            Controls.Add(InvalidEmailLabel);
             Controls.Add(LackAccountLabel);
             Controls.Add(ShowPassCheckBox);
             Controls.Add(CloseButton);
@@ -157,5 +169,6 @@
         private Button CloseButton;
         private CheckBox ShowPassCheckBox;
         private Label LackAccountLabel;
+        private Label InvalidEmailLabel;
     }
 }

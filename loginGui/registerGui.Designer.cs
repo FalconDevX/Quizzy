@@ -37,6 +37,7 @@
             EmailTextBox = new TextBox();
             RegisterLabel = new Label();
             RepPassTextBox = new TextBox();
+            InvalidEmailLabel = new Label();
             SuspendLayout();
             // 
             // YesAccountLabel
@@ -94,6 +95,7 @@
             RegisterButton.TabIndex = 10;
             RegisterButton.Text = "Register";
             RegisterButton.UseVisualStyleBackColor = false;
+            RegisterButton.Click += RegisterButton_Click;
             // 
             // PassTextBox
             // 
@@ -140,12 +142,24 @@
             RepPassTextBox.Size = new Size(247, 40);
             RepPassTextBox.TabIndex = 14;
             // 
+            // InvalidEmailLabel
+            // 
+            InvalidEmailLabel.AutoSize = true;
+            InvalidEmailLabel.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 238);
+            InvalidEmailLabel.ForeColor = Color.FromArgb(192, 0, 0);
+            InvalidEmailLabel.Location = new Point(577, 263);
+            InvalidEmailLabel.Name = "InvalidEmailLabel";
+            InvalidEmailLabel.Size = new Size(127, 28);
+            InvalidEmailLabel.TabIndex = 16;
+            InvalidEmailLabel.Text = "Invalid email";
+            // 
             // registerGui
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(15, 15, 15);
             ClientSize = new Size(1328, 778);
+            Controls.Add(InvalidEmailLabel);
             Controls.Add(RepPassTextBox);
             Controls.Add(YesAccountLabel);
             Controls.Add(ShowPassCheckBox);
@@ -172,5 +186,6 @@
         private TextBox EmailTextBox;
         private Label RegisterLabel;
         private TextBox RepPassTextBox;
+        private Label InvalidEmailLabel;
     }
 }

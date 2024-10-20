@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -25,6 +26,7 @@ namespace loginGui
 
             EmailTextBox.GotFocus += RemovePlaceholderEmailTextBox;
             EmailTextBox.LostFocus += SetPlaceholderEmailTextBox;
+            EmailTextBox.TextChanged += EmailTextBox_TextChanged;
 
             PassTextBox.GotFocus += RemovePlaceholderPassTextBox;
             PassTextBox.LostFocus += SetPlaceholderPassTextBox;
@@ -50,11 +52,21 @@ namespace loginGui
 
         private void SetPlaceholderEmailTextBox(object? sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(EmailTextBox.Text))
+            if (string.IsNullOrWhiteSpace(EmailTextBox.Text) || string.IsNullOrEmpty(EmailTextBox.Text))
             {
                 EmailTextBox.Text = "Enter your email";
                 EmailTextBox.ForeColor = ColorTranslator.FromHtml("#656565");
                 isPlaceholderEmailTextBox = true;
+                InvalidEmailLabel.Visible = false;
+            }
+            else if (!IsValidEmail(EmailTextBox.Text))
+            {
+                // Jeśli email nie jest poprawny, pokaż label
+                InvalidEmailLabel.Visible = true;
+            }
+            else
+            {
+                InvalidEmailLabel.Visible = false;
             }
         }
 
@@ -133,5 +145,23 @@ namespace loginGui
             }
         }
 
+        private void EmailTextBox_TextChanged(object? sender, EventArgs e)
+        {
+            if (IsValidEmail(EmailTextBox.Text))
+            {
+                InvalidEmailLabel.Visible = false; // Ukryj etykietę, jeśli email jest poprawny
+            }
+        }
+        private bool IsValidEmail(string email)
+        {
+            // Wyrażenie regularne do sprawdzenia e-maila
+            string pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+            return Regex.IsMatch(email, pattern);
+        }
+
+        private void RegisterButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
