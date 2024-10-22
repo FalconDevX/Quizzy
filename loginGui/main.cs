@@ -1,6 +1,6 @@
 namespace loginGui
 {
-    internal static class Program
+    internal static class main
     {
         [STAThread]
         static void Main()
