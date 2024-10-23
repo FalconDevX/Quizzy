@@ -49,6 +49,7 @@
             DontHaveAccountLabel = new Label();
             CloseButton = new Button();
             Logo = new PictureBox();
+            MinimizeButton = new Button();
             RegisterPanel.SuspendLayout();
             LoginPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)Logo).BeginInit();
@@ -303,12 +304,27 @@
             Logo.TabIndex = 21;
             Logo.TabStop = false;
             // 
+            // MinimizeButton
+            // 
+            MinimizeButton.BackColor = Color.FromArgb(36, 36, 36);
+            MinimizeButton.BackgroundImage = (Image)resources.GetObject("MinimizeButton.BackgroundImage");
+            MinimizeButton.BackgroundImageLayout = ImageLayout.Zoom;
+            MinimizeButton.FlatAppearance.BorderSize = 0;
+            MinimizeButton.FlatStyle = FlatStyle.Flat;
+            MinimizeButton.Location = new Point(1140, 0);
+            MinimizeButton.Name = "MinimizeButton";
+            MinimizeButton.Size = new Size(50, 50);
+            MinimizeButton.TabIndex = 22;
+            MinimizeButton.UseVisualStyleBackColor = false;
+            MinimizeButton.Click += MinimizeButton_Click;
+            // 
             // StartScreen
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(7, 13, 13);
             ClientSize = new Size(1240, 690);
+            Controls.Add(MinimizeButton);
             Controls.Add(LoginPanel);
             Controls.Add(Logo);
             Controls.Add(CloseButton);
@@ -348,5 +364,6 @@
         private CheckBox ShowPassCheckBoxRegister;
         private Button CloseButton;
         private PictureBox Logo;
+        private Button MinimizeButton;
     }
 }
