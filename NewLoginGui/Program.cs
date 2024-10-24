@@ -40,8 +40,9 @@ namespace NewLoginGui
                 string query = "INSERT INTO Users (Email, PasswordHash) VALUES (@Email, @Password)";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
+                    //Przechowywanie email i has³a
                     cmd.Parameters.AddWithValue("@Email", email);
-                    cmd.Parameters.AddWithValue("@Password", password);  // Przechowywanie has³a w postaci jawnej
+                    cmd.Parameters.AddWithValue("@Password", password);  
 
                     try
                     {
@@ -50,7 +51,7 @@ namespace NewLoginGui
                     }
                     catch (SqlException ex)
                     {
-                        // Obs³uga b³êdów, np. duplikat email
+                        //Obs³uga b³êdów
                         MessageBox.Show("Error: " + ex.Message);
                     }
                 }
@@ -67,10 +68,11 @@ namespace NewLoginGui
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@Email", email);
-                    cmd.Parameters.AddWithValue("@Password", password);  // Porównywanie has³a w postaci jawnej
+                    //Has³o w postaci jawnej - potem algorytm szyfruj¹cy 
+                    cmd.Parameters.AddWithValue("@Password", password);  
 
                     int count = Convert.ToInt32(cmd.ExecuteScalar());
-                    return count == 1;  // Zwraca true, jeœli dane s¹ poprawne
+                    return count == 1;  
                 }
             }
         }
