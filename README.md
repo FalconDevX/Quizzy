@@ -1,6 +1,6 @@
 # Quizzy
 
-<img src="NewLoginGui/Resources/Logo.png" alt="Quizzy Logo" width="150">
+<img src="NewLoginGui/Resources/Logo.png" alt="Quizzy Logo" width="300">
 
 **Quizzy** to aplikacja desktopowa napisana w języku C# przy użyciu **Windows Forms**, która umożliwia użytkownikom naukę poprzez quizy. Aplikacja obsługuje rejestrację i logowanie użytkowników, a także oferuje możliwość rozwiązywania quizów z różnych tematów. **Quizzy** to świetne narzędzie do szybkiej nauki i sprawdzania wiedzy.
 
