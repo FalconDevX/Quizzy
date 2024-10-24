@@ -66,3 +66,12 @@ C:\Quizzy\master\Quizzy\NewLoginGui\obj\Debug\net8.0-windows\refint\NewLoginGui.
 C:\Quizzy\master\Quizzy\NewLoginGui\obj\Debug\net8.0-windows\NewLoginGui.pdb
 C:\Quizzy\master\Quizzy\NewLoginGui\obj\Debug\net8.0-windows\NewLoginGui.genruntimeconfig.cache
 C:\Quizzy\master\Quizzy\NewLoginGui\obj\Debug\net8.0-windows\ref\NewLoginGui.dll
+C:\Quizzy\master\Quizzy\NewLoginGui\bin\Debug\net8.0-windows\NewLoginGui.dll.config
+C:\Quizzy\master\Quizzy\NewLoginGui\bin\Debug\net8.0-windows\System.Data.SqlClient.dll
+C:\Quizzy\master\Quizzy\NewLoginGui\bin\Debug\net8.0-windows\runtimes\win-arm64\native\sni.dll
+C:\Quizzy\master\Quizzy\NewLoginGui\bin\Debug\net8.0-windows\runtimes\win-x64\native\sni.dll
+C:\Quizzy\master\Quizzy\NewLoginGui\bin\Debug\net8.0-windows\runtimes\win-x86\native\sni.dll
+C:\Quizzy\master\Quizzy\NewLoginGui\bin\Debug\net8.0-windows\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Quizzy\master\Quizzy\NewLoginGui\bin\Debug\net8.0-windows\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Quizzy\master\Quizzy\NewLoginGui\obj\Debug\net8.0-windows\NewLoginGui.csproj.AssemblyReference.cache
+C:\Quizzy\master\Quizzy\NewLoginGui\obj\Debug\net8.0-windows\NewLogin.0560F2C3.Up2Date

@@ -369,5 +369,35 @@ namespace NewLoginGui
         {
             this.WindowState = FormWindowState.Minimized;
         }
+
+        private void LoginButton_Click(object sender, EventArgs e)
+        {
+            string email = EmailTextBoxLogin.Text;
+            string password = PassTextBoxLogin.Text;
+
+            UserService userService = new UserService();
+
+            bool loginSuccessful = userService.LoginUser(email, password);
+
+            if (loginSuccessful)
+            {
+                MessageBox.Show("Login successful!");
+            }
+            else
+            {
+                MessageBox.Show("Invalid email or password.");
+            }
+        }
+
+        private void RegisterButton_Click(object sender, EventArgs e)
+        {
+            string email = EmailTextBoxRegister.Text;
+            string password = PassTextBoxRegister.Text;
+
+            UserService userService = new UserService();
+            userService.RegisterUser(email, password);
+
+            MessageBox.Show("Registration successful!");
+        }
     }
 }

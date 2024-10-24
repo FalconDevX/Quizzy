@@ -41,7 +41,7 @@
             HaveAccountLabel = new Label();
             LoginPanel = new Panel();
             LoginLabel = new Label();
-            button2 = new Button();
+            LoginButton = new Button();
             ShowPassCheckBoxLogin = new CheckBox();
             InvalidEmailLabelLogin = new Label();
             PassTextBoxLogin = new TextBox();
@@ -99,6 +99,7 @@
             RegisterButton.TabIndex = 19;
             RegisterButton.Text = "Register";
             RegisterButton.UseVisualStyleBackColor = false;
+            RegisterButton.Click += RegisterButton_Click;
             // 
             // PassNotMatchLabelRegister
             // 
@@ -184,7 +185,7 @@
             // 
             LoginPanel.BackColor = Color.Transparent;
             LoginPanel.Controls.Add(LoginLabel);
-            LoginPanel.Controls.Add(button2);
+            LoginPanel.Controls.Add(LoginButton);
             LoginPanel.Controls.Add(ShowPassCheckBoxLogin);
             LoginPanel.Controls.Add(InvalidEmailLabelLogin);
             LoginPanel.Controls.Add(PassTextBoxLogin);
@@ -207,20 +208,21 @@
             LoginLabel.TabIndex = 19;
             LoginLabel.Text = "Log in";
             // 
-            // button2
+            // LoginButton
             // 
-            button2.BackColor = Color.FromArgb(79, 242, 151);
-            button2.FlatAppearance.BorderColor = Color.FromArgb(1, 116, 221);
-            button2.FlatAppearance.BorderSize = 0;
-            button2.FlatStyle = FlatStyle.Flat;
-            button2.Font = new Font("Segoe UI Semibold", 16F, FontStyle.Bold, GraphicsUnit.Point, 238);
-            button2.ForeColor = Color.FromArgb(4, 88, 64);
-            button2.Location = new Point(67, 343);
-            button2.Name = "button2";
-            button2.Size = new Size(162, 77);
-            button2.TabIndex = 18;
-            button2.Text = "Login";
-            button2.UseVisualStyleBackColor = false;
+            LoginButton.BackColor = Color.FromArgb(79, 242, 151);
+            LoginButton.FlatAppearance.BorderColor = Color.FromArgb(1, 116, 221);
+            LoginButton.FlatAppearance.BorderSize = 0;
+            LoginButton.FlatStyle = FlatStyle.Flat;
+            LoginButton.Font = new Font("Segoe UI Semibold", 16F, FontStyle.Bold, GraphicsUnit.Point, 238);
+            LoginButton.ForeColor = Color.FromArgb(4, 88, 64);
+            LoginButton.Location = new Point(67, 343);
+            LoginButton.Name = "LoginButton";
+            LoginButton.Size = new Size(162, 77);
+            LoginButton.TabIndex = 18;
+            LoginButton.Text = "Login";
+            LoginButton.UseVisualStyleBackColor = false;
+            LoginButton.Click += LoginButton_Click;
             // 
             // ShowPassCheckBoxLogin
             // 
@@ -325,10 +327,10 @@
             BackColor = Color.FromArgb(7, 13, 13);
             ClientSize = new Size(1240, 690);
             Controls.Add(MinimizeButton);
-            Controls.Add(LoginPanel);
             Controls.Add(Logo);
             Controls.Add(CloseButton);
             Controls.Add(RegisterPanel);
+            Controls.Add(LoginPanel);
             FormBorderStyle = FormBorderStyle.None;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "StartScreen";
@@ -349,7 +351,7 @@
         private Label HaveAccountLabel;
         private Label DontHaveAccountLabel;
         private Label LoginLabel;
-        private Button button2;
+        private Button LoginButton;
         private CheckBox ShowPassCheckBoxLogin;
         private Label InvalidEmailLabelLogin;
         private TextBox PassTextBoxLogin;
