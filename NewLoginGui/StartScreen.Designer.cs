@@ -183,7 +183,6 @@
             // LoginPanel
             // 
             LoginPanel.BackColor = Color.Transparent;
-            LoginPanel.BackgroundImage = (Image)resources.GetObject("LoginPanel.BackgroundImage");
             LoginPanel.Controls.Add(LoginLabel);
             LoginPanel.Controls.Add(LoginButton);
             LoginPanel.Controls.Add(ShowPassCheckBoxLogin);
