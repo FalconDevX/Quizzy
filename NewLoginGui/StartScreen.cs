@@ -16,12 +16,6 @@ namespace NewLoginGui
         {
             InitializeComponent();
 
-            LoginPanel.BackColor = Color.Transparent;
-            RegisterPanel.BackColor = Color.Transparent;
-
-            RegisterPanel.Hide();
-            LoginPanel.Show();
-
             LoginLabel.Select();
 
             //Napis dla okna
@@ -82,17 +76,19 @@ namespace NewLoginGui
         //Labele do prze³¹czania siê pomiêdzy panelami
         private void HaveAccountLabel_Click(object sender, EventArgs e)
         {
-            RegisterPanel.Hide();
-            LoginPanel.Show();
+            LoginPanel.BackColor = Color.Transparent;
+            LoginPanel.BringToFront();
             LoginLabel.Select();
         }
 
         private void DontHaveAccountLabel_Click(object sender, EventArgs e)
         {
-            LoginPanel.Hide();
-            RegisterPanel.Show();
+            RegisterPanel.BackColor = Color.Transparent;
+            RegisterPanel.BringToFront();
             RegisterLabel.Select();
         }
+
+
 
         //Placeholdery na email do loginu
 
@@ -398,6 +394,11 @@ namespace NewLoginGui
             userService.RegisterUser(email, password);
 
             MessageBox.Show("Registration successful!");
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

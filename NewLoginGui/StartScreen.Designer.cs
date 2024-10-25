@@ -43,16 +43,14 @@
             LoginLabel = new Label();
             LoginButton = new Button();
             ShowPassCheckBoxLogin = new CheckBox();
-            InvalidEmailLabelLogin = new Label();
-            PassTextBoxLogin = new TextBox();
-            EmailTextBoxLogin = new TextBox();
             DontHaveAccountLabel = new Label();
+            InvalidEmailLabelLogin = new Label();
+            EmailTextBoxLogin = new TextBox();
+            PassTextBoxLogin = new TextBox();
             CloseButton = new Button();
-            Logo = new PictureBox();
             MinimizeButton = new Button();
             RegisterPanel.SuspendLayout();
             LoginPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)Logo).BeginInit();
             SuspendLayout();
             // 
             // RegisterPanel
@@ -67,7 +65,8 @@
             RegisterPanel.Controls.Add(EmailTextBoxRegister);
             RegisterPanel.Controls.Add(RegisterLabel);
             RegisterPanel.Controls.Add(HaveAccountLabel);
-            RegisterPanel.Location = new Point(817, 33);
+            RegisterPanel.ForeColor = Color.Black;
+            RegisterPanel.Location = new Point(870, 56);
             RegisterPanel.Name = "RegisterPanel";
             RegisterPanel.Size = new Size(331, 588);
             RegisterPanel.TabIndex = 0;
@@ -184,17 +183,19 @@
             // LoginPanel
             // 
             LoginPanel.BackColor = Color.Transparent;
+            LoginPanel.BackgroundImage = (Image)resources.GetObject("LoginPanel.BackgroundImage");
             LoginPanel.Controls.Add(LoginLabel);
             LoginPanel.Controls.Add(LoginButton);
             LoginPanel.Controls.Add(ShowPassCheckBoxLogin);
-            LoginPanel.Controls.Add(InvalidEmailLabelLogin);
-            LoginPanel.Controls.Add(PassTextBoxLogin);
-            LoginPanel.Controls.Add(EmailTextBoxLogin);
             LoginPanel.Controls.Add(DontHaveAccountLabel);
-            LoginPanel.Location = new Point(832, 57);
+            LoginPanel.Controls.Add(InvalidEmailLabelLogin);
+            LoginPanel.Controls.Add(EmailTextBoxLogin);
+            LoginPanel.Controls.Add(PassTextBoxLogin);
+            LoginPanel.ForeColor = Color.Black;
+            LoginPanel.Location = new Point(862, 59);
             LoginPanel.Name = "LoginPanel";
-            LoginPanel.Size = new Size(300, 526);
-            LoginPanel.TabIndex = 1;
+            LoginPanel.Size = new Size(346, 558);
+            LoginPanel.TabIndex = 20;
             // 
             // LoginLabel
             // 
@@ -202,7 +203,7 @@
             LoginLabel.BackColor = Color.Transparent;
             LoginLabel.Font = new Font("Segoe UI", 26F, FontStyle.Bold, GraphicsUnit.Point, 238);
             LoginLabel.ForeColor = Color.FromArgb(252, 252, 252);
-            LoginLabel.Location = new Point(60, 48);
+            LoginLabel.Location = new Point(80, 41);
             LoginLabel.Name = "LoginLabel";
             LoginLabel.Size = new Size(181, 70);
             LoginLabel.TabIndex = 19;
@@ -216,7 +217,7 @@
             LoginButton.FlatStyle = FlatStyle.Flat;
             LoginButton.Font = new Font("Segoe UI Semibold", 16F, FontStyle.Bold, GraphicsUnit.Point, 238);
             LoginButton.ForeColor = Color.FromArgb(4, 88, 64);
-            LoginButton.Location = new Point(67, 343);
+            LoginButton.Location = new Point(87, 336);
             LoginButton.Name = "LoginButton";
             LoginButton.Size = new Size(162, 77);
             LoginButton.TabIndex = 18;
@@ -229,44 +230,12 @@
             ShowPassCheckBoxLogin.AutoSize = true;
             ShowPassCheckBoxLogin.Cursor = Cursors.Hand;
             ShowPassCheckBoxLogin.ForeColor = Color.FromArgb(252, 252, 252);
-            ShowPassCheckBoxLogin.Location = new Point(69, 285);
+            ShowPassCheckBoxLogin.Location = new Point(89, 278);
             ShowPassCheckBoxLogin.Name = "ShowPassCheckBoxLogin";
             ShowPassCheckBoxLogin.Size = new Size(164, 29);
             ShowPassCheckBoxLogin.TabIndex = 17;
             ShowPassCheckBoxLogin.Text = "Show password";
             ShowPassCheckBoxLogin.UseVisualStyleBackColor = true;
-            // 
-            // InvalidEmailLabelLogin
-            // 
-            InvalidEmailLabelLogin.AutoSize = true;
-            InvalidEmailLabelLogin.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 238);
-            InvalidEmailLabelLogin.ForeColor = Color.FromArgb(192, 0, 0);
-            InvalidEmailLabelLogin.Location = new Point(88, 195);
-            InvalidEmailLabelLogin.Name = "InvalidEmailLabelLogin";
-            InvalidEmailLabelLogin.Size = new Size(127, 28);
-            InvalidEmailLabelLogin.TabIndex = 16;
-            InvalidEmailLabelLogin.Text = "Invalid email";
-            // 
-            // PassTextBoxLogin
-            // 
-            PassTextBoxLogin.BackColor = Color.FromArgb(24, 24, 24);
-            PassTextBoxLogin.BorderStyle = BorderStyle.FixedSingle;
-            PassTextBoxLogin.Location = new Point(28, 229);
-            PassTextBoxLogin.Multiline = true;
-            PassTextBoxLogin.Name = "PassTextBoxLogin";
-            PassTextBoxLogin.Size = new Size(247, 40);
-            PassTextBoxLogin.TabIndex = 3;
-            // 
-            // EmailTextBoxLogin
-            // 
-            EmailTextBoxLogin.BackColor = Color.FromArgb(24, 24, 24);
-            EmailTextBoxLogin.BorderStyle = BorderStyle.FixedSingle;
-            EmailTextBoxLogin.ForeColor = SystemColors.Menu;
-            EmailTextBoxLogin.Location = new Point(28, 153);
-            EmailTextBoxLogin.Multiline = true;
-            EmailTextBoxLogin.Name = "EmailTextBoxLogin";
-            EmailTextBoxLogin.Size = new Size(247, 40);
-            EmailTextBoxLogin.TabIndex = 2;
             // 
             // DontHaveAccountLabel
             // 
@@ -274,12 +243,44 @@
             DontHaveAccountLabel.Cursor = Cursors.Hand;
             DontHaveAccountLabel.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 238);
             DontHaveAccountLabel.ForeColor = SystemColors.ButtonFace;
-            DontHaveAccountLabel.Location = new Point(41, 448);
+            DontHaveAccountLabel.Location = new Point(61, 441);
             DontHaveAccountLabel.Name = "DontHaveAccountLabel";
             DontHaveAccountLabel.Size = new Size(215, 28);
             DontHaveAccountLabel.TabIndex = 1;
             DontHaveAccountLabel.Text = "Don't have an account";
             DontHaveAccountLabel.Click += DontHaveAccountLabel_Click;
+            // 
+            // InvalidEmailLabelLogin
+            // 
+            InvalidEmailLabelLogin.AutoSize = true;
+            InvalidEmailLabelLogin.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 238);
+            InvalidEmailLabelLogin.ForeColor = Color.FromArgb(192, 0, 0);
+            InvalidEmailLabelLogin.Location = new Point(108, 188);
+            InvalidEmailLabelLogin.Name = "InvalidEmailLabelLogin";
+            InvalidEmailLabelLogin.Size = new Size(127, 28);
+            InvalidEmailLabelLogin.TabIndex = 16;
+            InvalidEmailLabelLogin.Text = "Invalid email";
+            // 
+            // EmailTextBoxLogin
+            // 
+            EmailTextBoxLogin.BackColor = Color.FromArgb(24, 24, 24);
+            EmailTextBoxLogin.BorderStyle = BorderStyle.FixedSingle;
+            EmailTextBoxLogin.ForeColor = SystemColors.Menu;
+            EmailTextBoxLogin.Location = new Point(48, 146);
+            EmailTextBoxLogin.Multiline = true;
+            EmailTextBoxLogin.Name = "EmailTextBoxLogin";
+            EmailTextBoxLogin.Size = new Size(247, 40);
+            EmailTextBoxLogin.TabIndex = 2;
+            // 
+            // PassTextBoxLogin
+            // 
+            PassTextBoxLogin.BackColor = Color.FromArgb(24, 24, 24);
+            PassTextBoxLogin.BorderStyle = BorderStyle.FixedSingle;
+            PassTextBoxLogin.Location = new Point(48, 222);
+            PassTextBoxLogin.Multiline = true;
+            PassTextBoxLogin.Name = "PassTextBoxLogin";
+            PassTextBoxLogin.Size = new Size(247, 40);
+            PassTextBoxLogin.TabIndex = 3;
             // 
             // CloseButton
             // 
@@ -288,23 +289,12 @@
             CloseButton.BackgroundImageLayout = ImageLayout.Zoom;
             CloseButton.FlatAppearance.BorderSize = 0;
             CloseButton.FlatStyle = FlatStyle.Flat;
-            CloseButton.Location = new Point(1190, 0);
+            CloseButton.Location = new Point(1172, 0);
             CloseButton.Name = "CloseButton";
             CloseButton.Size = new Size(50, 50);
             CloseButton.TabIndex = 20;
             CloseButton.UseVisualStyleBackColor = false;
             CloseButton.Click += CloseButton_Click;
-            // 
-            // Logo
-            // 
-            Logo.BackColor = Color.Transparent;
-            Logo.Image = (Image)resources.GetObject("Logo.Image");
-            Logo.Location = new Point(40, 43);
-            Logo.Name = "Logo";
-            Logo.Size = new Size(682, 578);
-            Logo.SizeMode = PictureBoxSizeMode.Zoom;
-            Logo.TabIndex = 21;
-            Logo.TabStop = false;
             // 
             // MinimizeButton
             // 
@@ -313,7 +303,7 @@
             MinimizeButton.BackgroundImageLayout = ImageLayout.Zoom;
             MinimizeButton.FlatAppearance.BorderSize = 0;
             MinimizeButton.FlatStyle = FlatStyle.Flat;
-            MinimizeButton.Location = new Point(1140, 0);
+            MinimizeButton.Location = new Point(1122, 0);
             MinimizeButton.Name = "MinimizeButton";
             MinimizeButton.Size = new Size(50, 50);
             MinimizeButton.TabIndex = 22;
@@ -325,12 +315,14 @@
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(7, 13, 13);
-            ClientSize = new Size(1240, 690);
-            Controls.Add(MinimizeButton);
-            Controls.Add(Logo);
+            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
+            BackgroundImageLayout = ImageLayout.Zoom;
+            ClientSize = new Size(1220, 690);
             Controls.Add(CloseButton);
-            Controls.Add(RegisterPanel);
+            Controls.Add(MinimizeButton);
             Controls.Add(LoginPanel);
+            Controls.Add(RegisterPanel);
+            DoubleBuffered = true;
             FormBorderStyle = FormBorderStyle.None;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "StartScreen";
@@ -340,14 +332,12 @@
             RegisterPanel.PerformLayout();
             LoginPanel.ResumeLayout(false);
             LoginPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)Logo).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
         private Panel RegisterPanel;
-        private Panel LoginPanel;
         private Label HaveAccountLabel;
         private Label DontHaveAccountLabel;
         private Label LoginLabel;
@@ -365,7 +355,7 @@
         private TextBox PassTextBoxRegister;
         private CheckBox ShowPassCheckBoxRegister;
         private Button CloseButton;
-        private PictureBox Logo;
         private Button MinimizeButton;
+        private Panel LoginPanel;
     }
 }
