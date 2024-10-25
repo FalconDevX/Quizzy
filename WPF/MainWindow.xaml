@@ -1,0 +1,145 @@
+﻿<Window x:Class="WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Title="MainWindow" Height="437" Width="748" SizeToContent="WidthAndHeight">
+
+    <Window.Resources>
+        <SolidColorBrush x:Key="TextBox.Static.Border" Color="#FFABAdB3"/>
+        <SolidColorBrush x:Key="TextBox.MouseOver.Border" Color="#FF7EB4EA"/>
+        <SolidColorBrush x:Key="TextBox.Focus.Border" Color="#FF569DE5"/>
+
+        <!-- Styl uniwersalny dla TextBoxów z placeholderem -->
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource TextBox.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="AllowDrop" Value="true"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+
+            <!-- Szablon dla placeholdera -->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5" SnapsToDevicePixels="True">
+                            <Grid>
+                                <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+
+                                <!-- Placeholder TextBlock -->
+                                <TextBlock x:Name="placeHolderTextBlock" 
+                                       Foreground="Gray" 
+                                       FontSize="{TemplateBinding FontSize}" 
+                                       FontFamily="{TemplateBinding FontFamily}" 
+                                       VerticalAlignment="Center" 
+                                       Margin="5,0,0,0" 
+                                       Visibility="Collapsed"
+                                       Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Tag}"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource TextBox.MouseOver.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource TextBox.Focus.Border}"/>
+                            </Trigger>
+                            <Trigger Property="Text" Value="">
+                                <Setter Property="Visibility" TargetName="placeHolderTextBlock" Value="Visible"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <!-- Obraz tła -->
+        <Image HorizontalAlignment="Center" Height="448" VerticalAlignment="Top" Width="748" Source="Resources\Background.png" Stretch="UniformToFill"/>
+
+        <StackPanel x:Name="LoginPanel" AutomationProperties.Name="LoginPanel" Margin="542,28,0,0">
+
+            <!-- Nagłówek "Log in" -->
+            <TextBlock HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Log in" VerticalAlignment="Top" FontFamily="Segoe UI" FontSize="48" FontWeight="Bold" Foreground="White" Margin="35,15,0,0"/>
+
+            <!-- Border z TextBox dla Email -->
+            <Border HorizontalAlignment="Left" VerticalAlignment="Top" Width="164" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="23,15,0,0">
+                <TextBox x:Name ="EmailTextBoxLogin" Tag="Type e-mail" VerticalContentAlignment="Center" Width="154" AutomationProperties.Name="EmailTextBoxLogin" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="EmailTextBoxLogin_LostFocus"/>
+            </Border>
+
+            <!-- Border z TextBox dla Password -->
+            <Border HorizontalAlignment="Left"  VerticalAlignment="Top" Width="164" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="23,15,0,0">
+                <TextBox Tag="Type password" VerticalContentAlignment="Center" Width="154" AutomationProperties.Name="PassTextBoxLogin" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam"/>
+            </Border>
+
+            <!-- Przycisk Login -->
+            <Button Content="Login" Background="#FF1C6038" AutomationProperties.Name="LoginButton" Width="164" Height="46" HorizontalAlignment="Left" VerticalAlignment="Top"  FontSize="22" FontWeight="Bold" Foreground="White" Margin="23,15,0,0" Cursor="Hand">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            <!-- Label I don't have account -->
+            <Label Content="I don't have an account" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF373737" FontSize="16" Margin="18,8,0,0" Cursor="Hand" AutomationProperties.Name="NoAccountLabel" MouseLeftButtonDown="NoAccountLabel_MouseLeftButtonDown"/>
+
+        </StackPanel>
+        <StackPanel x:Name="RegisterPanel" AutomationProperties.Name="RegisterPanel" Margin="542,28,0,1">
+
+            <!-- Register textblock -->
+
+            <TextBlock  TextWrapping="Wrap" Text="Register" FontFamily="Segoe UI" FontSize="48" FontWeight="Bold" Foreground="White" Margin="15,15,0,0" />
+
+            <!-- Text Boxes -->
+
+            <Border HorizontalAlignment="Left"  VerticalAlignment="Top" Width="164" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="23,15,0,0">
+                <TextBox x:Name ="EmailTextBoxRegister" Tag="Type e-mail" VerticalContentAlignment="Center" Width="154" AutomationProperties.Name="EmailTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="EmailTextBoxRegister_LostFocus"/>
+            </Border>
+            <Border HorizontalAlignment="Left"  VerticalAlignment="Top" Width="164" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="23,15,0,0">
+                <TextBox Tag="Type login" VerticalContentAlignment="Center" Width="154" AutomationProperties.Name="NickTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam"/>
+            </Border>
+            <Border HorizontalAlignment="Left"  VerticalAlignment="Top" Width="164" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="23,15,0,0">
+                <TextBox Tag="Type password" VerticalContentAlignment="Center" Width="154" AutomationProperties.Name="PassTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam"/>
+            </Border>
+            <Border HorizontalAlignment="Left"  VerticalAlignment="Top" Width="164" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="23,15,0,0">
+                <TextBox Tag="Repeat password" VerticalContentAlignment="Center" Width="154" AutomationProperties.Name="RepPassTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam"/>
+            </Border>
+
+            <!-- Przycisk Register -->
+
+            <Button Content="Register" Background="#FF1C6038" AutomationProperties.Name="RegisterButton"  FontSize="22" FontWeight="Bold" Foreground="White" Cursor="Hand" Margin="15,15,15,0" Height="48">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            <!-- Label I have account -->
+
+            <Label Content="I have account" Foreground="#FF373737" FontSize="16" Cursor="Hand" AutomationProperties.Name="YesAccountLabel" Width="115" MouseLeftButtonDown="YesAccountLabel_MouseLeftButtonDown" />
+
+
+        </StackPanel>
+
+        <!-- CLose button -->
+
+        <Button HorizontalAlignment="Left" Margin="718,0,0,0" VerticalAlignment="Top" Height="28" Width="30" AutomationProperties.Name="CloseButton" Background="Transparent" BorderThickness="0" FocusVisualStyle="{x:Null}" Click="CloseWindowButton_Click">
+            <Image Source="Resources\CloseIcon.png"></Image>
+        </Button>
+    </Grid>
+</Window>
