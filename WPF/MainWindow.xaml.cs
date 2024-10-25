@@ -44,6 +44,12 @@ namespace WPF
             Application.Current.Shutdown();
         }
 
+        //minimize application
+        private void MinimizeWindowButton_Click(Object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
         //check if email correct
         private bool IsValidEmail(string email)
         {
@@ -55,9 +61,13 @@ namespace WPF
         private void EmailTextBoxLogin_LostFocus(object sender, RoutedEventArgs e)
         {
             string email = EmailTextBoxLogin.Text;
-            if (!IsValidEmail(email))
+            if (!IsValidEmail(email) && email != "")
             {
-                MessageBox.Show("Invalid email format. Please enter a valid email.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                InvalidEmailLabelLogin.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                InvalidEmailLabelLogin.Visibility = Visibility.Hidden;
             }
         }
 
@@ -65,10 +75,26 @@ namespace WPF
         private void EmailTextBoxRegister_LostFocus(object sender, RoutedEventArgs e)
         {
             string email = EmailTextBoxRegister.Text;
-            if (!IsValidEmail(email))
+            if (!IsValidEmail(email) && email!="")
             {
-                MessageBox.Show("Invalid email format. Please enter a valid email.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                InvalidEmailLabelRegister.Visibility = Visibility.Visible;
             }
+            else
+            {
+                InvalidEmailLabelRegister.Visibility = Visibility.Hidden;
+            }
+        }
+
+        //checking if login email textbox has focus
+        private void EmailTextBoxLogin_GotFocus(object sender, RoutedEventArgs e)
+        {
+            InvalidEmailLabelLogin.Visibility = Visibility.Hidden;
+        }
+
+        //checking if register email textbox has focus
+        private void EmailTextBoxRegister_GotFocus(object sender, RoutedEventArgs e)
+        {
+            InvalidEmailLabelRegister.Visibility = Visibility.Hidden;
         }
     }
 }
