@@ -12,6 +12,7 @@
     <None Remove="Resources\Background.png" />
     <None Remove="Resources\CloseIcon.png" />
     <None Remove="Resources\Icon.ico" />
+    <None Remove="Resources\LogoReadMe.png" />
     <None Remove="Resources\minimizeIcon.png" />
   </ItemGroup>
 
@@ -19,6 +20,7 @@
     <Resource Include="Resources\Background.png" />
     <Resource Include="Resources\CloseIcon.png" />
     <Resource Include="Resources\Icon.ico" />
+    <Resource Include="Resources\LogoReadMe.png" />
     <Resource Include="Resources\minimizeIcon.png" />
   </ItemGroup>
 
