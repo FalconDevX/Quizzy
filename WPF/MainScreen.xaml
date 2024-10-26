@@ -7,7 +7,9 @@
         mc:Ignorable="d"
         Title="MainScreen" 
         WindowState="Maximized">
+    
     <Grid>
-        
+        <Label Content="WELCOME" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="200" FontFamily="Agency FB"/>
+
     </Grid>
 </Window>

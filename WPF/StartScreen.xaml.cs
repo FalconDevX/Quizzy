@@ -26,6 +26,9 @@ namespace WPF
         //show register panel
         private void NoAccountLabel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            RegisterTextBlock.Focus();
+            EmailTextBoxLogin.Text = "";
+            PassTextBoxLogin.Text = "";
             LoginPanel.Visibility = Visibility.Collapsed;
             RegisterPanel.Visibility = Visibility.Visible;
         }
@@ -34,6 +37,11 @@ namespace WPF
         //show login panel
         private void YesAccountLabel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            LoginTextBlock.Focus();
+            EmailTextBoxRegister.Text = "";
+            PassTextBoxRegister.Text = "";
+            RepPassTextBoxRegister.Text = "";
+            InvalidEmailLabelRegister.Visibility = Visibility.Hidden;
             LoginPanel.Visibility = Visibility.Visible;
             RegisterPanel.Visibility = Visibility.Collapsed;
         }
@@ -60,15 +68,7 @@ namespace WPF
         //checking if email in login panel correct after losing focus
         private void EmailTextBoxLogin_LostFocus(object sender, RoutedEventArgs e)
         {
-            string email = EmailTextBoxLogin.Text;
-            if (!IsValidEmail(email) && email != "")
-            {
-                InvalidEmailLabelLogin.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                InvalidEmailLabelLogin.Visibility = Visibility.Hidden;
-            }
+          
         }
 
         //checking if email in register panel is correct after losing focus
@@ -88,7 +88,7 @@ namespace WPF
         //checking if login email textbox has focus
         private void EmailTextBoxLogin_GotFocus(object sender, RoutedEventArgs e)
         {
-            InvalidEmailLabelLogin.Visibility = Visibility.Hidden;
+            
         }
 
         //checking if register email textbox has focus
@@ -142,12 +142,24 @@ namespace WPF
             string email = EmailTextBoxRegister.Text;
             string password = PassTextBoxRegister.Text;
             string repeatedPassword = RepPassTextBoxRegister.Text;
+            string login = NickTextBoxRegister.Text;
 
-            if (password == repeatedPassword && IsValidEmail(EmailTextBoxLogin.Text))
+            UserService userService = new UserService();
+
+            if (userService.IsLoginTaken(login))
             {
-                UserService userService = new UserService();
-                userService.RegisterUser(email, password);
+                MessageBox.Show("Login already exists. Please choose a different one.");
+                return;
+            }
+
+            if (password == repeatedPassword && IsValidEmail(EmailTextBoxRegister.Text) && NickTextBoxRegister.Text!="")
+            {
+                System.Diagnostics.Debug.WriteLine(NickTextBoxRegister.Text);
+                userService.RegisterUser(login, email, password);
                 MessageBox.Show("Register successful!");
+                MainScreen mainScreen = new MainScreen();
+                mainScreen.Show();
+                this.Close();
             }
             else
             {
@@ -157,33 +169,32 @@ namespace WPF
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            string email = EmailTextBoxLogin.Text;
+            string identifier = EmailTextBoxLogin.Text; // Może być login lub email
             string password = PassTextBoxLogin.Text;
 
             UserService userService = new UserService();
-            bool isAuthenticated = userService.LoginUser(email, password);
+            bool isAuthenticated = userService.LoginUser(identifier, password);
 
-            if(IsValidEmail(email) && password!="")
+            if (!string.IsNullOrWhiteSpace(identifier) && !string.IsNullOrWhiteSpace(password))
             {
                 if (isAuthenticated)
                 {
                     MessageBox.Show("Login successful.");
-                    //Przełączanie się do nowego okna
                     MainScreen mainScreen = new MainScreen();
                     mainScreen.Show();
                     this.Close();
                 }
                 else
                 {
-                    MessageBox.Show("Wrong credentials. Consider registration");
+                    MessageBox.Show("Invalid credentials. Please try again.");
                 }
             }
             else
             {
-                MessageBox.Show("Wrong email or password.");
+                MessageBox.Show("Please fill in both fields.");
             }
-                
         }
+
 
 
 

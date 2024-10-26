@@ -11,17 +11,17 @@ namespace WPF
 
     public class UserService
     {
-        public void RegisterUser(string email, string password)
+        public void RegisterUser(string login, string email, string password)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                string query = "INSERT INTO Users (Email, PasswordHash) VALUES (@Email, @Password)";
+                string query = "INSERT INTO Users (Login, Email, PasswordHash) VALUES (@Login, @Email, @Password)";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
-                    //Przechowywanie email i hasła
+                    cmd.Parameters.AddWithValue("@Login", login);
                     cmd.Parameters.AddWithValue("@Email", email);
                     cmd.Parameters.AddWithValue("@Password", password);
 
@@ -32,24 +32,24 @@ namespace WPF
                     }
                     catch (SqlException ex)
                     {
-                        //Obsługa błędów
                         MessageBox.Show("Error: " + ex.Message);
                     }
                 }
             }
         }
-        public bool LoginUser(string email, string password)
+
+        public bool LoginUser(string identifier, string password)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                string query = "SELECT COUNT(1) FROM Users WHERE Email = @Email AND PasswordHash = @Password";
+                // Zapytanie sprawdzające login lub email
+                string query = "SELECT COUNT(1) FROM Users WHERE (Login = @Identifier OR Email = @Identifier) AND PasswordHash = @Password";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
-                    cmd.Parameters.AddWithValue("@Email", email);
-                    //Hasło w postaci jawnej - potem algorytm szyfrujący 
+                    cmd.Parameters.AddWithValue("@Identifier", identifier);
                     cmd.Parameters.AddWithValue("@Password", password);
 
                     int count = Convert.ToInt32(cmd.ExecuteScalar());
@@ -57,6 +57,28 @@ namespace WPF
                 }
             }
         }
+
+
+        //checking if login exist
+        public bool IsLoginTaken(string login)
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "SELECT COUNT(1) FROM Users WHERE Login = @Login";
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Login", login);
+
+                    int count = Convert.ToInt32(cmd.ExecuteScalar());
+                    return count > 0; // Zwraca true, jeśli login już istnieje
+                }
+            }
+        }
+
+
 
     }
 
