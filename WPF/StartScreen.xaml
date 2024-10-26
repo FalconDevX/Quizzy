@@ -121,7 +121,8 @@
             <Border HorizontalAlignment="Left" Width="250" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="23,20,0,0">
                 <TextBox x:Name="PassTextBoxRegister" Tag="Type password" VerticalContentAlignment="Center" AutomationProperties.Name="PassTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="PassTextBoxRegister_LostFocus" GotFocus="PassTextBoxRegister_GotFocus" Margin="9,-1,9,-1"/>
             </Border>
-            <Border HorizontalAlignment="Left" Width="250" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="23,20,0,0">
+            <Label x:Name ="InvalidPassLabel"  Content="Passwd must be 6-15 long 1 Uppercase 1 sign" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Top" Foreground="#FFFF5700" AutomationProperties.Name="InvalidEmailLabelRegister" Visibility="Hidden"/>
+            <Border HorizontalAlignment="Left" Width="250" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="23,5,0,0">
                 <TextBox x:Name="RepPassTextBoxRegister" Tag="Repeat password" VerticalContentAlignment="Center" AutomationProperties.Name="RepPassTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="RepPassTextBoxRegister_LostFocus" GotFocus="RepPassTextBoxRegister_GotFocus" Margin="9,-1,9,-1"/>
             </Border>
 

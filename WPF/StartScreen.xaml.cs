@@ -64,6 +64,54 @@ namespace WPF
             string emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
             return Regex.IsMatch(email, emailPattern);
         }
+        //check if passwd is correct
+        private bool OneUppercase(string passwd)
+        {
+            for (int i = 0; i < passwd.Length; i++) 
+            {
+                if (passwd[i] >= 65 && passwd[i] <= 90)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        private bool OneSpecialSign(string passwd)
+        {
+            for (int i = 0; i < passwd.Length; i++)
+            {
+                char c = passwd[i];
+                if ((c >= 0 && c <= 47) || (c >= 58 && c <= 64) || (c>= 91 && c<= 96) || (c>=123))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        private bool IsValidPasswd(string passwd) //passwd length 6-15 // 1 Uppercase Letter // One special sign
+        {
+            if (passwd.Length < 6) 
+            {
+                InvalidPassLabel.Content = "Password must be at least 6 letters long";
+                return false;
+            }
+            if (passwd.Length > 15)
+            {
+                InvalidPassLabel.Content = "Password cannot exceed 15 letters";
+                return false;
+            }
+            if (!OneSpecialSign(passwd))
+            {
+                InvalidPassLabel.Content = "Password must contain at least 1 Special Sign";
+                return false;
+            }
+            if (!OneUppercase(passwd))
+            {
+                InvalidPassLabel.Content = "Password must contain at least 1 Uppercase Letter";
+                return false;
+            }
+            return true;
+        }
 
         //checking if email in login panel correct after losing focus
         private void EmailTextBoxLogin_LostFocus(object sender, RoutedEventArgs e)
@@ -100,6 +148,7 @@ namespace WPF
         //checking lost focus passtextbox i reppasstextbox
         private void PassTextBoxRegister_LostFocus(object sender, RoutedEventArgs e)
         {
+            CheckPasswordsValid();
             CheckPasswordsMatch();
         }
 
@@ -112,6 +161,7 @@ namespace WPF
 
         private void PassTextBoxRegister_GotFocus(object sender, RoutedEventArgs e)
         {
+            CheckPasswordsValid();
             PassNotMatchLabel.Visibility = Visibility.Hidden;
         }
 
@@ -135,6 +185,19 @@ namespace WPF
                 PassNotMatchLabel.Visibility = Visibility.Hidden;
             }
         }
+        private void CheckPasswordsValid()
+        {
+            string password = PassTextBoxRegister.Text;
+            if(password == "" || IsValidPasswd(password))
+            {
+                InvalidPassLabel.Visibility = Visibility.Hidden;
+            } 
+            else
+            {
+                InvalidPassLabel.Visibility = Visibility.Visible;
+            }
+ 
+        }
 
         //Register i Login Button Click
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
@@ -145,14 +208,17 @@ namespace WPF
             string login = NickTextBoxRegister.Text;
 
             UserService userService = new UserService();
-
+            if (password != repeatedPassword)
+            {
+                CheckPasswordsMatch();
+                return;
+            }
             if (userService.IsLoginTaken(login))
             {
                 MessageBox.Show("Login already exists. Please choose a different one.");
                 return;
             }
-
-            if (password == repeatedPassword && IsValidEmail(EmailTextBoxRegister.Text) && NickTextBoxRegister.Text!="")
+            if (password != repeatedPassword && IsValidEmail(EmailTextBoxRegister.Text) && NickTextBoxRegister.Text!="" && IsValidPasswd(password))
             {
                 System.Diagnostics.Debug.WriteLine(NickTextBoxRegister.Text);
                 userService.RegisterUser(login, email, password);
@@ -165,6 +231,7 @@ namespace WPF
             {
                 MessageBox.Show("Invalid email or password.");
             }
+            return;
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
