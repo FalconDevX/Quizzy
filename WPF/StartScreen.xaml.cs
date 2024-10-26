@@ -168,6 +168,10 @@ namespace WPF
                 if (isAuthenticated)
                 {
                     MessageBox.Show("Login successful.");
+                    //Przełączanie się do nowego okna
+                    MainScreen mainScreen = new MainScreen();
+                    mainScreen.Show();
+                    this.Close();
                 }
                 else
                 {

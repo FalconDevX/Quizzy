@@ -28,3 +28,5 @@ C:\Quizzy\WPF\WPF\bin\Debug\net8.0-windows\runtimes\win\lib\netcoreapp2.1\System
 C:\Quizzy\WPF\WPF\obj\Debug\net8.0-windows\WPF.csproj.Up2Date
 C:\Quizzy\WPF\WPF\obj\Debug\net8.0-windows\StartScreen.g.cs
 C:\Quizzy\WPF\WPF\obj\Debug\net8.0-windows\StartScreen.baml
+C:\Quizzy\WPF\WPF\obj\Debug\net8.0-windows\MainScreen.g.cs
+C:\Quizzy\WPF\WPF\obj\Debug\net8.0-windows\MainScreen.baml

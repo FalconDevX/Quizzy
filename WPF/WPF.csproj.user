@@ -7,6 +7,14 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="MainScreen.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="MainScreen.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="StartScreen.xaml">
       <SubType>Designer</SubType>
     </Page>
