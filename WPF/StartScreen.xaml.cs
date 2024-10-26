@@ -218,7 +218,7 @@ namespace WPF
                 MessageBox.Show("Login already exists. Please choose a different one.");
                 return;
             }
-            if (password != repeatedPassword && IsValidEmail(EmailTextBoxRegister.Text) && NickTextBoxRegister.Text!="" && IsValidPasswd(password))
+            if (IsValidEmail(EmailTextBoxRegister.Text) && NickTextBoxRegister.Text!="" && IsValidPasswd(password))
             {
                 System.Diagnostics.Debug.WriteLine(NickTextBoxRegister.Text);
                 userService.RegisterUser(login, email, password);

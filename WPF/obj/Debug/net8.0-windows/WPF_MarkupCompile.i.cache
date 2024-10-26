@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-E:\Quizzy\WPF\obj\Debug\net8.0-windows\
+C:\Quizzy\WPF\WPF\obj\Debug\net8.0-windows\
 WPF
 none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
-E:\Quizzy\WPF\App.xaml
+C:\Quizzy\WPF\WPF\App.xaml
 2336314298
 
 71856141810
-2161715660549
+216-399126970
 MainScreen.xaml;StartScreen.xaml;
 
-False
+True
 

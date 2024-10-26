@@ -1,9 +1,7 @@
-﻿using System;
-using System.Configuration;
-using System.Data.SqlClient;
+﻿using System.Configuration;
+using System.Data;
 using System.Windows;
-using Azure.Identity;
-using Azure.Security.KeyVault.Secrets;
+using System.Data.SqlClient;
 
 namespace WPF
 {
@@ -15,7 +13,7 @@ namespace WPF
     {
         public void RegisterUser(string login, string email, string password)
         {
-            string connectionString = DatabaseConnect.GetConnectionString();
+            string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -42,11 +40,12 @@ namespace WPF
 
         public bool LoginUser(string identifier, string password)
         {
-            string connectionString = DatabaseConnect.GetConnectionString();
+            string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
+                // Zapytanie sprawdzające login lub email
                 string query = "SELECT COUNT(1) FROM Users WHERE (Login = @Identifier OR Email = @Identifier) AND PasswordHash = @Password";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
@@ -59,9 +58,11 @@ namespace WPF
             }
         }
 
+
+        //checking if login exist
         public bool IsLoginTaken(string login)
         {
-            string connectionString = DatabaseConnect.GetConnectionString();
+            string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -77,30 +78,8 @@ namespace WPF
             }
         }
 
-        // Funkcje szyfrowania i odszyfrowywania nie są potrzebne, jeśli używasz Azure Key Vault.
+
+
     }
 
-    public class DatabaseConnect
-    {
-        public static string GetConnectionString()
-        {
-            string keyVaultName = "KeyApp"; 
-            var kvUri = $"https://{keyVaultName}.vault.azure.net/";
-
-            try
-            {
-                
-                var client = new SecretClient(new Uri(kvUri), new DefaultAzureCredential());
-
-                KeyVaultSecret secret = client.GetSecret("DatabaseConnectionString");
-
-                return secret.Value;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Błąd podczas pobierania connection string z Key Vault: {ex.Message}");
-                return null;
-            }
-        }
-    }
 }
