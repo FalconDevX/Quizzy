@@ -12,9 +12,9 @@ using System.Windows.Shapes;
 
 namespace WPF
 {
-    public partial class MainWindow : Window
+    public partial class StartScreen : Window
     {
-        public MainWindow()
+        public StartScreen()
         {
             InitializeComponent();
 

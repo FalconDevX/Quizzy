@@ -3,11 +3,9 @@ C:\Quizzy\WPF\WPF\bin\Debug\net8.0-windows\WPF.deps.json
 C:\Quizzy\WPF\WPF\bin\Debug\net8.0-windows\WPF.runtimeconfig.json
 C:\Quizzy\WPF\WPF\bin\Debug\net8.0-windows\WPF.dll
 C:\Quizzy\WPF\WPF\bin\Debug\net8.0-windows\WPF.pdb
-C:\Quizzy\WPF\WPF\obj\Debug\net8.0-windows\MainWindow.g.cs
 C:\Quizzy\WPF\WPF\obj\Debug\net8.0-windows\App.g.cs
 C:\Quizzy\WPF\WPF\obj\Debug\net8.0-windows\WPF_MarkupCompile.cache
 C:\Quizzy\WPF\WPF\obj\Debug\net8.0-windows\WPF_MarkupCompile.lref
-C:\Quizzy\WPF\WPF\obj\Debug\net8.0-windows\MainWindow.baml
 C:\Quizzy\WPF\WPF\obj\Debug\net8.0-windows\WPF.g.resources
 C:\Quizzy\WPF\WPF\obj\Debug\net8.0-windows\WPF.GeneratedMSBuildEditorConfig.editorconfig
 C:\Quizzy\WPF\WPF\obj\Debug\net8.0-windows\WPF.AssemblyInfoInputs.cache
@@ -28,3 +26,5 @@ C:\Quizzy\WPF\WPF\bin\Debug\net8.0-windows\runtimes\win-x86\native\sni.dll
 C:\Quizzy\WPF\WPF\bin\Debug\net8.0-windows\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
 C:\Quizzy\WPF\WPF\bin\Debug\net8.0-windows\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
 C:\Quizzy\WPF\WPF\obj\Debug\net8.0-windows\WPF.csproj.Up2Date
+C:\Quizzy\WPF\WPF\obj\Debug\net8.0-windows\StartScreen.g.cs
+C:\Quizzy\WPF\WPF\obj\Debug\net8.0-windows\StartScreen.baml
