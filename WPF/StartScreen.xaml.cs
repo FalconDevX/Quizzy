@@ -169,7 +169,7 @@ namespace WPF
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            string identifier = EmailTextBoxLogin.Text; // Może być login lub email
+            string identifier = EmailTextBoxLogin.Text; 
             string password = PassTextBoxLogin.Text;
 
             UserService userService = new UserService();
