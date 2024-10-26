@@ -97,7 +97,7 @@ namespace WPF
             InvalidEmailLabelRegister.Visibility = Visibility.Hidden;
         }
 
-        //checking if passtextbox i reppasstextbox
+        //checking lost focus passtextbox i reppasstextbox
         private void PassTextBoxRegister_LostFocus(object sender, RoutedEventArgs e)
         {
             CheckPasswordsMatch();
@@ -106,6 +106,18 @@ namespace WPF
         private void RepPassTextBoxRegister_LostFocus(object sender, RoutedEventArgs e)
         {
             CheckPasswordsMatch();
+        }
+
+        //checking got focus passtextbox i reppasstextbox
+
+        private void PassTextBoxRegister_GotFocus(object sender, RoutedEventArgs e)
+        {
+            PassNotMatchLabel.Visibility = Visibility.Hidden;
+        }
+
+        private void RepPassTextBoxRegister_GotFocus(object sender, RoutedEventArgs e)
+        {
+            PassNotMatchLabel.Visibility = Visibility.Hidden;
         }
 
         //function which check if two passwords match
@@ -123,6 +135,52 @@ namespace WPF
                 PassNotMatchLabel.Visibility = Visibility.Hidden;
             }
         }
+
+        //Register i Login Button Click
+        private void RegisterButton_Click(object sender, RoutedEventArgs e)
+        {
+            string email = EmailTextBoxRegister.Text;
+            string password = PassTextBoxRegister.Text;
+            string repeatedPassword = RepPassTextBoxRegister.Text;
+
+            if (password == repeatedPassword && IsValidEmail(EmailTextBoxLogin.Text))
+            {
+                UserService userService = new UserService();
+                userService.RegisterUser(email, password);
+                MessageBox.Show("Register successful!");
+            }
+            else
+            {
+                MessageBox.Show("Invalid email or password.");
+            }
+        }
+
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            string email = EmailTextBoxLogin.Text;
+            string password = PassTextBoxLogin.Text;
+
+            UserService userService = new UserService();
+            bool isAuthenticated = userService.LoginUser(email, password);
+
+            if(IsValidEmail(email) && password!="")
+            {
+                if (isAuthenticated)
+                {
+                    MessageBox.Show("Login successful.");
+                }
+                else
+                {
+                    MessageBox.Show("Wrong credentials. Consider registration");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Wrong email or password.");
+            }
+                
+        }
+
 
 
     }

@@ -82,11 +82,11 @@
 
                 <!-- Border z TextBox dla Password -->
                 <Border HorizontalAlignment="Left"  VerticalAlignment="Top" Width="164" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="23,6,10, 0">
-                    <TextBox Tag="Type password" VerticalContentAlignment="Center" Width="154" AutomationProperties.Name="PassTextBoxLogin" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam"/>
+                    <TextBox x:Name="PassTextBoxLogin" Tag="Type password" VerticalContentAlignment="Center" Width="154" AutomationProperties.Name="PassTextBoxLogin" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam"/>
                 </Border>
 
                 <!-- Przycisk Login -->
-                <Button Content="Login" Background="#FF1C6038" AutomationProperties.Name="LoginButton" Width="164" Height="46" HorizontalAlignment="Left" VerticalAlignment="Top"  FontSize="22" FontWeight="Bold" Foreground="White" Margin="23,15,0,0" Cursor="Hand">
+                <Button Content="Login" Background="#FF1C6038" AutomationProperties.Name="LoginButton" Width="164" Height="46" HorizontalAlignment="Left" VerticalAlignment="Top"  FontSize="22" FontWeight="Bold" Foreground="White" Margin="23,15,0,0" Cursor="Hand" Click="LoginButton_Click">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border Background="{TemplateBinding Background}" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}">
@@ -122,10 +122,10 @@
                     <TextBox Tag="Type login" VerticalContentAlignment="Center" Width="154" AutomationProperties.Name="NickTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam"/>
                 </Border>
                 <Border HorizontalAlignment="Left"  VerticalAlignment="Top" Width="164" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="23,15,0,0">
-                    <TextBox x:Name="PassTextBoxRegister" Tag="Type password" VerticalContentAlignment="Center" Width="154" AutomationProperties.Name="PassTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="PassTextBoxRegister_LostFocus"/>
+                    <TextBox x:Name="PassTextBoxRegister" Tag="Type password" VerticalContentAlignment="Center" Width="154" AutomationProperties.Name="PassTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="PassTextBoxRegister_LostFocus" GotFocus="PassTextBoxRegister_GotFocus"/>
                 </Border>
                 <Border HorizontalAlignment="Left"  VerticalAlignment="Top" Width="164" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="23,15,0,0">
-                    <TextBox x:Name="RepPassTextBoxRegister" Tag="Repeat password" VerticalContentAlignment="Center" Width="154" AutomationProperties.Name="RepPassTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="PassTextBoxRegister_LostFocus"/>
+                    <TextBox x:Name="RepPassTextBoxRegister" Tag="Repeat password" VerticalContentAlignment="Center" Width="154" AutomationProperties.Name="RepPassTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="RepPassTextBoxRegister_LostFocus" GotFocus="RepPassTextBoxRegister_GotFocus"/>
                 </Border>
                 
                 <!-- InvalidEmailLabelRegister -->
@@ -134,7 +134,7 @@
 
                 <!-- Przycisk Register -->
 
-                <Button Content="Register" Background="#FF1C6038" AutomationProperties.Name="RegisterButton"  FontSize="22" FontWeight="Bold" Foreground="White" Cursor="Hand" Margin="15,15,15,0" Height="48">
+                <Button Content="Register" Background="#FF1C6038" AutomationProperties.Name="RegisterButton"  FontSize="22" FontWeight="Bold" Foreground="White" Cursor="Hand" Margin="15,15,15,0" Height="48" Click="RegisterButton_Click">
                     <Button.Template>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Border Background="{TemplateBinding Background}" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}">
