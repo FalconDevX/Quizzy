@@ -96,5 +96,34 @@ namespace WPF
         {
             InvalidEmailLabelRegister.Visibility = Visibility.Hidden;
         }
+
+        //checking if passtextbox i reppasstextbox
+        private void PassTextBoxRegister_LostFocus(object sender, RoutedEventArgs e)
+        {
+            CheckPasswordsMatch();
+        }
+
+        private void RepPassTextBoxRegister_LostFocus(object sender, RoutedEventArgs e)
+        {
+            CheckPasswordsMatch();
+        }
+
+        //function which check if two passwords match
+        private void CheckPasswordsMatch()
+        {
+            string password = PassTextBoxRegister.Text;
+            string repeatedPassword = RepPassTextBoxRegister.Text;
+
+            if (password != repeatedPassword && !string.IsNullOrEmpty(repeatedPassword) && !string.IsNullOrEmpty(password))
+            {
+                PassNotMatchLabel.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                PassNotMatchLabel.Visibility = Visibility.Hidden;
+            }
+        }
+
+
     }
 }

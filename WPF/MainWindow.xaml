@@ -1,4 +1,4 @@
-﻿    <Window x:Class="WPF.MainWindow"
+﻿<Window x:Class="WPF.MainWindow"
             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,7 +6,7 @@
             xmlns:local="clr-namespace:WPF"
             mc:Ignorable="d"
             WindowStyle="None"
-            ResizeMode="NoResize"
+            ResizeMode="CanMinimize"
             WindowStartupLocation="CenterScreen"
             Title="Quizzy" Height="437" Width="748" SizeToContent="WidthAndHeight"
             Icon="Resources/Icon.ico">
@@ -109,21 +109,28 @@
                 <!-- Text Boxes -->
 
                 <Border HorizontalAlignment="Left"  VerticalAlignment="Top" Width="164" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="23,6,0,0">
-                <TextBox x:Name ="EmailTextBoxRegister" Tag="Type e-mail" VerticalContentAlignment="Center" Width="154" AutomationProperties.Name="EmailTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="14" Cursor="IBeam" LostFocus="EmailTextBoxRegister_LostFocus" GotFocus="EmailTextBoxRegister_GotFocus"/>
+                    <TextBox x:Name ="EmailTextBoxRegister" Tag="Type e-mail" VerticalContentAlignment="Center" Width="154" AutomationProperties.Name="EmailTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="14" Cursor="IBeam" LostFocus="EmailTextBoxRegister_LostFocus" GotFocus="EmailTextBoxRegister_GotFocus"/>
                 </Border>
 
                 <!-- InvalidEmailLabelRegister -->
-                <Label x:Name ="InvalidEmailLabelRegister"  Content="Invalid Email" HorizontalAlignment="Left" Margin="60,1,1,0" VerticalAlignment="Top" Foreground="#FFFF5700" AutomationProperties.Name="InvalidEmailLabelRegister" Visibility="Hidden"/>
+                
+                <Label x:Name ="InvalidEmailLabelRegister"  Content="Invalid Email" HorizontalAlignment="Left" Margin="60,0,1,0" VerticalAlignment="Top" Foreground="#FFFF5700" AutomationProperties.Name="InvalidEmailLabelRegister" Visibility="Hidden"/>
 
-                <Border HorizontalAlignment="Left"  VerticalAlignment="Top" Width="164" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="23,5,0,0">
+                <!-- Text Boxes -->
+                
+                <Border HorizontalAlignment="Left"  VerticalAlignment="Top" Width="164" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="23,0,0,0">
                     <TextBox Tag="Type login" VerticalContentAlignment="Center" Width="154" AutomationProperties.Name="NickTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam"/>
                 </Border>
                 <Border HorizontalAlignment="Left"  VerticalAlignment="Top" Width="164" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="23,15,0,0">
-                    <TextBox Tag="Type password" VerticalContentAlignment="Center" Width="154" AutomationProperties.Name="PassTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam"/>
+                    <TextBox x:Name="PassTextBoxRegister" Tag="Type password" VerticalContentAlignment="Center" Width="154" AutomationProperties.Name="PassTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="PassTextBoxRegister_LostFocus"/>
                 </Border>
                 <Border HorizontalAlignment="Left"  VerticalAlignment="Top" Width="164" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="23,15,0,0">
-                    <TextBox Tag="Repeat password" VerticalContentAlignment="Center" Width="154" AutomationProperties.Name="RepPassTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam"/>
+                    <TextBox x:Name="RepPassTextBoxRegister" Tag="Repeat password" VerticalContentAlignment="Center" Width="154" AutomationProperties.Name="RepPassTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="PassTextBoxRegister_LostFocus"/>
                 </Border>
+                
+                <!-- InvalidEmailLabelRegister -->
+
+            <Label x:Name ="PassNotMatchLabel"  Content="Password do not match" HorizontalAlignment="Left" Margin="34,0,1,0" VerticalAlignment="Top" Foreground="#FFFF5700" AutomationProperties.Name="PassNotMatchLabel" Visibility="Hidden"/>
 
                 <!-- Przycisk Register -->
 
