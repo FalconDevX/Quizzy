@@ -78,10 +78,16 @@
             </Border>
 
             <!-- Border z TextBox dla Password -->
-            <Border HorizontalAlignment="Left" Width="236" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="30,20,10, 0">
-                <TextBox x:Name="PassTextBoxLogin" Tag="Type password" VerticalContentAlignment="Center" AutomationProperties.Name="PassTextBoxLogin" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" Margin="10,-1,9,-1"/>
+            <Border x:Name="PassTextBorLogin" Visibility="Collapsed" HorizontalAlignment="Left" Width="236" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="30,20,0,0">
+                <TextBox x:Name="PassTextBoxLogin"   Tag="Type Password" VerticalContentAlignment="Center" AutomationProperties.Name="PassTextBoxLogin" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" Margin="10,-1,9,-1"/>
             </Border>
 
+            <Border x:Name="PassBorLogin" Visibility="Visible" HorizontalAlignment="Left" Width="236" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="30,20,0, 0">
+                <PasswordBox x:Name="PassBoxLogin" Tag="Type password" VerticalContentAlignment="Center" AutomationProperties.Name="PassBoxLogin" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" Margin="10,-1,9,-1" />
+            </Border>
+ 
+            <CheckBox x:Name="ShowPasswordLogin" Click="ShowPassLogin_Click" Content="Show Password"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5,0,0" Foreground="#FFFF5700"/>
+            
             <!-- Przycisk Login -->
             <Button Content="Login" Background="#FF31BB6A" AutomationProperties.Name="LoginButton" Width="240" Height="46" HorizontalAlignment="Left" VerticalAlignment="Top"  FontSize="22" FontWeight="Bold" Foreground="White" Margin="27,30,0,0" Cursor="Hand" Click="LoginButton_Click">
                 <Button.Template>
@@ -118,13 +124,22 @@
             <Border HorizontalAlignment="Left" Width="250" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="23,0,15,0">
                 <TextBox x:Name="NickTextBoxRegister" Tag="Type login" VerticalContentAlignment="Center" AutomationProperties.Name="NickTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" Margin="9,-1,9,-1"/>
             </Border>
-            <Border HorizontalAlignment="Left" Width="250" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="23,20,0,0">
+            
+            <Border x:Name="PassTextBorRegister" Visibility="Collapsed"  HorizontalAlignment="Left" Width="250" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="23,20,0,0">
                 <TextBox x:Name="PassTextBoxRegister" Tag="Type password" VerticalContentAlignment="Center" AutomationProperties.Name="PassTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="PassTextBoxRegister_LostFocus" GotFocus="PassTextBoxRegister_GotFocus" Margin="9,-1,9,-1"/>
             </Border>
-            <Label x:Name ="InvalidPassLabel"  Content="Passwd must be 6-15 long 1 Uppercase 1 sign" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Top" Foreground="#FFFF5700" AutomationProperties.Name="InvalidEmailLabelRegister" Visibility="Hidden"/>
-            <Border HorizontalAlignment="Left" Width="250" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="23,5,0,0">
-                <TextBox x:Name="RepPassTextBoxRegister" Tag="Repeat password" VerticalContentAlignment="Center" AutomationProperties.Name="RepPassTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="RepPassTextBoxRegister_LostFocus" GotFocus="RepPassTextBoxRegister_GotFocus" Margin="9,-1,9,-1"/>
+            <Border x:Name="PassBorRegister" Visibility="Visible"  HorizontalAlignment="Left" Width="250" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="23,20,0,0">
+                <PasswordBox x:Name="PassBoxRegister" Tag="Type password" VerticalContentAlignment="Center" AutomationProperties.Name="PassTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="PassTextBoxRegister_LostFocus" GotFocus="PassTextBoxRegister_GotFocus" Margin="9,-1,9,-1"/>
             </Border>
+            <Label x:Name ="InvalidPassLabel"  Content="Passwd must be 6-15 long 1 Uppercase 1 sign" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Top" Foreground="#FFFF5700" AutomationProperties.Name="InvalidEmailLabelRegister" Visibility="Hidden"/>
+            
+            <Border Visibility="Collapsed" x:Name="RepPassTextBorRegister" HorizontalAlignment="Left" Width="250" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="23,5,0,0">
+                <TextBox x:Name="RepPassTextBoxRegister" Tag="Type password" VerticalContentAlignment="Center" AutomationProperties.Name="PassTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="PassTextBoxRegister_LostFocus" GotFocus="PassTextBoxRegister_GotFocus" Margin="9,-1,9,-1"/>
+            </Border>
+            <Border Visibility="Visible" x:Name="RepPassBorRegister" HorizontalAlignment="Left" Width="250" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="23,5,0,0">
+                <PasswordBox x:Name="RepPassBoxRegister" Tag="Repeat password" VerticalContentAlignment="Center" AutomationProperties.Name="RepPassTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="RepPassTextBoxRegister_LostFocus" GotFocus="RepPassTextBoxRegister_GotFocus" Margin="9,-1,9,-1"/>
+            </Border>
+            <CheckBox x:Name="ShowPasswordRegister" Click="ShowPassRegister_Click" Content="Show Password"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5,0,0" Foreground="#FFFF5700"/>    
 
             <!-- InvalidEmailLabelRegister -->
 

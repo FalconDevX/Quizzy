@@ -28,7 +28,7 @@ namespace WPF
         {
             RegisterTextBlock.Focus();
             EmailTextBoxLogin.Text = "";
-            PassTextBoxLogin.Text = "";
+            PassBoxLogin.Password = "";
             LoginPanel.Visibility = Visibility.Collapsed;
             RegisterPanel.Visibility = Visibility.Visible;
         }
@@ -39,8 +39,8 @@ namespace WPF
         {
             LoginTextBlock.Focus();
             EmailTextBoxRegister.Text = "";
-            PassTextBoxRegister.Text = "";
-            RepPassTextBoxRegister.Text = "";
+            PassBoxRegister.Password = "";
+            RepPassBoxRegister.Password = "";
             InvalidEmailLabelRegister.Visibility = Visibility.Hidden;
             LoginPanel.Visibility = Visibility.Visible;
             RegisterPanel.Visibility = Visibility.Collapsed;
@@ -138,7 +138,44 @@ namespace WPF
         {
             
         }
-
+        //shows / hides password in login
+        private void ShowPassLogin_Click(object sender, RoutedEventArgs e)
+        {
+            if (ShowPasswordLogin.IsChecked == true)
+            {
+                PassBorLogin.Visibility = Visibility.Collapsed;
+                PassTextBorLogin.Visibility = Visibility.Visible;
+                PassTextBoxLogin.Text = PassBoxLogin.Password;
+            } 
+            else
+            {
+                PassTextBorLogin.Visibility = Visibility.Collapsed;
+                PassBorLogin.Visibility = Visibility.Visible;
+                PassBoxLogin.Password = PassTextBoxLogin.Text; 
+            }
+        }
+        //shows/hides password in register
+        private void ShowPassRegister_Click(object sender, RoutedEventArgs e)
+        {
+            if (ShowPasswordRegister.IsChecked == true)
+            {
+                PassBorRegister.Visibility = Visibility.Collapsed;
+                PassTextBorRegister.Visibility = Visibility.Visible;
+                PassTextBoxRegister.Text = PassBoxRegister.Password;
+                RepPassBorRegister.Visibility = Visibility.Collapsed;
+                RepPassTextBorRegister.Visibility = Visibility.Visible;
+                RepPassTextBoxRegister.Text = RepPassBoxRegister.Password;
+            }
+            else
+            {
+                PassTextBorRegister.Visibility = Visibility.Collapsed;
+                PassBorRegister.Visibility = Visibility.Visible;
+                PassBoxRegister.Password = PassTextBoxRegister.Text;
+                RepPassTextBorRegister.Visibility = Visibility.Collapsed;
+                RepPassBorRegister.Visibility = Visibility.Visible;
+                RepPassBoxRegister.Password = RepPassTextBoxRegister.Text;
+            }
+        }
         //checking if register email textbox has focus
         private void EmailTextBoxRegister_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -173,8 +210,8 @@ namespace WPF
         //function which check if two passwords match
         private void CheckPasswordsMatch()
         {
-            string password = PassTextBoxRegister.Text;
-            string repeatedPassword = RepPassTextBoxRegister.Text;
+            string password = PassBoxRegister.Password;
+            string repeatedPassword = RepPassBoxRegister.Password;
 
             if (password != repeatedPassword && !string.IsNullOrEmpty(repeatedPassword) && !string.IsNullOrEmpty(password))
             {
@@ -187,7 +224,7 @@ namespace WPF
         }
         private void CheckPasswordsValid()
         {
-            string password = PassTextBoxRegister.Text;
+            string password = PassBoxRegister.Password;
             if(password == "" || IsValidPasswd(password))
             {
                 InvalidPassLabel.Visibility = Visibility.Hidden;
@@ -203,8 +240,8 @@ namespace WPF
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
             string email = EmailTextBoxRegister.Text;
-            string password = PassTextBoxRegister.Text;
-            string repeatedPassword = RepPassTextBoxRegister.Text;
+            string password = PassBoxRegister.Password;
+            string repeatedPassword = RepPassBoxRegister.Password;
             string login = NickTextBoxRegister.Text;
 
             UserService userService = new UserService();
@@ -237,7 +274,7 @@ namespace WPF
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             string identifier = EmailTextBoxLogin.Text; 
-            string password = PassTextBoxLogin.Text;
+            string password = PassBoxLogin.Password;
 
             UserService userService = new UserService();
             bool isAuthenticated = userService.LoginUser(identifier, password);
