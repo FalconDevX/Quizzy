@@ -40,7 +40,8 @@
                                            Foreground="Gray" 
                                            FontSize="{TemplateBinding FontSize}" 
                                            FontFamily="{TemplateBinding FontFamily}" 
-                                           VerticalAlignment="Center" 
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"
                                            Margin="5,0,0,0" 
                                            Visibility="Collapsed"
                                            Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Tag}"/>
@@ -61,6 +62,34 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <!-- Styl i szablon dla placeholdera PasswordBox -->
+
+        <Style x:Key="PasswordStyle" TargetType="PasswordBox" >
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="PasswordBox">
+                        <Border MinWidth="{TemplateBinding MinWidth}">
+                            <Grid>
+                                <StackPanel Margin="8">
+                                    <ScrollViewer x:Name="PART_ContentHost"/>
+                                </StackPanel>
+                                <StackPanel>
+                                    <TextBlock Name="PART_TempText" Text="Enter Password" Foreground="Gray" FontSize="{TemplateBinding FontSize}" Visibility="Collapsed" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Left" Padding="8" FontFamily="{TemplateBinding FontFamily}" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Password.Length, RelativeSource={RelativeSource Self}}" Value="0">
+                                <Setter TargetName="PART_TempText" Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </Window.Resources>
 
     <Grid>
@@ -79,15 +108,15 @@
 
             <!-- Border z TextBox dla Password -->
             <Border x:Name="PassTextBorLogin" Visibility="Collapsed" HorizontalAlignment="Left" Width="236" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="30,20,0,0">
-                <TextBox x:Name="PassTextBoxLogin"   Tag="Type Password" VerticalContentAlignment="Center" AutomationProperties.Name="PassTextBoxLogin" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" Margin="10,-1,9,-1"/>
+                <TextBox x:Name="PassTextBoxLogin"  Tag="Type Password" VerticalContentAlignment="Center" AutomationProperties.Name="PassTextBoxLogin" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" Margin="10,-1,9,-1"/>
             </Border>
 
             <Border x:Name="PassBorLogin" Visibility="Visible" HorizontalAlignment="Left" Width="236" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="30,20,0, 0">
-                <PasswordBox x:Name="PassBoxLogin" Tag="Type password" VerticalContentAlignment="Center" AutomationProperties.Name="PassBoxLogin" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" Margin="10,-1,9,-1" />
+                <PasswordBox x:Name="PassBoxLogin"  Style="{StaticResource PasswordStyle}" VerticalContentAlignment="Center" HorizontalAlignment="Left" AutomationProperties.Name="PassBoxLogin" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" Margin="10,0,0,0" Width="225" />
             </Border>
- 
-            <CheckBox x:Name="ShowPasswordLogin" Click="ShowPassLogin_Click" Content="Show Password"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5,0,0" Foreground="#FFFF5700"/>
-            
+
+            <CheckBox x:Name="ShowPasswordLogin" Click="ShowPassLogin_Click" Content="Show Password"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5,0,0" Foreground="LightGray"/>
+
             <!-- Przycisk Login -->
             <Button Content="Login" Background="#FF31BB6A" AutomationProperties.Name="LoginButton" Width="240" Height="46" HorizontalAlignment="Left" VerticalAlignment="Top"  FontSize="22" FontWeight="Bold" Foreground="White" Margin="27,30,0,0" Cursor="Hand" Click="LoginButton_Click">
                 <Button.Template>
@@ -103,7 +132,7 @@
             <Label Content="I don't have an account" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF9B9B9B" FontSize="16" Margin="61,8,0,0" Cursor="Hand" AutomationProperties.Name="NoAccountLabel" MouseLeftButtonDown="NoAccountLabel_MouseLeftButtonDown"/>
 
         </StackPanel>
-        <StackPanel x:Name="RegisterPanel" AutomationProperties.Name="RegisterPanel" Margin="396,21,58,-11">
+        <StackPanel x:Name="RegisterPanel" AutomationProperties.Name="RegisterPanel" Margin="397,7,57,3">
 
             <!-- Register textblock -->
 
@@ -124,26 +153,26 @@
             <Border HorizontalAlignment="Left" Width="250" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="23,0,15,0">
                 <TextBox x:Name="NickTextBoxRegister" Tag="Type login" VerticalContentAlignment="Center" AutomationProperties.Name="NickTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" Margin="9,-1,9,-1"/>
             </Border>
-            
+
             <Border x:Name="PassTextBorRegister" Visibility="Collapsed"  HorizontalAlignment="Left" Width="250" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="23,20,0,0">
                 <TextBox x:Name="PassTextBoxRegister" Tag="Type password" VerticalContentAlignment="Center" AutomationProperties.Name="PassTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="PassTextBoxRegister_LostFocus" GotFocus="PassTextBoxRegister_GotFocus" Margin="9,-1,9,-1"/>
             </Border>
             <Border x:Name="PassBorRegister" Visibility="Visible"  HorizontalAlignment="Left" Width="250" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="23,20,0,0">
-                <PasswordBox x:Name="PassBoxRegister" Tag="Type password" VerticalContentAlignment="Center" AutomationProperties.Name="PassTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="PassTextBoxRegister_LostFocus" GotFocus="PassTextBoxRegister_GotFocus" Margin="9,-1,9,-1"/>
+                <PasswordBox x:Name="PassBoxRegister" Style="{StaticResource PasswordStyle}" HorizontalAlignment="Center" Tag="Type password" VerticalContentAlignment="Center" AutomationProperties.Name="PassTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="PassTextBoxRegister_LostFocus" GotFocus="PassTextBoxRegister_GotFocus" Width="230"/>
             </Border>
             <Label x:Name ="InvalidPassLabel"  Content="Passwd must be 6-15 long 1 Uppercase 1 sign" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Top" Foreground="#FFFF5700" AutomationProperties.Name="InvalidEmailLabelRegister" Visibility="Hidden"/>
-            
+
             <Border Visibility="Collapsed" x:Name="RepPassTextBorRegister" HorizontalAlignment="Left" Width="250" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="23,5,0,0">
                 <TextBox x:Name="RepPassTextBoxRegister" Tag="Type password" VerticalContentAlignment="Center" AutomationProperties.Name="PassTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="PassTextBoxRegister_LostFocus" GotFocus="PassTextBoxRegister_GotFocus" Margin="9,-1,9,-1"/>
             </Border>
             <Border Visibility="Visible" x:Name="RepPassBorRegister" HorizontalAlignment="Left" Width="250" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="23,5,0,0">
-                <PasswordBox x:Name="RepPassBoxRegister" Tag="Repeat password" VerticalContentAlignment="Center" AutomationProperties.Name="RepPassTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="RepPassTextBoxRegister_LostFocus" GotFocus="RepPassTextBoxRegister_GotFocus" Margin="9,-1,9,-1"/>
+                <PasswordBox x:Name="RepPassBoxRegister" Style="{StaticResource PasswordStyle}" HorizontalAlignment="Center" Tag="Repeat password" VerticalContentAlignment="Center" AutomationProperties.Name="RepPassTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="RepPassTextBoxRegister_LostFocus" GotFocus="RepPassTextBoxRegister_GotFocus" Width="230"/>
             </Border>
-            <CheckBox x:Name="ShowPasswordRegister" Click="ShowPassRegister_Click" Content="Show Password"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5,0,0" Foreground="#FFFF5700"/>    
+            <CheckBox x:Name="ShowPasswordRegister" Click="ShowPassRegister_Click" Content="Show Password"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5,0,0" Foreground="LightGray"/>
 
             <!-- InvalidEmailLabelRegister -->
 
-            <Label x:Name ="PassNotMatchLabel"  Content="Password do not match" HorizontalAlignment="Left" Margin="34,0,1,0" VerticalAlignment="Top" Foreground="#FFFF5700" AutomationProperties.Name="PassNotMatchLabel" Visibility="Hidden"/>
+            <Label x:Name ="PassNotMatchLabel"  Content="Password do not match" Margin="80,0,1,0" VerticalAlignment="Top" Foreground="#FFFF5700" AutomationProperties.Name="PassNotMatchLabel" Visibility="Hidden"/>
 
             <!-- Przycisk Register -->
 

@@ -23,28 +23,64 @@ namespace WPF
             RegisterPanel.Visibility = Visibility.Collapsed;
         }
 
-        //show register panel
+        // show register panel
         private void NoAccountLabel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             RegisterTextBlock.Focus();
             EmailTextBoxLogin.Text = "";
+            EmailTextBoxRegister.Text = "";
+            ShowPasswordLogin.IsChecked = false;
+
+            // Resetowanie haseł i widoczności dla panelu logowania
+            PassTextBoxLogin.Text = "";
             PassBoxLogin.Password = "";
-            LoginPanel.Visibility = Visibility.Collapsed;
+            PassTextBorLogin.Visibility = Visibility.Collapsed;
+            PassBorLogin.Visibility = Visibility.Visible;
+
+            // Usunięcie focusa z bieżącego pola
+            Keyboard.ClearFocus();
+
+            PassBoxLogin.Style = Resources["PasswordStyle"] as Style;
+            NickTextBoxRegister.LostFocus += NickTextBoxRegister_LostFocus;
+            EmailTextBoxRegister_LostFocus(EmailTextBoxRegister, new RoutedEventArgs());
+            NickTextBoxRegister_LostFocus(NickTextBoxRegister, new RoutedEventArgs());
+
+            LoginPanel.Visibility = Visibility.Hidden;
             RegisterPanel.Visibility = Visibility.Visible;
         }
 
-
-        //show login panel
+        // show login panel
         private void YesAccountLabel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             LoginTextBlock.Focus();
             EmailTextBoxRegister.Text = "";
-            PassBoxRegister.Password = "";
+            NickTextBoxRegister.Text = "";
+            ShowPasswordRegister.IsChecked = false;
             RepPassBoxRegister.Password = "";
+            PassTextBoxRegister.Text = "";
+
+            // Resetowanie haseł i widoczności dla panelu rejestracji
+            PassTextBorRegister.Visibility = Visibility.Collapsed;
+            PassBorRegister.Visibility = Visibility.Visible;
+            RepPassTextBorRegister.Visibility = Visibility.Collapsed;
+            RepPassBorRegister.Visibility = Visibility.Visible;
+
             InvalidEmailLabelRegister.Visibility = Visibility.Hidden;
+
+            // Usunięcie focusa z bieżącego pola
+            Keyboard.ClearFocus();
+            
+            PassBoxRegister.Style = Resources["PasswordStyle"] as Style;
+            RepPassBoxRegister.Style = Resources["PasswordStyle"] as Style;
+
+            EmailTextBoxLogin_LostFocus(EmailTextBoxLogin, new RoutedEventArgs());
+            PassTextBoxLogin_LostFocus(PassTextBoxRegister, new RoutedEventArgs());
+
             LoginPanel.Visibility = Visibility.Visible;
             RegisterPanel.Visibility = Visibility.Collapsed;
         }
+
+
 
         //exit application
         private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
@@ -113,31 +149,6 @@ namespace WPF
             return true;
         }
 
-        //checking if email in login panel correct after losing focus
-        private void EmailTextBoxLogin_LostFocus(object sender, RoutedEventArgs e)
-        {
-          
-        }
-
-        //checking if email in register panel is correct after losing focus
-        private void EmailTextBoxRegister_LostFocus(object sender, RoutedEventArgs e)
-        {
-            string email = EmailTextBoxRegister.Text;
-            if (!IsValidEmail(email) && email!="")
-            {
-                InvalidEmailLabelRegister.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                InvalidEmailLabelRegister.Visibility = Visibility.Hidden;
-            }
-        }
-
-        //checking if login email textbox has focus
-        private void EmailTextBoxLogin_GotFocus(object sender, RoutedEventArgs e)
-        {
-            
-        }
         //shows / hides password in login
         private void ShowPassLogin_Click(object sender, RoutedEventArgs e)
         {
@@ -176,34 +187,127 @@ namespace WPF
                 RepPassBoxRegister.Password = RepPassTextBoxRegister.Text;
             }
         }
-        //checking if register email textbox has focus
-        private void EmailTextBoxRegister_GotFocus(object sender, RoutedEventArgs e)
-        {
-            InvalidEmailLabelRegister.Visibility = Visibility.Hidden;
-        }
 
         //checking lost focus passtextbox i reppasstextbox
         private void PassTextBoxRegister_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (PassBoxRegister.Password.Length == 0)
+                PassBoxRegister.Style = Resources["PasswordStyle"] as Style;
             CheckPasswordsValid();
             CheckPasswordsMatch();
         }
 
         private void RepPassTextBoxRegister_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (RepPassBoxRegister.Password.Length == 0)
+                RepPassBoxRegister.Style = Resources["PasswordStyle"] as Style;
             CheckPasswordsMatch();
         }
 
-        //checking got focus passtextbox i reppasstextbox
+        //email login lost focus
+        private void EmailTextBoxLogin_LostFocus(object sender, RoutedEventArgs e)
+        {
+            //pokazywanie placeholdera poprzez zmiane tag
+            var textBox = sender as TextBox;
+            if (textBox != null && textBox.Text == "")
+            {
+                textBox.Tag = "Type e-mail or login";
+            }
+        }
 
+        //checking if login email textbox has focus
+        private void EmailTextBoxLogin_GotFocus(object sender, RoutedEventArgs e)
+        {
+            //ukrywanie placeholdera poprzez zmiane tag
+            var textBox = sender as TextBox;
+            if (textBox != null && textBox.Text == "")
+            {
+                textBox.Tag = ""; 
+            }
+        }
+
+        //checking lost focus for login password
+
+        private void PassTextBoxLogin_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (PassBoxLogin.Password.Length == 0)
+                PassBoxLogin.Style = Resources["PasswordStyle"] as Style;
+            CheckPasswordsMatch();
+        }
+
+
+        //checking got focus for login password
+
+        private void PassTextBoxLogin_GotFocus(object sender, RoutedEventArgs e)
+        {
+            PassBoxLogin.Style = null;
+        }
+
+        //checking if register email textbox has focus
+        private void EmailTextBoxRegister_GotFocus(object sender, RoutedEventArgs e)
+        {
+            //ukrywanie placeholdera poprzez zmiane tag
+            var textBox = sender as TextBox;
+            if (textBox != null && textBox.Text == "")
+            {
+                textBox.Tag = ""; 
+            }
+
+            InvalidEmailLabelRegister.Visibility = Visibility.Hidden;
+        }
+
+        //checking if email in register panel is correct after losing focus
+        private void EmailTextBoxRegister_LostFocus(object sender, RoutedEventArgs e)
+        {
+            //pokazywanie placeholdera poprzez zmiane tag
+            var textBox = sender as TextBox;
+            if (textBox != null && textBox.Text == "")
+            {
+                textBox.Tag = "Type e-mail";
+            }
+
+            string email = EmailTextBoxRegister.Text;
+            if (!IsValidEmail(email) && email != "")
+            {
+                InvalidEmailLabelRegister.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                InvalidEmailLabelRegister.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void NickTextBoxRegister_GotFocus(object sender, RoutedEventArgs e)
+        {
+            //ukrywanie placeholdera poprzez zmiane tag
+            var textBox = sender as TextBox;
+            if (textBox != null && textBox.Text == "")
+            {
+                textBox.Tag = "";
+            }
+        }
+
+        private void NickTextBoxRegister_LostFocus(object sender, RoutedEventArgs e)
+        {
+            //pokazywanie placeholdera poprzez zmiane tag
+            var textBox = sender as TextBox;
+            if (textBox != null && textBox.Text == "")
+            {
+                textBox.Tag = "Type e-mail or login";
+            }
+        }
+
+        //checking got focus passtextbox i reppasstextbox
         private void PassTextBoxRegister_GotFocus(object sender, RoutedEventArgs e)
         {
             CheckPasswordsValid();
+            PassBoxRegister.Style = null;
             PassNotMatchLabel.Visibility = Visibility.Hidden;
         }
 
         private void RepPassTextBoxRegister_GotFocus(object sender, RoutedEventArgs e)
         {
+            RepPassBoxRegister.Style = null;
             PassNotMatchLabel.Visibility = Visibility.Hidden;
         }
 
@@ -225,10 +329,14 @@ namespace WPF
         private void CheckPasswordsValid()
         {
             string password = PassBoxRegister.Password;
-            if(password == "" || IsValidPasswd(password))
+            if(password == "")
             {
                 InvalidPassLabel.Visibility = Visibility.Hidden;
             } 
+            else if(IsValidPasswd(password))
+            {
+                InvalidPassLabel.Visibility = Visibility.Hidden;
+            }
             else
             {
                 InvalidPassLabel.Visibility = Visibility.Visible;
@@ -299,8 +407,30 @@ namespace WPF
             }
         }
 
+        //Password in passwordbox changed for loginand register panel
+        private void PasswordBoxLogin_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (PassBoxLogin.Password.Length == 0)
+                PassBoxLogin.Style = Resources["PasswordStyle"] as Style;
+            else
+                PassBoxLogin.Style = null;
+        }
 
+        private void PasswordBoxRegister_PasswordChanged()
+        {
+            if (PassBoxRegister.Password.Length == 0)
+                PassBoxRegister.Style = Resources["PasswordStyle"] as Style;
+            else
+                PassBoxRegister.Style = null;
+        }
 
+        private void RepPasswordBoxRegister_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (RepPassBoxRegister.Password.Length == 0)
+                RepPassBoxRegister.Style = Resources["PasswordStyle"] as Style;
+            else
+                RepPassBoxRegister.Style = null;
+        }
 
     }
 }
