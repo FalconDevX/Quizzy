@@ -44,6 +44,8 @@ namespace WPF
             NickTextBoxRegister.LostFocus += NickTextBoxRegister_LostFocus;
             EmailTextBoxRegister_LostFocus(EmailTextBoxRegister, new RoutedEventArgs());
             NickTextBoxRegister_LostFocus(NickTextBoxRegister, new RoutedEventArgs());
+            PassTextBoxRegister_LostFocus(PassTextBoxRegister, new RoutedEventArgs());
+            RepPassTextBoxRegister_LostFocus(PassTextBoxRegister, new RoutedEventArgs());
 
             LoginPanel.Visibility = Visibility.Hidden;
             RegisterPanel.Visibility = Visibility.Visible;
@@ -57,7 +59,7 @@ namespace WPF
             NickTextBoxRegister.Text = "";
             ShowPasswordRegister.IsChecked = false;
             RepPassBoxRegister.Password = "";
-            PassTextBoxRegister.Text = "";
+            PassBoxRegister.Password = "";
 
             // Resetowanie haseł i widoczności dla panelu rejestracji
             PassTextBorRegister.Visibility = Visibility.Collapsed;
@@ -188,22 +190,6 @@ namespace WPF
             }
         }
 
-        //checking lost focus passtextbox i reppasstextbox
-        private void PassTextBoxRegister_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (PassBoxRegister.Password.Length == 0)
-                PassBoxRegister.Style = Resources["PasswordStyle"] as Style;
-            CheckPasswordsValid();
-            CheckPasswordsMatch();
-        }
-
-        private void RepPassTextBoxRegister_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (RepPassBoxRegister.Password.Length == 0)
-                RepPassBoxRegister.Style = Resources["PasswordStyle"] as Style;
-            CheckPasswordsMatch();
-        }
-
         //email login lost focus
         private void EmailTextBoxLogin_LostFocus(object sender, RoutedEventArgs e)
         {
@@ -311,6 +297,22 @@ namespace WPF
             PassNotMatchLabel.Visibility = Visibility.Hidden;
         }
 
+        //checking lost focus passtextbox i reppasstextbox
+        private void PassTextBoxRegister_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (PassBoxRegister.Password.Length == 0)
+                PassBoxRegister.Style = Resources["PasswordStyle"] as Style;
+            CheckPasswordsValid();
+            CheckPasswordsMatch();
+        }
+
+        private void RepPassTextBoxRegister_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (RepPassBoxRegister.Password.Length == 0)
+                RepPassBoxRegister.Style = Resources["PasswordStyle"] as Style;
+            CheckPasswordsMatch();
+        }
+
         //function which check if two passwords match
         private void CheckPasswordsMatch()
         {
@@ -416,7 +418,7 @@ namespace WPF
                 PassBoxLogin.Style = null;
         }
 
-        private void PasswordBoxRegister_PasswordChanged()
+        private void PasswordBoxRegister_PasswordChanged(object sender, RoutedEventArgs e)
         {
             if (PassBoxRegister.Password.Length == 0)
                 PassBoxRegister.Style = Resources["PasswordStyle"] as Style;
@@ -431,6 +433,7 @@ namespace WPF
             else
                 RepPassBoxRegister.Style = null;
         }
+
 
     }
 }
