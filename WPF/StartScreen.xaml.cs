@@ -82,8 +82,6 @@ namespace WPF
             RegisterPanel.Visibility = Visibility.Collapsed;
         }
 
-
-
         //exit application
         private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
         {
@@ -363,6 +361,11 @@ namespace WPF
             if (userService.IsLoginTaken(login))
             {
                 MessageBox.Show("Login already exists. Please choose a different one.");
+                return;
+            }
+            if(userService.IsEmailTaken(email))
+            {
+                MessageBox.Show("Email already exists. Please choose a different one.");
                 return;
             }
             if (IsValidEmail(EmailTextBoxRegister.Text) && NickTextBoxRegister.Text!="" && IsValidPasswd(password))

@@ -58,7 +58,6 @@ namespace WPF
             }
         }
 
-
         //checking if login exist
         public bool IsLoginTaken(string login)
         {
@@ -74,6 +73,24 @@ namespace WPF
 
                     int count = Convert.ToInt32(cmd.ExecuteScalar());
                     return count > 0; // Zwraca true, jeśli login już istnieje
+                }
+            }
+        }
+
+        public bool IsEmailTaken(string email)
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "SELECT COUNT(1) FROM Users WHERE Email = @Email";
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Email", email);
+
+                    int count = Convert.ToInt32(cmd.ExecuteScalar());
+                    return count > 0;
                 }
             }
         }
