@@ -38,6 +38,7 @@ namespace WPF
                 }
             }
         }
+
         //login user function
         public bool LoginUser(string identifier, string password)
         {
@@ -46,8 +47,8 @@ namespace WPF
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                // Zapytanie sprawdzające login lub email
-                string query = "SELECT COUNT(1) FROM Users WHERE (Login = @Identifier OR Email = @Identifier) AND PasswordHash = @Password";
+                // Zapytanie sprawdzające login lub email, rozróżniające wielkość liter
+                string query = "SELECT COUNT(1) FROM Users WHERE (Login COLLATE Latin1_General_BIN = @Identifier OR Email COLLATE Latin1_General_BIN = @Identifier) AND PasswordHash COLLATE Latin1_General_BIN = @Password";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@Identifier", identifier);
@@ -67,13 +68,14 @@ namespace WPF
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                string query = "SELECT COUNT(1) FROM Users WHERE Login = @Login";
+                // Sprawdzenie, czy login istnieje z rozróżnieniem wielkości liter
+                string query = "SELECT COUNT(1) FROM Users WHERE Login COLLATE Latin1_General_BIN = @Login";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@Login", login);
 
                     int count = Convert.ToInt32(cmd.ExecuteScalar());
-                    return count > 0; // Zwraca true, jeśli login już istnieje
+                    return count > 0;
                 }
             }
         }
@@ -86,7 +88,8 @@ namespace WPF
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                string query = "SELECT COUNT(1) FROM Users WHERE Email = @Email";
+                // Sprawdzenie, czy email istnieje z rozróżnieniem wielkości liter
+                string query = "SELECT COUNT(1) FROM Users WHERE Email COLLATE Latin1_General_BIN = @Email";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@Email", email);
@@ -96,6 +99,7 @@ namespace WPF
                 }
             }
         }
+
 
     }
 }
