@@ -317,7 +317,7 @@ namespace WPF
             string password = PassBoxRegister.Password;
             string repeatedPassword = RepPassBoxRegister.Password;
 
-            if (password != repeatedPassword && !string.IsNullOrEmpty(repeatedPassword) && !string.IsNullOrEmpty(password))
+            if (password != repeatedPassword && repeatedPassword!="" && password != "")
             {
                 PassNotMatchLabel.Visibility = Visibility.Visible;
             }
@@ -358,17 +358,17 @@ namespace WPF
                 CheckPasswordsMatch();
                 return;
             }
-            if (userService.IsLoginTaken(login))
+            else if (userService.IsLoginTaken(login))
             {
                 MessageBox.Show("Login already exists. Please choose a different one.");
                 return;
             }
-            if(userService.IsEmailTaken(email))
+            else if(userService.IsEmailTaken(email))
             {
                 MessageBox.Show("Email already exists. Please choose a different one.");
                 return;
             }
-            if (IsValidEmail(EmailTextBoxRegister.Text) && NickTextBoxRegister.Text!="" && IsValidPasswd(password))
+            else if (IsValidEmail(EmailTextBoxRegister.Text) && NickTextBoxRegister.Text!="" && EmailTextBoxRegister.Text!="" && PassTextBoxRegister.Text!="" && RepPassTextBoxRegister.Text!="" && IsValidPasswd(password))
             {
                 System.Diagnostics.Debug.WriteLine(NickTextBoxRegister.Text);
                 userService.RegisterUser(login, email, password);
@@ -379,7 +379,7 @@ namespace WPF
             }
             else
             {
-                MessageBox.Show("Invalid email or password.");
+                MessageBox.Show("Please fill all textboxes");
             }
             return;
         }

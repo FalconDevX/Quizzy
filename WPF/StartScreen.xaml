@@ -223,7 +223,7 @@
 
             <!-- Przycisk Register -->
 
-            <Button Content="Register" Background="#DE8689" AutomationProperties.Name="RegisterButton"  FontSize="22" FontWeight="Bold" Foreground="White" Cursor="Hand" Margin="15,-15,0,0" Height="48" Click="RegisterButton_Click" Width="240" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed">
+            <Button Content="Register" Background="#DE8689" AutomationProperties.Name="RegisterButton"  FontSize="22" FontWeight="Bold" Foreground="White" Cursor="Hand" Margin="15,5,0,0" Height="48" Click="RegisterButton_Click" Width="240" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border Background="{TemplateBinding Background}" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}">
