@@ -198,3 +198,4 @@ C:\Quizzy\masterWPF\Quizzy\WPF\obj\Debug\net8.0-windows\refint\WPF.dll
 C:\Quizzy\masterWPF\Quizzy\WPF\obj\Debug\net8.0-windows\WPF.pdb
 C:\Quizzy\masterWPF\Quizzy\WPF\obj\Debug\net8.0-windows\WPF.genruntimeconfig.cache
 C:\Quizzy\masterWPF\Quizzy\WPF\obj\Debug\net8.0-windows\ref\WPF.dll
+C:\Quizzy\masterWPF\Quizzy\WPF\bin\Debug\net8.0-windows\WPF.dll.config
