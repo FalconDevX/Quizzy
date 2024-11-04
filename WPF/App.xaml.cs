@@ -11,6 +11,7 @@ namespace WPF
 
     public class UserService
     {
+        //register user function
         public void RegisterUser(string login, string email, string password)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
@@ -37,7 +38,7 @@ namespace WPF
                 }
             }
         }
-
+        //login user function
         public bool LoginUser(string identifier, string password)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
@@ -77,6 +78,7 @@ namespace WPF
             }
         }
 
+        //checking if email exist
         public bool IsEmailTaken(string email)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
@@ -95,8 +97,7 @@ namespace WPF
             }
         }
 
-
-
     }
-
 }
+
+

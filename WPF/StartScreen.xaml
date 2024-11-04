@@ -8,16 +8,21 @@
             WindowStyle="None"
             ResizeMode="CanMinimize"
             WindowStartupLocation="CenterScreen"
-            Title="Quizzy" Height="437" Width="748" SizeToContent="WidthAndHeight"
-            Icon="Resources/Icon.ico">
+            Title="Quizzy" Height="540" Width="960" SizeToContent="WidthAndHeight"
+            Icon="Resources/Icon.ico"
+            >
+
 
     <Window.Resources>
-        <SolidColorBrush x:Key="TextBox.Static.Border" Color="#FFABAdB3"/>
+        <SolidColorBrush x:Key="TextBox.Static.Border" Color="#8FAFE6"/>
         <SolidColorBrush x:Key="TextBox.MouseOver.Border" Color="#FF7EB4EA"/>
         <SolidColorBrush x:Key="TextBox.Focus.Border" Color="#FF569DE5"/>
 
+
         <!-- Styl uniwersalny dla TextBoxów z placeholderem -->
         <Style TargetType="{x:Type TextBox}">
+            <Setter Property="SelectionBrush" Value="LightPink"/>
+            <Setter Property="SelectionOpacity" Value="0.5"/>
             <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
             <Setter Property="BorderBrush" Value="{StaticResource TextBox.Static.Border}"/>
             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
@@ -37,9 +42,9 @@
 
                                 <!-- Placeholder TextBlock -->
                                 <TextBlock x:Name="placeHolderTextBlock" 
-                                           Foreground="Gray" 
+                                           Foreground="#8FAFE6" 
                                            FontSize="{TemplateBinding FontSize}" 
-                                           FontFamily="{TemplateBinding FontFamily}" 
+                                           FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" 
                                            VerticalAlignment="Center"
                                            HorizontalAlignment="Left"
                                            Margin="5,0,0,0" 
@@ -66,6 +71,8 @@
         <!-- Styl i szablon dla placeholdera PasswordBox -->
 
         <Style x:Key="PasswordStyle" TargetType="PasswordBox" >
+            <Setter Property="SelectionBrush" Value="LightPink"/>
+            <Setter Property="SelectionOpacity" Value="0.5"/>
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Template">
                 <Setter.Value>
@@ -76,7 +83,7 @@
                                     <ScrollViewer x:Name="PART_ContentHost"/>
                                 </StackPanel>
                                 <StackPanel>
-                                    <TextBlock Name="PART_TempText" Text="Enter Password" Foreground="Gray" FontSize="{TemplateBinding FontSize}" Visibility="Collapsed" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Left" Padding="8" FontFamily="{TemplateBinding FontFamily}" />
+                                    <TextBlock Name="PART_TempText" Text="Type password" Foreground="#8FAFE6" FontSize="{TemplateBinding FontSize}" Visibility="Collapsed" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Left" Padding="8" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" />
                                 </StackPanel>
                             </Grid>
                         </Border>
@@ -90,35 +97,67 @@
             </Setter>
         </Style>
 
+        <!-- Styl dla checkbox -->
+
+        <Style TargetType="CheckBox">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <Border x:Name="border" Background="Transparent" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" CornerRadius="10">
+                            <Grid>
+                                <BulletDecorator Background="Transparent">
+                                    <BulletDecorator.Bullet>
+                                        <Border x:Name="bullet" Width="16" Height="16" BorderBrush="#8FAFE6" BorderThickness="1" CornerRadius="5" />
+                                    </BulletDecorator.Bullet>
+                                    <ContentPresenter VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                </BulletDecorator>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="bullet" Property="Background" Value="#FF7EB4EA"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="#8FAFE6"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+
+
+
+
     </Window.Resources>
 
     <Grid>
         <!-- Obraz tła -->
-        <Image HorizontalAlignment="Center" Height="448" VerticalAlignment="Top" Width="748" Source="Resources\Background.png" Stretch="UniformToFill"/>
+        <Image HorizontalAlignment="Center" Height="540" VerticalAlignment="Top" Width="960" Source="Resources\Background.png" Stretch="UniformToFill"/>
 
-        <StackPanel x:Name="LoginPanel" AutomationProperties.Name="LoginPanel" Margin="396,14,58,15" Visibility="Visible">
+        <StackPanel x:Name="LoginPanel" AutomationProperties.Name="LoginPanel" Margin="325,134,344,56" Visibility="Visible">
 
             <!-- Nagłówek "Log in" -->
-            <TextBlock x:Name="LoginTextBlock" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Log in" VerticalAlignment="Top" FontFamily="Segoe UI" FontSize="48" FontWeight="Bold" Foreground="White" Margin="84,15,0,0"/>
+            <!-- <TextBlock x:Name="LoginTextBlock" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Log in" VerticalAlignment="Top" FontFamily="Segoe UI" FontSize="48" FontWeight="Bold" Foreground="White" Margin="84,15,0,0"/> -->
 
             <!-- Border z TextBox dla Email -->
-            <Border HorizontalAlignment="Left" Width="237" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="30,30,0,0">
-                <TextBox x:Name ="EmailTextBoxLogin" Tag="Type e-mail or login" VerticalContentAlignment="Center" AutomationProperties.Name="EmailTextBoxLogin" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="EmailTextBoxLogin_LostFocus" GotFocus="EmailTextBoxLogin_GotFocus" Margin="10,-1,9,-1"/>
+            <Border HorizontalAlignment="Left" Width="237" Height="40" BorderBrush="#191D67" BorderThickness="1" CornerRadius="10" Background="#191D67" Margin="30,30,0,0">
+                <TextBox x:Name ="EmailTextBoxLogin" Tag="Type e-mail or login" VerticalContentAlignment="Center" AutomationProperties.Name="EmailTextBoxLogin" Height="40" Foreground="#8FAFE6" CaretBrush="#8FAFE6" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="EmailTextBoxLogin_LostFocus" GotFocus="EmailTextBoxLogin_GotFocus" Margin="10,-1,9,-1" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed"/>
             </Border>
 
             <!-- Border z TextBox dla Password -->
-            <Border x:Name="PassTextBorLogin" Visibility="Collapsed" HorizontalAlignment="Left" Width="236" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="30,20,0,0">
-                <TextBox x:Name="PassTextBoxLogin"  Tag="Type Password" VerticalContentAlignment="Center" AutomationProperties.Name="PassTextBoxLogin" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" Margin="10,-1,9,-1"/>
+            <Border x:Name="PassTextBorLogin" Visibility="Collapsed" HorizontalAlignment="Left" Width="236" Height="40" BorderBrush="#191D67" BorderThickness="1" CornerRadius="10" Background="#191D67" Margin="30,20,0,0">
+                <TextBox x:Name="PassTextBoxLogin"  Tag="Type password" VerticalContentAlignment="Center" AutomationProperties.Name="PassTextBoxLogin" Height="40" Foreground="#8FAFE6" CaretBrush="#8FAFE6" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" Margin="10,-1,9,-1"/>
             </Border>
 
-            <Border x:Name="PassBorLogin" Visibility="Visible" HorizontalAlignment="Left" Width="236" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="30,20,0, 0">
-                <PasswordBox x:Name="PassBoxLogin" Style="{StaticResource PasswordStyle}" VerticalContentAlignment="Center" HorizontalAlignment="Left" AutomationProperties.Name="PassBoxLogin" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" Margin="10,0,0,0" Width="225" GotFocus="PassTextBoxLogin_GotFocus" LostFocus="PassTextBoxLogin_LostFocus" PasswordChanged="PasswordBoxLogin_PasswordChanged"/>
+            <Border x:Name="PassBorLogin" Visibility="Visible" HorizontalAlignment="Left" Width="236" Height="40" BorderBrush="#191D67" BorderThickness="1" CornerRadius="10" Background="#191D67" Margin="30,20,0, 0">
+                <PasswordBox x:Name="PassBoxLogin" Style="{StaticResource PasswordStyle}" VerticalContentAlignment="Center" HorizontalAlignment="Left" AutomationProperties.Name="PassBoxLogin" Height="40" Foreground="#8FAFE6" CaretBrush="#8FAFE6" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" Margin="10,0,0,0" Width="225" GotFocus="PassTextBoxLogin_GotFocus" LostFocus="PassTextBoxLogin_LostFocus" PasswordChanged="PasswordBoxLogin_PasswordChanged" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed"/>
             </Border>
 
-            <CheckBox x:Name="ShowPasswordLogin" Click="ShowPassLogin_Click" Content="Show Password"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5,0,0" Foreground="LightGray"/>
+            <CheckBox x:Name="ShowPasswordLogin" Click="ShowPassLogin_Click" Content="Show Password"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,15,0,0" Foreground="#8FAFE6" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" FontSize="14"/>
 
             <!-- Przycisk Login -->
-            <Button Content="Login" Background="#FF31BB6A" AutomationProperties.Name="LoginButton" Width="240" Height="46" HorizontalAlignment="Left" VerticalAlignment="Top"  FontSize="22" FontWeight="Bold" Foreground="White" Margin="27,30,0,0" Cursor="Hand" Click="LoginButton_Click">
+            <Button Content="Login" Background="#DE8689" AutomationProperties.Name="LoginButton" Width="240" Height="46" HorizontalAlignment="Left" VerticalAlignment="Top"  FontSize="22" FontWeight="Bold" Foreground="White" Margin="27,20,0,0" Cursor="Hand" Click="LoginButton_Click" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Border Background="{TemplateBinding Background}" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}">
@@ -129,46 +168,44 @@
             </Button>
 
             <!-- Label I don't have account -->
-            <Label Content="I don't have an account" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF9B9B9B" FontSize="16" Margin="61,8,0,0" Cursor="Hand" AutomationProperties.Name="NoAccountLabel" MouseLeftButtonDown="NoAccountLabel_MouseLeftButtonDown"/>
+            <Label Content="I don't have an account" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#8FAFE6" FontSize="16" Margin="70,8,0,0" Cursor="Hand" AutomationProperties.Name="NoAccountLabel" MouseLeftButtonDown="NoAccountLabel_MouseLeftButtonDown" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed"/>
 
         </StackPanel>
-        <StackPanel x:Name="RegisterPanel" AutomationProperties.Name="RegisterPanel" Margin="397,7,57,3">
+        <StackPanel x:Name="RegisterPanel" AutomationProperties.Name="RegisterPanel" Margin="323,148,340,-46">
 
             <!-- Register textblock -->
 
-            <TextBlock x:Name="RegisterTextBlock" TextWrapping="Wrap" Text="Register" FontFamily="Segoe UI" FontSize="48" FontWeight="Bold" Foreground="White" Margin="15,5,5,10" Width="188" />
-
             <!-- Text Boxes -->
 
-            <Border HorizontalAlignment="Left" Width="250" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="23,6,0,0">
-                <TextBox x:Name ="EmailTextBoxRegister" Tag="Type e-mail" VerticalContentAlignment="Center" AutomationProperties.Name="EmailTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="EmailTextBoxRegister_LostFocus" GotFocus="EmailTextBoxRegister_GotFocus" Margin="9,-1,9,-1"/>
+            <Border HorizontalAlignment="Left" Width="250" Height="40" BorderBrush="#191D67" BorderThickness="1" CornerRadius="10" Background="#191D67" Margin="23,6,0,0">
+                <TextBox x:Name ="EmailTextBoxRegister" Tag="Type e-mail" VerticalContentAlignment="Center" AutomationProperties.Name="EmailTextBoxRegister" Height="40" CaretBrush="#8FAFE6" Background="Transparent" Foreground="#8FAFE6" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="EmailTextBoxRegister_LostFocus" GotFocus="EmailTextBoxRegister_GotFocus" Margin="9,-1,9,-1" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed"/>
             </Border>
 
             <!-- InvalidEmailLabelRegister -->
 
-            <Label x:Name ="InvalidEmailLabelRegister"  Content="Invalid Email" HorizontalAlignment="Left" Margin="105,0,0,0" VerticalAlignment="Top" Foreground="#FFFF5700" AutomationProperties.Name="InvalidEmailLabelRegister" Visibility="Hidden"/>
+            <Label x:Name ="InvalidEmailLabelRegister"  Content="Invalid Email" HorizontalAlignment="Left" Margin="105,0,0,0" VerticalAlignment="Top" Foreground="#DE8689" AutomationProperties.Name="InvalidEmailLabelRegister" Visibility="Hidden"/>
 
             <!-- Text Boxes -->
 
-            <Border HorizontalAlignment="Left" Width="250" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="23,0,15,0">
-                <TextBox x:Name="NickTextBoxRegister" Tag="Type login" VerticalContentAlignment="Center" AutomationProperties.Name="NickTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" GotFocus="NickTextBoxRegister_GotFocus" LostFocus="NickTextBoxRegister_LostFocus" Margin="9,-1,9,-1"/>
+            <Border HorizontalAlignment="Left" Width="250" Height="40" BorderBrush="#191D67" BorderThickness="1" CornerRadius="10" Background="#191D67" Margin="23,0,15,0">
+                <TextBox x:Name="NickTextBoxRegister" Tag="Type login" VerticalContentAlignment="Center" Foreground="#8FAFE6" AutomationProperties.Name="NickTextBoxRegister" Height="40" CaretBrush="#8FAFE6" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" GotFocus="NickTextBoxRegister_GotFocus" LostFocus="NickTextBoxRegister_LostFocus" Margin="9,-1,9,-1" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed"/>
             </Border>
 
-            <Border x:Name="PassTextBorRegister" Visibility="Collapsed"  HorizontalAlignment="Left" Width="250" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="23,20,0,0">
-                <TextBox x:Name="PassTextBoxRegister" Tag="Type password" VerticalContentAlignment="Center" AutomationProperties.Name="PassTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="PassTextBoxRegister_LostFocus" GotFocus="PassTextBoxRegister_GotFocus" Margin="9,-1,9,-1"/>
+            <Border x:Name="PassTextBorRegister" Visibility="Collapsed"  HorizontalAlignment="Left" Width="250" Height="40" BorderBrush="#191D67" BorderThickness="1" CornerRadius="10" Background="#191D67" Margin="23,20,0,0">
+                <TextBox x:Name="PassTextBoxRegister" Tag="Type password" VerticalContentAlignment="Center" AutomationProperties.Name="PassTextBoxRegister" Height="40" CaretBrush="#8FAFE6" Background="Transparent" Foreground="#8FAFE6" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="PassTextBoxRegister_LostFocus" GotFocus="PassTextBoxRegister_GotFocus" Margin="9,-1,9,-1"/>
             </Border>
-            <Border x:Name="PassBorRegister" Visibility="Visible"  HorizontalAlignment="Left" Width="250" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="23,20,0,0">
-                <PasswordBox x:Name="PassBoxRegister" Style="{StaticResource PasswordStyle}" HorizontalAlignment="Center" Tag="Type password" VerticalContentAlignment="Center" AutomationProperties.Name="PassTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="PassTextBoxRegister_LostFocus" GotFocus="PassTextBoxRegister_GotFocus" PasswordChanged="PasswordBoxRegister_PasswordChanged" Width="230"/>
+            <Border x:Name="PassBorRegister" Visibility="Visible"  HorizontalAlignment="Left" Width="250" Height="40" BorderBrush="#191D67" BorderThickness="1" CornerRadius="10" Background="#191D67" Margin="23,20,0,0">
+                <PasswordBox x:Name="PassBoxRegister" Style="{StaticResource PasswordStyle}" HorizontalAlignment="Center" Tag="Type password" VerticalContentAlignment="Center" AutomationProperties.Name="PassTextBoxRegister" Height="40" Foreground="#8FAFE6" CaretBrush="#8FAFE6" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="PassTextBoxRegister_LostFocus" GotFocus="PassTextBoxRegister_GotFocus" PasswordChanged="PasswordBoxRegister_PasswordChanged" Width="230" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed"/>
             </Border>
-            <Label x:Name ="InvalidPassLabel"  Content="Passwd must be 6-15 long 1 Uppercase 1 sign" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Top" Foreground="#FFFF5700" AutomationProperties.Name="InvalidEmailLabelRegister" Visibility="Hidden"/>
+            <Label x:Name ="InvalidPassLabel"  Content="Passwd must be 6-15 long 1 Uppercase 1 sign" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Top" Foreground="#DE8689" AutomationProperties.Name="InvalidEmailLabelRegister" Visibility="Hidden"/>
 
-            <Border Visibility="Collapsed" x:Name="RepPassTextBorRegister" HorizontalAlignment="Left" Width="250" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="23,5,0,0">
-                <TextBox x:Name="RepPassTextBoxRegister" Tag="Type password" VerticalContentAlignment="Center" AutomationProperties.Name="PassTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="PassTextBoxRegister_LostFocus" GotFocus="PassTextBoxRegister_GotFocus" Margin="9,-1,9,-1"/>
+            <Border Visibility="Collapsed" x:Name="RepPassTextBorRegister" HorizontalAlignment="Left" Width="250" Height="40" BorderBrush="#191D67" BorderThickness="1" CornerRadius="10" Background="#191D67" Margin="23,5,0,0">
+                <TextBox x:Name="RepPassTextBoxRegister" Tag="Type password" VerticalContentAlignment="Center" AutomationProperties.Name="PassTextBoxRegister" Height="40" Foreground="#8FAFE6" CaretBrush="#8FAFE6" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="PassTextBoxRegister_LostFocus" GotFocus="PassTextBoxRegister_GotFocus" Margin="9,-1,9,-1"/>
             </Border>
-            <Border Visibility="Visible" x:Name="RepPassBorRegister" HorizontalAlignment="Left" Width="250" Height="32" BorderBrush="White" BorderThickness="1" CornerRadius="10" Background="White" Margin="23,5,0,0">
-                <PasswordBox x:Name="RepPassBoxRegister" Style="{StaticResource PasswordStyle}" HorizontalAlignment="Center" Tag="Repeat password" VerticalContentAlignment="Center" AutomationProperties.Name="RepPassTextBoxRegister" Height="32" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="RepPassTextBoxRegister_LostFocus" GotFocus="RepPassTextBoxRegister_GotFocus" Width="230" PasswordChanged="RepPasswordBoxRegister_PasswordChanged"/>
+            <Border Visibility="Visible" x:Name="RepPassBorRegister" HorizontalAlignment="Left" Width="250" Height="40" BorderBrush="#191D67" BorderThickness="1" CornerRadius="10" Background="#191D67" Margin="23,5,0,0">
+                <PasswordBox x:Name="RepPassBoxRegister" Style="{StaticResource PasswordStyle}" HorizontalAlignment="Left" Tag="Repeat password" VerticalContentAlignment="Center" AutomationProperties.Name="RepPassTextBoxRegister" Height="40" Foreground="#8FAFE6" CaretBrush="#8FAFE6" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="RepPassTextBoxRegister_LostFocus" GotFocus="RepPassTextBoxRegister_GotFocus" Width="230" PasswordChanged="RepPasswordBoxRegister_PasswordChanged" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Margin="3,0,0,0"/>
             </Border>
-            <CheckBox x:Name="ShowPasswordRegister" Click="ShowPassRegister_Click" Content="Show Password"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5,0,0" Foreground="LightGray"/>
+            <CheckBox x:Name="ShowPasswordRegister" Click="ShowPassRegister_Click" Content="Show Password"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,15,0,0" Foreground="#8FAFE6" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" FontSize="14"/>
 
             <!-- InvalidEmailLabelRegister -->
 
@@ -176,7 +213,7 @@
 
             <!-- Przycisk Register -->
 
-            <Button Content="Register" Background="#FF31BB6A" AutomationProperties.Name="RegisterButton"  FontSize="22" FontWeight="Bold" Foreground="White" Cursor="Hand" Margin="15,0,15,10" Height="48" Click="RegisterButton_Click" Width="240">
+            <Button Content="Register" Background="#DE8689" AutomationProperties.Name="RegisterButton"  FontSize="22" FontWeight="Bold" Foreground="White" Cursor="Hand" Margin="15,-15,0,0" Height="48" Click="RegisterButton_Click" Width="240" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border Background="{TemplateBinding Background}" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}">
@@ -188,20 +225,24 @@
 
             <!-- Label I have account -->
 
-            <Label Content="I have account" Foreground="#FF9B9B9B" FontSize="16" Cursor="Hand" AutomationProperties.Name="YesAccountLabel" Width="115" MouseLeftButtonDown="YesAccountLabel_MouseLeftButtonDown" />
+            <Label Content="I have account" Foreground="#8FAFE6" FontSize="16" Cursor="Hand" AutomationProperties.Name="YesAccountLabel" Width="115" Margin ="17,5,0,0"  MouseLeftButtonDown="YesAccountLabel_MouseLeftButtonDown" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" />
 
 
         </StackPanel>
 
         <!-- CLose button -->
 
-        <Button HorizontalAlignment="Left" Margin="718,0,0,0" VerticalAlignment="Top" Height="30" Width="30" AutomationProperties.Name="CloseButton" Background="Transparent" BorderThickness="0" FocusVisualStyle="{x:Null}" Click="CloseWindowButton_Click">
-            <Image Source="Resources\CloseIcon.png" Height="25" Width="25"></Image>
+        <Button HorizontalAlignment="Left" Margin="930,0,0,0" VerticalAlignment="Top" Height="30" Width="30" AutomationProperties.Name="CloseButton" Background="Transparent" BorderThickness="0" FocusVisualStyle="{x:Null}" Click="CloseWindowButton_Click">
+            <Image Source="Resources\CloseIcon.png" Height="25" Width="25" RenderTransformOrigin="4.887,0.473"></Image>
         </Button>
 
-        <Button HorizontalAlignment="Left" Margin="690,0,0,0" VerticalAlignment="Top" Height="30" Width="30" AutomationProperties.Name="MinimizeButton" Background="Transparent" BorderThickness="0" FocusVisualStyle="{x:Null}" Click="MinimizeWindowButton_Click">
+        <Button HorizontalAlignment="Left" Margin="902,0,0,0" VerticalAlignment="Top" Height="30" Width="30" AutomationProperties.Name="MinimizeButton" Background="Transparent" BorderThickness="0" FocusVisualStyle="{x:Null}" Click="MinimizeWindowButton_Click">
             <Image Source="Resources\minimizeIcon.png" Height="26" Width="26"></Image>
         </Button>
 
     </Grid>
+
 </Window>
+    
+    
+    

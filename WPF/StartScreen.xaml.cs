@@ -26,7 +26,7 @@ namespace WPF
         // show register panel
         private void NoAccountLabel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            RegisterTextBlock.Focus();
+            //RegisterTextBlock.Focus();
             EmailTextBoxLogin.Text = "";
             EmailTextBoxRegister.Text = "";
             ShowPasswordLogin.IsChecked = false;
@@ -54,7 +54,7 @@ namespace WPF
         // show login panel
         private void YesAccountLabel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            LoginTextBlock.Focus();
+            //LoginTextBlock.Focus();
             EmailTextBoxRegister.Text = "";
             NickTextBoxRegister.Text = "";
             ShowPasswordRegister.IsChecked = false;
@@ -277,7 +277,7 @@ namespace WPF
             var textBox = sender as TextBox;
             if (textBox != null && textBox.Text == "")
             {
-                textBox.Tag = "Type e-mail or login";
+                textBox.Tag = "Type login";
             }
         }
 
