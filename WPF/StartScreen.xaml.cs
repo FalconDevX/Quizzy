@@ -6,6 +6,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -23,9 +24,28 @@ namespace WPF
             RegisterPanel.Visibility = Visibility.Collapsed;
         }
 
+        private void ShowPanel(StackPanel panelToShow, StackPanel panelToHide)
+        {
+            // Animacja zanikania dla panelu, który chcesz ukryć
+            var fadeOut = (Storyboard)FindResource("FadeOut");
+            fadeOut.Completed += (s, e) =>
+            {
+                panelToHide.Visibility = Visibility.Collapsed;
+                panelToShow.Visibility = Visibility.Visible;
+
+                // Animacja pojawiania się dla panelu, który chcesz pokazać
+                var fadeIn = (Storyboard)FindResource("FadeIn");
+                fadeIn.Begin(panelToShow);
+            };
+
+            fadeOut.Begin(panelToHide);
+        }
+
         // show register panel
         private void NoAccountLabel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            
+
             //RegisterTextBlock.Focus();
             EmailTextBoxLogin.Text = "";
             EmailTextBoxRegister.Text = "";
@@ -47,13 +67,15 @@ namespace WPF
             PassTextBoxRegister_LostFocus(PassTextBoxRegister, new RoutedEventArgs());
             RepPassTextBoxRegister_LostFocus(PassTextBoxRegister, new RoutedEventArgs());
 
-            LoginPanel.Visibility = Visibility.Hidden;
-            RegisterPanel.Visibility = Visibility.Visible;
+            ShowPanel(RegisterPanel, LoginPanel);
+
         }
 
         // show login panel
         private void YesAccountLabel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            
+
             //LoginTextBlock.Focus();
             EmailTextBoxRegister.Text = "";
             NickTextBoxRegister.Text = "";
@@ -78,8 +100,7 @@ namespace WPF
             EmailTextBoxLogin_LostFocus(EmailTextBoxLogin, new RoutedEventArgs());
             PassTextBoxLogin_LostFocus(PassTextBoxRegister, new RoutedEventArgs());
 
-            LoginPanel.Visibility = Visibility.Visible;
-            RegisterPanel.Visibility = Visibility.Collapsed;
+            ShowPanel(LoginPanel, RegisterPanel);
         }
 
         //exit application
