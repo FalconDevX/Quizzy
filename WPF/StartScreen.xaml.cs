@@ -369,9 +369,20 @@ namespace WPF
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
             string email = EmailTextBoxRegister.Text;
-            string password = PassBoxRegister.Password;
-            string repeatedPassword = RepPassBoxRegister.Password;
+            string password;
+            string repeatedPassword;
             string login = NickTextBoxRegister.Text;
+
+            if (ShowPasswordLogin.IsChecked == true)
+            {
+                password = PassBoxRegister.Password;
+                repeatedPassword = RepPassBoxRegister.Password;
+            }
+            else
+            {
+                password = PassTextBoxRegister.Text;
+                repeatedPassword = RepPassTextBoxRegister.Text;
+            }
 
             UserService userService = new UserService();
             if (password != repeatedPassword)
@@ -407,8 +418,17 @@ namespace WPF
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            string identifier = EmailTextBoxLogin.Text; 
-            string password = PassBoxLogin.Password;
+            string identifier = EmailTextBoxLogin.Text;
+            string password;
+
+            if (ShowPasswordLogin.IsChecked == true)
+            {
+                password = PassBoxLogin.Password;
+            }
+            else
+            {
+                password = PassTextBoxLogin.Text;
+            }
 
             UserService userService = new UserService();
             bool isAuthenticated = userService.LoginUser(identifier, password);

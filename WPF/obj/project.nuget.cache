@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "DTerr3484Sc=",
+  "dgSpecHash": "reFJC+K4URo=",
   "success": true,
-  "projectFilePath": "C:\\Quizzy\\masterWPF\\Quizzy\\WPF\\WPF.csproj",
+  "projectFilePath": "C:\\Quizzy\\QuizzyLogin\\WPF\\WPF.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mateu\\.nuget\\packages\\azure.core\\1.44.1\\azure.core.1.44.1.nupkg.sha512",
     "C:\\Users\\mateu\\.nuget\\packages\\azure.identity\\1.13.1\\azure.identity.1.13.1.nupkg.sha512",
