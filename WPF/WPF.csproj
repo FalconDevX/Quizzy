@@ -28,7 +28,6 @@
     <Resource Include="Resources\Background.png" />
     <Resource Include="Resources\CloseIcon.png" />
     <Resource Include="Resources\Icon.ico" />
-    <Resource Include="Resources\LogoReadMe.png" />
     <Resource Include="Resources\minimizeIcon.png" />
     <Resource Include="Resources\RobotoCondensed-Regular.ttf" />
   </ItemGroup>

@@ -2225,11 +2225,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Quizzy\\QuizzyLogin\\WPF\\WPF.csproj",
+      "projectUniqueName": "C:\\Quizzy\\QuizzyApp\\WPF\\WPF.csproj",
       "projectName": "WPF",
-      "projectPath": "C:\\Quizzy\\QuizzyLogin\\WPF\\WPF.csproj",
+      "projectPath": "C:\\Quizzy\\QuizzyApp\\WPF\\WPF.csproj",
       "packagesPath": "C:\\Users\\mateu\\.nuget\\packages\\",
-      "outputPath": "C:\\Quizzy\\QuizzyLogin\\WPF\\obj\\",
+      "outputPath": "C:\\Quizzy\\QuizzyApp\\WPF\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\mateu\\AppData\\Roaming\\NuGet\\NuGet.Config",

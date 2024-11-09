@@ -46,7 +46,16 @@ namespace WPF
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                conn.Open();
+                try
+                {
+                    conn.Open();
+                }
+                catch
+                {
+                    MessageBox.Show("Error: Unable to connect to the database.");
+
+                }
+
                 // Zapytanie sprawdzające login lub email, rozróżniające wielkość liter
                 string query = "SELECT COUNT(1) FROM Users WHERE (Login COLLATE Latin1_General_BIN = @Identifier OR Email COLLATE Latin1_General_BIN = @Identifier) AND PasswordHash COLLATE Latin1_General_BIN = @Password";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
@@ -103,5 +112,3 @@ namespace WPF
 
     }
 }
-
-

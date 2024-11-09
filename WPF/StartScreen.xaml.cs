@@ -44,7 +44,7 @@ namespace WPF
         // show register panel
         private void NoAccountLabel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            
+
 
             //RegisterTextBlock.Focus();
             EmailTextBoxLogin.Text = "";
@@ -74,7 +74,7 @@ namespace WPF
         // show login panel
         private void YesAccountLabel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            
+
 
             //LoginTextBlock.Focus();
             EmailTextBoxRegister.Text = "";
@@ -93,7 +93,7 @@ namespace WPF
 
             // Usunięcie focusa z bieżącego pola
             Keyboard.ClearFocus();
-            
+
             PassBoxRegister.Style = Resources["PasswordStyle"] as Style;
             RepPassBoxRegister.Style = Resources["PasswordStyle"] as Style;
 
@@ -124,7 +124,7 @@ namespace WPF
         //check if passwd is correct
         private bool OneUppercase(string passwd)
         {
-            for (int i = 0; i < passwd.Length; i++) 
+            for (int i = 0; i < passwd.Length; i++)
             {
                 if (passwd[i] >= 65 && passwd[i] <= 90)
                 {
@@ -138,7 +138,7 @@ namespace WPF
             for (int i = 0; i < passwd.Length; i++)
             {
                 char c = passwd[i];
-                if ((c >= 0 && c <= 47) || (c >= 58 && c <= 64) || (c>= 91 && c<= 96) || (c>=123))
+                if ((c >= 0 && c <= 47) || (c >= 58 && c <= 64) || (c >= 91 && c <= 96) || (c >= 123))
                 {
                     return true;
                 }
@@ -147,7 +147,7 @@ namespace WPF
         }
         private bool IsValidPasswd(string passwd) //passwd length 6-15 // 1 Uppercase Letter // One special sign
         {
-            if (passwd.Length < 6) 
+            if (passwd.Length < 6)
             {
                 InvalidPassLabel.Content = "Password must be at least 6 letters long";
                 return false;
@@ -178,12 +178,12 @@ namespace WPF
                 PassBorLogin.Visibility = Visibility.Collapsed;
                 PassTextBorLogin.Visibility = Visibility.Visible;
                 PassTextBoxLogin.Text = PassBoxLogin.Password;
-            } 
+            }
             else
             {
                 PassTextBorLogin.Visibility = Visibility.Collapsed;
                 PassBorLogin.Visibility = Visibility.Visible;
-                PassBoxLogin.Password = PassTextBoxLogin.Text; 
+                PassBoxLogin.Password = PassTextBoxLogin.Text;
             }
         }
         //shows/hides password in register
@@ -227,7 +227,7 @@ namespace WPF
             var textBox = sender as TextBox;
             if (textBox != null && textBox.Text == "")
             {
-                textBox.Tag = ""; 
+                textBox.Tag = "";
             }
         }
 
@@ -255,7 +255,7 @@ namespace WPF
             var textBox = sender as TextBox;
             if (textBox != null && textBox.Text == "")
             {
-                textBox.Tag = ""; 
+                textBox.Tag = "";
             }
 
             InvalidEmailLabelRegister.Visibility = Visibility.Hidden;
@@ -338,7 +338,7 @@ namespace WPF
             string password = PassBoxRegister.Password;
             string repeatedPassword = RepPassBoxRegister.Password;
 
-            if (password != repeatedPassword && repeatedPassword!="" && password != "")
+            if (password != repeatedPassword && repeatedPassword != "" && password != "")
             {
                 PassNotMatchLabel.Visibility = Visibility.Visible;
             }
@@ -350,11 +350,11 @@ namespace WPF
         private void CheckPasswordsValid()
         {
             string password = PassBoxRegister.Password;
-            if(password == "")
+            if (password == "")
             {
                 InvalidPassLabel.Visibility = Visibility.Hidden;
-            } 
-            else if(IsValidPasswd(password))
+            }
+            else if (IsValidPasswd(password))
             {
                 InvalidPassLabel.Visibility = Visibility.Hidden;
             }
@@ -362,7 +362,7 @@ namespace WPF
             {
                 InvalidPassLabel.Visibility = Visibility.Visible;
             }
- 
+
         }
 
         //Register i Login Button Click
@@ -395,12 +395,12 @@ namespace WPF
                 MessageBox.Show("Login already exists. Please choose a different one.");
                 return;
             }
-            else if(userService.IsEmailTaken(email))
+            else if (userService.IsEmailTaken(email))
             {
                 MessageBox.Show("Email already exists. Please choose a different one.");
                 return;
             }
-            else if (IsValidEmail(EmailTextBoxRegister.Text) && NickTextBoxRegister.Text!="" && EmailTextBoxRegister.Text!="" && PassTextBoxRegister.Text!="" && RepPassTextBoxRegister.Text!="" && IsValidPasswd(password))
+            else if (IsValidEmail(EmailTextBoxRegister.Text) && NickTextBoxRegister.Text != "" && EmailTextBoxRegister.Text != "" && PassTextBoxRegister.Text != "" && RepPassTextBoxRegister.Text != "" && IsValidPasswd(password))
             {
                 System.Diagnostics.Debug.WriteLine(NickTextBoxRegister.Text);
                 userService.RegisterUser(login, email, password);
@@ -423,17 +423,18 @@ namespace WPF
 
             if (ShowPasswordLogin.IsChecked == true)
             {
-                password = PassBoxLogin.Password;
+                password = PassTextBoxLogin.Text;
             }
             else
             {
-                password = PassTextBoxLogin.Text;
+
+                password = PassBoxLogin.Password;
             }
 
             UserService userService = new UserService();
             bool isAuthenticated = userService.LoginUser(identifier, password);
 
-            if (!string.IsNullOrWhiteSpace(identifier) && !string.IsNullOrWhiteSpace(password))
+            if (!string.IsNullOrWhiteSpace(identifier) && password != "")
             {
                 if (isAuthenticated)
                 {
