@@ -16,6 +16,7 @@ using Microsoft.Win32;
 using System.Data.SqlClient;
 using System.IO;
 using System.Configuration;
+using System.Windows.Resources;
 
 namespace WPF
 {
@@ -27,6 +28,38 @@ namespace WPF
             InitializeComponent();
             UserNameTextBlock.Text = $"Hi, {CurrentUser.Login}";
             SetAvatar();
+        }
+
+        //Setting default avatar
+        private void SetDefaultAvatar(int avatarNumber)
+        {
+            try
+            {
+                // Utworzenie dynamicznej ścieżki do zasobu
+                string avatarPath = $"/Resources/MainScreen/Avatars/Avatar{avatarNumber}.png";
+                Uri resourceUri = new Uri(avatarPath, UriKind.Absolute);
+                StreamResourceInfo resourceInfo = Application.GetResourceStream(resourceUri);
+
+                if (resourceInfo != null)
+                {
+                    using (var stream = resourceInfo.Stream)
+                    {
+                        using (BinaryReader br = new BinaryReader(stream))
+                        {
+                            CurrentUser.Avatar = br.ReadBytes((int)stream.Length);
+                        }
+                    }
+                    SetAvatar();
+                }
+                else
+                {
+                    MessageBox.Show($"Nie znaleziono pliku Avatar{avatarNumber}.png w zasobach.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Wystąpił błąd podczas odczytu zasobu: {ex.Message}");
+            }
         }
 
         //Setting avatar to current user
@@ -144,8 +177,26 @@ namespace WPF
             this.WindowState = WindowState.Minimized;
         }
 
-        
+        private void AvatarButton1_Click(object sender, RoutedEventArgs e)
+        {
+            SetDefaultAvatar(1);
+        }
+
+        private void AvatarButton2_Click(object sender, RoutedEventArgs e)
+        {
+            SetDefaultAvatar(2);
+        }
+
+        private void AvatarButton3_Click(object sender, RoutedEventArgs e)
+        {
+            SetDefaultAvatar(3);
+        }
+
+        private void AvatarButton4_Click(object sender, RoutedEventArgs e)
+        {
+            SetDefaultAvatar(4);
+        }
 
 
-}
-}
+    }
+} 

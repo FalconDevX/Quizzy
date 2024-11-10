@@ -8,6 +8,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/icon.ico")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/mainscreen/avatars/avatar1.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/mainscreen/avatars/avatar2.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/mainscreen/avatars/avatar3.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/mainscreen/avatars/avatar4.png")]
 
 

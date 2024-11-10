@@ -84,8 +84,6 @@ namespace WPF
                             CurrentUser.Login = Convert.ToString(reader["Login"]);
                             CurrentUser.Email = Convert.ToString(reader["Email"]);
 
-                            // Pobierz avatar użytkownika
-                            GetUserAvatar(CurrentUser.UserId);
 
                             return true;
                         }
@@ -97,7 +95,6 @@ namespace WPF
                 }
             }
         }
-
 
 
         //checking if login exist
@@ -200,7 +197,7 @@ namespace WPF
                     {
                         if (reader.Read() && !reader.IsDBNull(0))
                         {
-                            CurrentUser.Avatar = (byte[])reader["Avatar"];
+                            CurrentUser.Avatar = (byte[])reader["Avatar"]; // Przypisanie avatara do CurrentUser
                         }
                         else
                         {
@@ -210,7 +207,6 @@ namespace WPF
                 }
             }
         }
-
     }
 
     
