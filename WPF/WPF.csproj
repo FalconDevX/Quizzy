@@ -11,7 +11,13 @@
   <ItemGroup>
     <None Remove="Background.png" />
     <None Remove="Resources\LogoReadMe.png" />
+    <None Remove="Resources\MainScreen\Avatars\Avatar1.png" />
+    <None Remove="Resources\MainScreen\Avatars\Avatar2.png" />
+    <None Remove="Resources\MainScreen\Avatars\Avatar3.png" />
+    <None Remove="Resources\MainScreen\Avatars\Avatar4.png" />
     <None Remove="Resources\MainScreen\MainScreen\Background.png" />
+    <None Remove="Resources\MainScreen\MainScreen\ChangeProfileIcon.png" />
+    <None Remove="Resources\MainScreen\MainScreen\ChangeProfileIcon_Hover.png" />
     <None Remove="Resources\MainScreen\SideBar\DefaultLogoIcon.png" />
     <None Remove="Resources\MainScreen\SideBar\EditIcon.png" />
     <None Remove="Resources\MainScreen\SideBar\FriendsIcon.png" />
@@ -30,6 +36,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\MainScreen\Avatars\Avatar1.png" />
+    <Resource Include="Resources\MainScreen\Avatars\Avatar2.png" />
+    <Resource Include="Resources\MainScreen\Avatars\Avatar3.png" />
+    <Resource Include="Resources\MainScreen\Avatars\Avatar4.png" />
     <Resource Include="Resources\MainScreen\MainScreen\Background.png" />
   </ItemGroup>
 
@@ -42,6 +52,8 @@
 
   <ItemGroup>
     <Resource Include="Background.png" />
+    <Resource Include="Resources\MainScreen\MainScreen\ChangeProfileIcon.png" />
+    <Resource Include="Resources\MainScreen\MainScreen\ChangeProfileIcon_Hover.png" />
     <Resource Include="Resources\MainScreen\SideBar\DefaultLogoIcon.png" />
     <Resource Include="Resources\MainScreen\SideBar\EditIcon.png" />
     <Resource Include="Resources\MainScreen\SideBar\FriendsIcon.png" />

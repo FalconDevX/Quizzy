@@ -2,12 +2,24 @@
 using System.Data;
 using System.Windows;
 using System.Data.SqlClient;
+using Microsoft.Win32;
+using System.IO;
 
 namespace WPF
 {
     public partial class App : Application
     {
     }
+
+    public static class CurrentUser
+    {
+        public static string Login { get; set; }
+        public static string Email { get; set; }
+        public static int UserId { get; set; }
+        public static byte[] Avatar { get; set; } 
+    }
+
+
 
     public class UserService
     {
@@ -39,37 +51,6 @@ namespace WPF
             }
         }
 
-        public string GetUserLogin(string identifier)
-        {
-            string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
-
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                conn.Open();
-
-                // Zapytanie SQL do znalezienia loginu na podstawie podanego loginu lub e-maila
-                string query = "SELECT Login FROM Users WHERE Login COLLATE Latin1_General_BIN = @Identifier OR Email COLLATE Latin1_General_BIN = @Identifier";
-
-                using (SqlCommand cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@Identifier", identifier);
-
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            return reader["Login"].ToString(); // Zwraca login użytkownika
-                        }
-                        else
-                        {
-                            return null; // Jeśli nie znaleziono użytkownika
-                        }
-                    }
-                }
-            }
-        }
-
-
         //login user function
         public bool LoginUser(string identifier, string password)
         {
@@ -84,21 +65,40 @@ namespace WPF
                 catch
                 {
                     MessageBox.Show("Error: Unable to connect to the database.");
-
+                    return false;
                 }
 
                 // Zapytanie sprawdzające login lub email, rozróżniające wielkość liter
-                string query = "SELECT COUNT(1) FROM Users WHERE (Login COLLATE Latin1_General_BIN = @Identifier OR Email COLLATE Latin1_General_BIN = @Identifier) AND PasswordHash COLLATE Latin1_General_BIN = @Password";
+                string query = "SELECT UserId, Login, Email FROM Users WHERE (Login COLLATE Latin1_General_BIN = @Identifier OR Email COLLATE Latin1_General_BIN = @Identifier) AND PasswordHash COLLATE Latin1_General_BIN = @Password";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@Identifier", identifier);
                     cmd.Parameters.AddWithValue("@Password", password);
 
-                    int count = Convert.ToInt32(cmd.ExecuteScalar());
-                    return count == 1;
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            // Przypisanie danych do klasy CurrentUser
+                            CurrentUser.UserId = Convert.ToInt32(reader["UserId"]);
+                            CurrentUser.Login = Convert.ToString(reader["Login"]);
+                            CurrentUser.Email = Convert.ToString(reader["Email"]);
+
+                            // Pobierz avatar użytkownika
+                            GetUserAvatar(CurrentUser.UserId);
+
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
                 }
             }
         }
+
+
 
         //checking if login exist
         public bool IsLoginTaken(string login)
@@ -140,8 +140,79 @@ namespace WPF
             }
         }
 
-        
+        public void SaveUserAvatar(int userId, string filePath)
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
 
+            byte[] avatarData;
+
+            // Odczyt pliku zdjęciowego jako dane binarne
+            using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            {
+                using (BinaryReader br = new BinaryReader(fs))
+                {
+                    avatarData = br.ReadBytes((int)fs.Length);
+                }
+            }
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "UPDATE Users SET Avatar = @Avatar WHERE UserId = @UserId";
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+                    cmd.Parameters.AddWithValue("@Avatar", avatarData);
+
+                    try
+                    {
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        if (rowsAffected > 0)
+                        {
+                            MessageBox.Show("Avatar updated successfully.");
+                        }
+                        else
+                        {
+                            MessageBox.Show("User not found or update failed.");
+                        }
+                    }
+                    catch (SqlException ex)
+                    {
+                        MessageBox.Show("Error: " + ex.Message);
+                    }
+                }
+            }
+        }
+
+        public void GetUserAvatar(int userId)
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "SELECT Avatar FROM Users WHERE UserId = @UserId";
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read() && !reader.IsDBNull(0))
+                        {
+                            CurrentUser.Avatar = (byte[])reader["Avatar"];
+                        }
+                        else
+                        {
+                            CurrentUser.Avatar = null;
+                        }
+                    }
+                }
+            }
+        }
 
     }
+
+    
+
 }

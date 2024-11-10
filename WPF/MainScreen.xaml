@@ -52,10 +52,11 @@
                 </LinearGradientBrush>
             </Grid.Background>
 
+            <!-- Side Bar StackPanel -->
             <StackPanel Name="SideBarPanel" HorizontalAlignment="Left" Margin="0, 0, 0, 0" Width="280">
 
                 <StackPanel Orientation="Horizontal" Height="140" Width="280">
-                    <Image Margin="16,0,0,0"  Source="Resources\MainScreen\SideBar\DefaultLogoIcon.png" Width="60" Height="60"/>
+                    <Image x:Name="SidebarUserPhoto"  Margin="16,0,0,0"  Source="Resources\MainScreen\SideBar\DefaultLogoIcon.png" Width="60" Height="60"/>
                     <TextBlock Margin="20,0,0,0" Text="John" VerticalAlignment="Center" Foreground="#8FAFE6" FontSize="48" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed"/>
                 </StackPanel>
 
@@ -93,7 +94,8 @@
 
         </Grid>
 
-        <Border x:Name="SettingsBorder" Background="#990B013D" Width="1300" Margin="341,87,59,2" Visibility="Hidden">
+        <!-- Settings Border -->
+        <Border x:Name="SettingsBorder" Background="#990B013D" Width="1300" Margin="341,87,59,2" Visibility="Visible">
             <Grid Name="SettingsPanel" Visibility="Visible" HorizontalAlignment="Right" Width="1300">
 
                 <TextBlock Text="Settings" FontSize="75" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Foreground="#9BB5EC" VerticalAlignment="Top" Margin="60,40,252,0"/>
@@ -141,21 +143,44 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
+                <Button x:Name="ChangeAvatarButton" Background="Transparent" Cursor="Hand" Margin="921,737,319,194" Height="60" Width="60" Click="ChangeAvatarButton_Click">
+                    <Button.Template>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Background="Transparent" CornerRadius="15">
+                                <Image x:Name="AvatarImage" Source="/Resources/MainScreen/MainScreen/ChangeProfileIcon.png" Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="AvatarImage" Property="Source" Value="/Resources/MainScreen/MainScreen/ChangeProfileIcon_Hover.png"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
+                <Grid>
+                    <Image  Source="/Resources/MainScreen/Avatars/Avatar1.png" Margin="670,268,500,600"/>
+                    <Image  Source="/Resources/MainScreen/Avatars/Avatar2.png" Margin="814,268,356,599"/>
+                    <Image  Source="/Resources/MainScreen/Avatars/Avatar3.png" Margin="1107,268,66,594"/>
+                    <Image  Source="/Resources/MainScreen/Avatars/Avatar4.png" Margin="961,268,208,596"/>
+                </Grid>
+
 
 
             </Grid>
         </Border>
 
-        <Border x:Name="HomeBorder" Margin="328,60,65,49" Visibility="Visible">
+        <!-- Home Border -->
+        <Border x:Name="HomeBorder" Margin="328,60,65,49" Visibility="Hidden">
             <Grid Width="1300" Height="970">
-                <Image  Source="/Resources/MainScreen/SideBar/DefaultLogoIcon.png" Margin="15,12,1094,764"/>
+                <Image x:Name="UserAvatarImage" Source="/Resources/MainScreen/SideBar/DefaultLogoIcon.png" Margin="15,12,1094,764" Width="150" Height="150" />
                 <TextBlock x:Name="UserNameTextBlock" Text="Hi!" Foreground="White" Margin="240,65,0,821" FontSize="70" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed"/>
-
 
                 <Border Margin="0,250,0,420" Background="#0B013D" CornerRadius="30" Height="300" Width="1300"/>
                 <Border Margin="0,600,0,75" Background="#0B013D" CornerRadius="30" Height="300" Width="1300"/>
             </Grid>
         </Border>
+
 
         <Button HorizontalAlignment="Left" Margin="1634,-14,0,0" VerticalAlignment="Top" Height="82" Width="52" AutomationProperties.Name="CloseButton" Background="Transparent" BorderThickness="0" FocusVisualStyle="{x:Null}" Click="CloseWindowButton_Click">
             <Image Source="/Resources/StartScreen/CloseIcon.png" Height="79" Width="50" RenderTransformOrigin="4.887,0.473"/>
@@ -163,5 +188,6 @@
         <Button HorizontalAlignment="Left" Margin="1570,-13,0,0" VerticalAlignment="Top" Height="80" Width="55" AutomationProperties.Name="MinimizeButton" Background="Transparent" BorderThickness="0" FocusVisualStyle="{x:Null}" Click="MinimizeWindowButton_Click">
             <Image Source="/Resources/StartScreen/minimizeIcon.png" Height="74" Width="51"/>
         </Button>
+        
     </Grid>
 </Window>
