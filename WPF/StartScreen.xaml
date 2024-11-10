@@ -9,7 +9,7 @@
             ResizeMode="CanMinimize"
             WindowStartupLocation="CenterScreen"
             Title="Quizzy" Height="540" Width="960" SizeToContent="WidthAndHeight"
-            Icon="Resources/Icon.ico"
+            Icon="Resources/StartScreen/Icon.ico"
             >
 
 
@@ -148,7 +148,7 @@
 
     <Grid>
         <!-- Obraz tła -->
-        <Image HorizontalAlignment="Center" Height="540" VerticalAlignment="Top" Width="960" Source="Resources\Background.png" Stretch="UniformToFill"/>
+        <Image HorizontalAlignment="Center" Height="540" VerticalAlignment="Top" Width="960" Source="Resources\StartScreen\Background.png" Stretch="UniformToFill"/>
 
         <StackPanel x:Name="LoginPanel" AutomationProperties.Name="LoginPanel" Margin="325,134,344,56" Visibility="Visible">
 
@@ -193,7 +193,7 @@
             <!-- Text Boxes -->
 
             <Border HorizontalAlignment="Left" Width="250" Height="40" BorderBrush="#191D67" BorderThickness="1" CornerRadius="10" Background="#191D67" Margin="23,6,0,0">
-                <TextBox x:Name ="EmailTextBoxRegister" Tag="Type e-mail" VerticalContentAlignment="Center" AutomationProperties.Name="EmailTextBoxRegister" Height="40" CaretBrush="#8FAFE6" Background="Transparent" Foreground="#8FAFE6" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="EmailTextBoxRegister_LostFocus" GotFocus="EmailTextBoxRegister_GotFocus" Margin="9,-1,9,-1" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed"/>
+                <TextBox x:Name ="EmailTextBoxRegister" Tag="Type e-mail" VerticalContentAlignment="Center" AutomationProperties.Name="EmailTextBoxRegister" Height="40" CaretBrush="#8FAFE6" Background="Transparent" Foreground="#8FAFE6" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="EmailTextBoxRegister_LostFocus" GotFocus="EmailTextBoxRegister_GotFocus" Margin="9,-1,9,-1" FontFamily="Roboto Condensed"/>
             </Border>
 
             <!-- InvalidEmailLabelRegister -->
@@ -248,11 +248,11 @@
         <!-- CLose button -->
 
         <Button HorizontalAlignment="Left" Margin="930,0,0,0" VerticalAlignment="Top" Height="30" Width="30" AutomationProperties.Name="CloseButton" Background="Transparent" BorderThickness="0" FocusVisualStyle="{x:Null}" Click="CloseWindowButton_Click">
-            <Image Source="Resources\CloseIcon.png" Height="25" Width="25" RenderTransformOrigin="4.887,0.473"></Image>
+            <Image Source="Resources\StartScreen\CloseIcon.png" Height="25" Width="25" RenderTransformOrigin="4.887,0.473"></Image>
         </Button>
 
         <Button HorizontalAlignment="Left" Margin="902,0,0,0" VerticalAlignment="Top" Height="30" Width="30" AutomationProperties.Name="MinimizeButton" Background="Transparent" BorderThickness="0" FocusVisualStyle="{x:Null}" Click="MinimizeWindowButton_Click">
-            <Image Source="Resources\minimizeIcon.png" Height="26" Width="26"></Image>
+            <Image Source="Resources\StartScreen\minimizeIcon.png" Height="26" Width="26"></Image>
         </Button>
 
     </Grid>

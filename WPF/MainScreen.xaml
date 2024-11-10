@@ -6,10 +6,120 @@
         xmlns:local="clr-namespace:WPF"
         mc:Ignorable="d"
         Title="MainScreen" 
-        WindowState="Maximized">
-    
-    <Grid>
-        <Label Content="WELCOME" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="200" FontFamily="Agency FB"/>
+        WindowState="Maximized"
+        Width="1700" Height="1080"
+        Icon="Resources/StartScreen/Icon.ico">
+
+    <Window.Resources>
+        <!-- Definicja kolorów jako zasobów -->
+        <SolidColorBrush x:Key="ButtonMouseOverColor" Color="#332EB7"/>
+        <SolidColorBrush x:Key="ButtonPressedColor" Color="#8A1178"/>
+        <SolidColorBrush x:Key="ButtonDefaultColor" Color="Transparent"/>
+
+        <!-- Template dla przycisków -->
+        <ControlTemplate x:Key="CustomButtonTemplate" TargetType="Button">
+            <Border x:Name="btnBorder"
+                    Background="{DynamicResource ButtonDefaultColor}"
+                    CornerRadius="5"
+                    BorderThickness="0"
+                    BorderBrush="Black">
+                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter TargetName="btnBorder" Property="Background" Value="{DynamicResource ButtonMouseOverColor}"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter TargetName="btnBorder" Property="Background" Value="{DynamicResource ButtonPressedColor}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </Window.Resources>
+
+
+    <Grid Height="1080">
+
+        <Image Margin="-108,-60,-185,0" Source="Resources\MainScreen\MainScreen\Background.png" Stretch="UniformToFill" Height="1148" VerticalAlignment="Top" />
+
+        <Grid Name="SideBarGrid" Width="280" HorizontalAlignment="Left">
+
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop  Color="#191D67" Offset="0.0" />
+                    <GradientStop  Color="#0B013D" Offset="1.0" />
+                </LinearGradientBrush>
+            </Grid.Background>
+
+            <StackPanel Name="SideBarPanel" HorizontalAlignment="Left" Margin="0, 0, 0, 0" Width="280">
+
+                <StackPanel Orientation="Horizontal" Height="140" Width="280">
+                    <Image Margin="16,0,0,0"  Source="Resources\MainScreen\SideBar\DefaultLogoIcon.png" Width="60" Height="60"/>
+                    <TextBlock Margin="20,0,0,0" Text="John" VerticalAlignment="Center" Foreground="#8FAFE6" FontSize="48" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed"/>
+                </StackPanel>
+
+                <Button Template="{StaticResource CustomButtonTemplate}" x:Name ="HomeButton" HorizontalAlignment="Left" Height="90" Width="280" Background="Transparent" BorderThickness="0">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  VerticalAlignment="Center" Width="280">
+                        <Image Margin="20,0,0,0" Source="Resources\MainScreen\SideBar\ListIcon.png" Width="50" Height="50"/>
+                        <TextBlock Margin="20,0,0,0" Text="Home" VerticalAlignment="Center" Foreground="#8FAFE6" FontSize="34" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed"/>
+                    </StackPanel>
+                </Button>
+                <Button Template="{StaticResource CustomButtonTemplate}" x:Name ="StatisticsButton" HorizontalAlignment="Left" Height="90" Width="280" Background="Transparent" BorderThickness="0">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Width="280">
+                        <Image Margin="20,0,0,0" Source="Resources\MainScreen\SideBar\StatisticsIcon.png" Width="50" Height="50"/>
+                        <TextBlock Margin="20,0,0,0" Text="Statistics" VerticalAlignment="Center" Foreground="#8FAFE6" FontSize="34" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed"/>
+                    </StackPanel>
+                </Button>
+                <Button Template="{StaticResource CustomButtonTemplate}" x:Name ="FriendsButton" Margin="0,0,0,0" HorizontalAlignment="Left" Height="90" Width="280" Background="Transparent" BorderThickness="0">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Width="280">
+                        <Image Margin="20,0,0,0" Source="Resources\MainScreen\SideBar\FriendsIcon.png" Width="50" Height="50"/>
+                        <TextBlock Margin="20,0,0,0" Text="Friends" VerticalAlignment="Center" Foreground="#8FAFE6" FontSize="34" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed"/>
+                    </StackPanel>
+                </Button>
+                <Button Template="{StaticResource CustomButtonTemplate}" x:Name ="EditButton" HorizontalAlignment="Left" Height="90" Width="280" Background="Transparent" BorderThickness="0">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Width="280">
+                        <Image Margin="20,0,0,0" Source="Resources\MainScreen\SideBar\EditIcon.png" Width="50" Height="50"/>
+                        <TextBlock Margin="20,0,0,0" Text="Edit" VerticalAlignment="Center" Foreground="#8FAFE6" FontSize="34" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed"/>
+                    </StackPanel>
+                </Button>
+                <Button Template="{StaticResource CustomButtonTemplate}" x:Name ="SettingsButton" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="90" Width="280" Margin="0,400,0,0" Background="Transparent" BorderThickness="0">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Width="280">
+                        <Image Margin="20,0,0,0" Source="Resources\MainScreen\SideBar\SettingsIcon.png" Width="50" Height="50"/>
+                        <TextBlock Margin="20,0,0,0" Text="Settings" VerticalAlignment="Center" Foreground="#8FAFE6" FontSize="34" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+
+        </Grid>
+
+        <Grid Name="SettingsPanel" Visibility="Visible" HorizontalAlignment="Right" Width="1300" Margin="0,58,70,-18">
+            <StackPanel Background="#990B013D">
+                <TextBlock Text="Settings" FontSize="75" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Foreground="#9BB5EC" Width="1300" VerticalAlignment="Top" Margin="60,40,0,0"/>
+            </StackPanel>
+            <Border CornerRadius="15" Background="#0B013D" Height="566" Margin="654,162,95,312">
+                <StackPanel  Height="566" Width="556" Margin="670,160,86,327"/>
+            </Border>
+
+            <StackPanel Background="#0B013D" Margin="40,161,694,597"/>
+            <Button Content="Change Login" Background="#675A9D" FontSize="22" FontWeight="Bold" Foreground="#0B013D" Cursor="Hand" Margin="193,662,867,330" Height="48" Width="240" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            <Button Content="Remove Account" Background="#811574" FontSize="22" FontWeight="Bold" Foreground="White" Cursor="Hand" Margin="193,729,867,263" Height="48" Width="240" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </Grid>
 
     </Grid>
 </Window>

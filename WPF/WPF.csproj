@@ -9,12 +9,28 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\Background.png" />
-    <None Remove="Resources\CloseIcon.png" />
-    <None Remove="Resources\Icon.ico" />
+    <None Remove="Background.png" />
     <None Remove="Resources\LogoReadMe.png" />
-    <None Remove="Resources\minimizeIcon.png" />
+    <None Remove="Resources\MainScreen\MainScreen\Background.png" />
+    <None Remove="Resources\MainScreen\SideBar\DefaultLogoIcon.png" />
+    <None Remove="Resources\MainScreen\SideBar\EditIcon.png" />
+    <None Remove="Resources\MainScreen\SideBar\FriendsIcon.png" />
+    <None Remove="Resources\MainScreen\SideBar\HomeIcon.png" />
+    <None Remove="Resources\MainScreen\SideBar\ListIcon.png" />
+    <None Remove="Resources\MainScreen\SideBar\SettingsIcon.png" />
+    <None Remove="Resources\MainScreen\SideBar\StatisticsIcon.png" />
     <None Remove="Resources\RobotoCondensed-Regular.ttf" />
+    <None Remove="Resources\StartScreen\Background.png" />
+    <None Remove="Resources\StartScreen\CloseIcon.png" />
+    <None Remove="Resources\StartScreen\Icon.ico" />
+    <None Remove="Resources\StartScreen\Icon.png" />
+    <None Remove="Resources\StartScreen\LogoReadMe.png" />
+    <None Remove="Resources\StartScreen\minimizeIcon.png" />
+    <None Remove="Resources\StartScreen\Untitled52.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\MainScreen\MainScreen\Background.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,11 +41,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\Background.png" />
-    <Resource Include="Resources\CloseIcon.png" />
-    <Resource Include="Resources\Icon.ico" />
-    <Resource Include="Resources\minimizeIcon.png" />
+    <Resource Include="Background.png" />
+    <Resource Include="Resources\MainScreen\SideBar\DefaultLogoIcon.png" />
+    <Resource Include="Resources\MainScreen\SideBar\EditIcon.png" />
+    <Resource Include="Resources\MainScreen\SideBar\FriendsIcon.png" />
+    <Resource Include="Resources\MainScreen\SideBar\HomeIcon.png" />
+    <Resource Include="Resources\MainScreen\SideBar\ListIcon.png" />
+    <Resource Include="Resources\MainScreen\SideBar\SettingsIcon.png" />
+    <Resource Include="Resources\MainScreen\SideBar\StatisticsIcon.png" />
     <Resource Include="Resources\RobotoCondensed-Regular.ttf" />
+    <Resource Include="Resources\StartScreen\Background.png" />
+    <Resource Include="Resources\StartScreen\CloseIcon.png" />
+    <Resource Include="Resources\StartScreen\Icon.ico" />
+    <Resource Include="Resources\StartScreen\Icon.png" />
+    <Resource Include="Resources\StartScreen\LogoReadMe.png" />
+    <Resource Include="Resources\StartScreen\minimizeIcon.png" />
+    <Resource Include="Resources\StartScreen\Untitled52.png" />
   </ItemGroup>
 
 </Project>
