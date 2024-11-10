@@ -44,13 +44,31 @@ namespace WPF
                     UserAvatarImage.Source = imageSource;
                     SidebarUserPhoto.Source = imageSource;
 
+                   
+                    UserAvatarImage.Width = 150; 
+                    UserAvatarImage.Height = 150; 
+                    SidebarUserPhoto.Width = 50;
+                    SidebarUserPhoto.Height = 50; 
+
+                  
+                    UserAvatarImage.Stretch = Stretch.UniformToFill;
+                    SidebarUserPhoto.Stretch = Stretch.UniformToFill;
+
+     
+                    UserAvatarImage.Clip = new EllipseGeometry(new Point(UserAvatarImage.Width / 2, UserAvatarImage.Height / 2), UserAvatarImage.Width / 2, UserAvatarImage.Height / 2);
+                    SidebarUserPhoto.Clip = new EllipseGeometry(new Point(SidebarUserPhoto.Width / 2, SidebarUserPhoto.Height / 2), SidebarUserPhoto.Width / 2, SidebarUserPhoto.Height / 2);
                 }
             }
             else
             {
                 UserAvatarImage.Source = new BitmapImage(new Uri("/Resources/MainScreen/SideBar/DefaultLogoIcon.png", UriKind.Relative));
+                UserAvatarImage.Width = 100; // Adjust as needed
+                UserAvatarImage.Height = 100; // Adjust as needed
+                UserAvatarImage.Stretch = Stretch.UniformToFill;
+                UserAvatarImage.Clip = new EllipseGeometry(new Point(UserAvatarImage.Width / 2, UserAvatarImage.Height / 2), UserAvatarImage.Width / 2, UserAvatarImage.Height / 2);
             }
         }
+
 
         //Home button clicked
         private void HomeButton_Click(object sender, RoutedEventArgs e)

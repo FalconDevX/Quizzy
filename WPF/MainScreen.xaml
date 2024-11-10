@@ -95,7 +95,7 @@
         </Grid>
 
         <!-- Settings Border -->
-        <Border x:Name="SettingsBorder" Background="#990B013D" Width="1300" Margin="341,87,59,2" Visibility="Visible">
+        <Border x:Name="SettingsBorder" Background="#990B013D" Width="1300" Margin="341,87,59,2" Visibility="Hidden">
             <Grid Name="SettingsPanel" Visibility="Visible" HorizontalAlignment="Right" Width="1300">
 
                 <TextBlock Text="Settings" FontSize="75" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Foreground="#9BB5EC" VerticalAlignment="Top" Margin="60,40,252,0"/>
@@ -171,7 +171,7 @@
         </Border>
 
         <!-- Home Border -->
-        <Border x:Name="HomeBorder" Margin="328,60,65,49" Visibility="Hidden">
+        <Border x:Name="HomeBorder" Margin="328,60,65,49" Visibility="Visible">
             <Grid Width="1300" Height="970">
                 <Image x:Name="UserAvatarImage" Source="/Resources/MainScreen/SideBar/DefaultLogoIcon.png" Margin="15,12,1094,764" Width="150" Height="150" />
                 <TextBlock x:Name="UserNameTextBlock" Text="Hi!" Foreground="White" Margin="240,65,0,821" FontSize="70" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed"/>
