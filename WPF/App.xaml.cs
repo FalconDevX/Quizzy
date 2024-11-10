@@ -39,6 +39,37 @@ namespace WPF
             }
         }
 
+        public string GetUserLogin(string identifier)
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+
+                // Zapytanie SQL do znalezienia loginu na podstawie podanego loginu lub e-maila
+                string query = "SELECT Login FROM Users WHERE Login COLLATE Latin1_General_BIN = @Identifier OR Email COLLATE Latin1_General_BIN = @Identifier";
+
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Identifier", identifier);
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return reader["Login"].ToString(); // Zwraca login użytkownika
+                        }
+                        else
+                        {
+                            return null; // Jeśli nie znaleziono użytkownika
+                        }
+                    }
+                }
+            }
+        }
+
+
         //login user function
         public bool LoginUser(string identifier, string password)
         {
@@ -108,6 +139,8 @@ namespace WPF
                 }
             }
         }
+
+        
 
 
     }

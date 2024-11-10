@@ -9,9 +9,7 @@
             ResizeMode="CanMinimize"
             WindowStartupLocation="CenterScreen"
             Title="Quizzy" Height="540" Width="960" SizeToContent="WidthAndHeight"
-            Icon="Resources/StartScreen/Icon.ico"
-            >
-
+            Icon="Resources/StartScreen/Icon.ico">
 
     <Window.Resources>
         <SolidColorBrush x:Key="TextBox.Static.Border" Color="#8FAFE6"/>
@@ -247,12 +245,12 @@
 
         <!-- CLose button -->
 
-        <Button HorizontalAlignment="Left" Margin="930,0,0,0" VerticalAlignment="Top" Height="30" Width="30" AutomationProperties.Name="CloseButton" Background="Transparent" BorderThickness="0" FocusVisualStyle="{x:Null}" Click="CloseWindowButton_Click">
-            <Image Source="Resources\StartScreen\CloseIcon.png" Height="25" Width="25" RenderTransformOrigin="4.887,0.473"></Image>
+        <Button HorizontalAlignment="Left" Margin="928,-5,0,0" VerticalAlignment="Top" Height="40" Width="26" AutomationProperties.Name="CloseButton" Background="Transparent" BorderThickness="0" FocusVisualStyle="{x:Null}" Click="CloseWindowButton_Click">
+            <Image Source="Resources\StartScreen\CloseIcon.png" Height="38" Width="24" RenderTransformOrigin="4.887,0.473"></Image>
         </Button>
 
-        <Button HorizontalAlignment="Left" Margin="902,0,0,0" VerticalAlignment="Top" Height="30" Width="30" AutomationProperties.Name="MinimizeButton" Background="Transparent" BorderThickness="0" FocusVisualStyle="{x:Null}" Click="MinimizeWindowButton_Click">
-            <Image Source="Resources\StartScreen\minimizeIcon.png" Height="26" Width="26"></Image>
+        <Button HorizontalAlignment="Left" Margin="898,-7,0,0" VerticalAlignment="Top" Height="43" Width="31" AutomationProperties.Name="MinimizeButton" Background="Transparent" BorderThickness="0" FocusVisualStyle="{x:Null}" Click="MinimizeWindowButton_Click">
+            <Image Source="Resources\StartScreen\minimizeIcon.png" Height="36" Width="26"></Image>
         </Button>
 
     </Grid>

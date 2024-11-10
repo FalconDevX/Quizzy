@@ -402,10 +402,12 @@ namespace WPF
             }
             else if (IsValidEmail(EmailTextBoxRegister.Text) && NickTextBoxRegister.Text != "" && EmailTextBoxRegister.Text != "" && PassTextBoxRegister.Text != "" && RepPassTextBoxRegister.Text != "" && IsValidPasswd(password))
             {
+                string displayName = login.Contains("@") ? login.Split('@')[0] : login;
                 System.Diagnostics.Debug.WriteLine(NickTextBoxRegister.Text);
                 userService.RegisterUser(login, email, password);
                 MessageBox.Show("Register successful!");
                 MainScreen mainScreen = new MainScreen();
+                mainScreen.UserNameTextBlock.Text = $"Hi, {displayName}";
                 mainScreen.Show();
                 this.Close();
             }
@@ -433,13 +435,18 @@ namespace WPF
 
             UserService userService = new UserService();
             bool isAuthenticated = userService.LoginUser(identifier, password);
+            string nickname = userService.GetUserLogin(identifier);
 
             if (!string.IsNullOrWhiteSpace(identifier) && password != "")
             {
                 if (isAuthenticated)
                 {
                     MessageBox.Show("Login successful.");
+
+                    
                     MainScreen mainScreen = new MainScreen();
+                    
+                    mainScreen.UserNameTextBlock.Text = $"Hi, {nickname}";
                     mainScreen.Show();
                     this.Close();
                 }
