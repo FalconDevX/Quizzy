@@ -56,7 +56,6 @@
     <Resource Include="Resources\StartScreen\Icon.png" />
     <Resource Include="Resources\StartScreen\LogoReadMe.png" />
     <Resource Include="Resources\StartScreen\minimizeIcon.png" />
-    <Resource Include="Resources\StartScreen\Untitled52.png" />
   </ItemGroup>
 
 </Project>
