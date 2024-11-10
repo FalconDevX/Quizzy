@@ -486,6 +486,23 @@ namespace WPF
                 RepPassBoxRegister.Style = null;
         }
 
+        //pressing Enter depends on panel
+        private void MainGrid_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (LoginPanel.Visibility == Visibility.Visible)
+                {
+                    LoginButton_Click(LoginButton, new RoutedEventArgs());
+                }
+                else if (RegisterPanel.Visibility == Visibility.Visible)
+                {
+                    RegisterButton_Click(RegisterButton, new RoutedEventArgs());
+                }
+            }
+        }
+
+
 
     }
 }

@@ -144,7 +144,7 @@
 
     </Window.Resources>
 
-    <Grid>
+    <Grid KeyDown="MainGrid_KeyDown">
         <!-- Obraz tła -->
         <Image HorizontalAlignment="Center" Height="540" VerticalAlignment="Top" Width="960" Source="Resources\StartScreen\Background.png" Stretch="UniformToFill"/>
 
@@ -170,7 +170,7 @@
             <CheckBox x:Name="ShowPasswordLogin" Click="ShowPassLogin_Click" Content="Show Password"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,15,0,0" Foreground="#8FAFE6" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" FontSize="14"/>
 
             <!-- Przycisk Login -->
-            <Button Content="Login" Background="#DE8689" AutomationProperties.Name="LoginButton" Width="240" Height="46" HorizontalAlignment="Left" VerticalAlignment="Top"  FontSize="22" FontWeight="Bold" Foreground="White" Margin="27,20,0,0" Cursor="Hand" Click="LoginButton_Click" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed">
+            <Button x:Name="LoginButton" Content="Login" Background="#DE8689"  AutomationProperties.Name="LoginButton" Width="240" Height="46" HorizontalAlignment="Left" VerticalAlignment="Top"  FontSize="22" FontWeight="Bold" Foreground="White" Margin="27,20,0,0" Cursor="Hand" Click="LoginButton_Click" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Border Background="{TemplateBinding Background}" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}">
@@ -226,7 +226,8 @@
 
             <!-- Przycisk Register -->
 
-            <Button Content="Register" Background="#DE8689" AutomationProperties.Name="RegisterButton"  FontSize="22" FontWeight="Bold" Foreground="White" Cursor="Hand" Margin="15,5,0,0" Height="48" Click="RegisterButton_Click" Width="240" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed">
+
+            <Button Content="Register" x:Name="RegisterButton"  Background="#DE8689" AutomationProperties.Name="RegisterButton"  FontSize="22" FontWeight="Bold" Foreground="White" Cursor="Hand" Margin="15,5,0,0" Height="48" Click="RegisterButton_Click" Width="240" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border Background="{TemplateBinding Background}" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}">
