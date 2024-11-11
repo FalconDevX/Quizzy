@@ -19,21 +19,19 @@ namespace WPF
         {
             InitializeComponent();
 
-            //Pokazywanie panelu login i chowanie panelu register
             LoginPanel.Visibility = Visibility.Visible;
             RegisterPanel.Visibility = Visibility.Collapsed;
         }
 
+        //showing panel with animation
         private void ShowPanel(StackPanel panelToShow, StackPanel panelToHide)
         {
-            // Animacja zanikania dla panelu, który chcesz ukryć
             var fadeOut = (Storyboard)FindResource("FadeOut");
             fadeOut.Completed += (s, e) =>
             {
                 panelToHide.Visibility = Visibility.Collapsed;
                 panelToShow.Visibility = Visibility.Visible;
 
-                // Animacja pojawiania się dla panelu, który chcesz pokazać
                 var fadeIn = (Storyboard)FindResource("FadeIn");
                 fadeIn.Begin(panelToShow);
             };
@@ -44,20 +42,15 @@ namespace WPF
         // show register panel
         private void NoAccountLabel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
-
-            //RegisterTextBlock.Focus();
             EmailTextBoxLogin.Text = "";
             EmailTextBoxRegister.Text = "";
             ShowPasswordLogin.IsChecked = false;
 
-            // Resetowanie haseł i widoczności dla panelu logowania
             PassTextBoxLogin.Text = "";
             PassBoxLogin.Password = "";
             PassTextBorLogin.Visibility = Visibility.Collapsed;
             PassBorLogin.Visibility = Visibility.Visible;
 
-            // Usunięcie focusa z bieżącego pola
             Keyboard.ClearFocus();
 
             PassBoxLogin.Style = Resources["PasswordStyle"] as Style;
@@ -68,14 +61,11 @@ namespace WPF
             RepPassTextBoxRegister_LostFocus(PassTextBoxRegister, new RoutedEventArgs());
 
             ShowPanel(RegisterPanel, LoginPanel);
-
         }
 
         // show login panel
         private void YesAccountLabel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
-
             //LoginTextBlock.Focus();
             EmailTextBoxRegister.Text = "";
             NickTextBoxRegister.Text = "";
@@ -91,7 +81,6 @@ namespace WPF
 
             InvalidEmailLabelRegister.Visibility = Visibility.Hidden;
 
-            // Usunięcie focusa z bieżącego pola
             Keyboard.ClearFocus();
 
             PassBoxRegister.Style = Resources["PasswordStyle"] as Style;
@@ -121,6 +110,7 @@ namespace WPF
             string emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
             return Regex.IsMatch(email, emailPattern);
         }
+
         //check if passwd is correct
         private bool OneUppercase(string passwd)
         {
@@ -133,6 +123,7 @@ namespace WPF
             }
             return false;
         }
+
         private bool OneSpecialSign(string passwd)
         {
             for (int i = 0; i < passwd.Length; i++)
@@ -145,6 +136,7 @@ namespace WPF
             }
             return false;
         }
+
         private bool IsValidPasswd(string passwd) //passwd length 6-15 // 1 Uppercase Letter // One special sign
         {
             if (passwd.Length < 6)
@@ -152,22 +144,55 @@ namespace WPF
                 InvalidPassLabel.Content = "Password must be at least 6 letters long";
                 return false;
             }
-            if (passwd.Length > 15)
+            else if (passwd.Length > 15)
             {
                 InvalidPassLabel.Content = "Password cannot exceed 15 letters";
                 return false;
             }
-            if (!OneSpecialSign(passwd))
+            else if (!OneSpecialSign(passwd))
             {
                 InvalidPassLabel.Content = "Password must contain at least 1 Special Sign";
                 return false;
             }
-            if (!OneUppercase(passwd))
+            else if (!OneUppercase(passwd))
             {
                 InvalidPassLabel.Content = "Password must contain at least 1 Uppercase Letter";
                 return false;
             }
             return true;
+        }
+
+        //function which check if two passwords match
+        private void CheckPasswordsMatch()
+        {
+            string password = PassBoxRegister.Password;
+            string repeatedPassword = RepPassBoxRegister.Password;
+
+            if (password != repeatedPassword && repeatedPassword != "" && password != "")
+            {
+                PassNotMatchLabel.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                PassNotMatchLabel.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void CheckPasswordsValid()
+        {
+            string password = PassBoxRegister.Password;
+            if (password == "")
+            {
+                InvalidPassLabel.Visibility = Visibility.Hidden;
+            }
+            else if (IsValidPasswd(password))
+            {
+                InvalidPassLabel.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                InvalidPassLabel.Visibility = Visibility.Visible;
+            }
         }
 
         //shows / hides password in login
@@ -186,6 +211,7 @@ namespace WPF
                 PassBoxLogin.Password = PassTextBoxLogin.Text;
             }
         }
+
         //shows/hides password in register
         private void ShowPassRegister_Click(object sender, RoutedEventArgs e)
         {
@@ -239,7 +265,6 @@ namespace WPF
                 PassBoxLogin.Style = Resources["PasswordStyle"] as Style;
             CheckPasswordsMatch();
         }
-
 
         //checking got focus for login password
 
@@ -332,37 +357,44 @@ namespace WPF
             CheckPasswordsMatch();
         }
 
-        //function which check if two passwords match
-        private void CheckPasswordsMatch()
+        //function if login button clicked
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            string password = PassBoxRegister.Password;
-            string repeatedPassword = RepPassBoxRegister.Password;
+            string identifier = EmailTextBoxLogin.Text;
+            string password;
 
-            if (password != repeatedPassword && repeatedPassword != "" && password != "")
+            if (ShowPasswordLogin.IsChecked == true)
             {
-                PassNotMatchLabel.Visibility = Visibility.Visible;
+                password = PassTextBoxLogin.Text;
             }
             else
             {
-                PassNotMatchLabel.Visibility = Visibility.Hidden;
+                password = PassBoxLogin.Password;
             }
-        }
-        private void CheckPasswordsValid()
-        {
-            string password = PassBoxRegister.Password;
-            if (password == "")
+
+            UserService userService = new UserService();
+            bool isAuthenticated = userService.LoginUser(identifier, password);
+
+            if (!string.IsNullOrWhiteSpace(identifier) && password != "")
             {
-                InvalidPassLabel.Visibility = Visibility.Hidden;
-            }
-            else if (IsValidPasswd(password))
-            {
-                InvalidPassLabel.Visibility = Visibility.Hidden;
+                if (isAuthenticated)
+                {
+                    MessageBox.Show("Login successful.");
+
+                    MainScreen mainScreen = new MainScreen();
+
+                    mainScreen.Show();
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Invalid credentials. Please try again.");
+                }
             }
             else
             {
-                InvalidPassLabel.Visibility = Visibility.Visible;
+                MessageBox.Show("Please fill in both fields.");
             }
-
         }
 
         //Register i Login Button Click
@@ -403,8 +435,7 @@ namespace WPF
             else if (IsValidEmail(EmailTextBoxRegister.Text) && NickTextBoxRegister.Text != "" && EmailTextBoxRegister.Text != "" && PassTextBoxRegister.Text != "" && RepPassTextBoxRegister.Text != "" && IsValidPasswd(password))
             {
                 MainScreen mainScreen = new MainScreen();
-                
-                
+
                 string displayName = login.Contains("@") ? login.Split('@')[0] : login;
 
                 System.Diagnostics.Debug.WriteLine(NickTextBoxRegister.Text);
@@ -419,48 +450,6 @@ namespace WPF
                 MessageBox.Show("Please fill all textboxes");
             }
             return;
-        }
-
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
-        {
-            string identifier = EmailTextBoxLogin.Text;
-            string password;
-
-            if (ShowPasswordLogin.IsChecked == true)
-            {
-                password = PassTextBoxLogin.Text;
-            }
-            else
-            {
-
-                password = PassBoxLogin.Password;
-            }
-
-            UserService userService = new UserService();
-            bool isAuthenticated = userService.LoginUser(identifier, password);
-
-            if (!string.IsNullOrWhiteSpace(identifier) && password != "")
-            {
-                if (isAuthenticated)
-                {
-                    MessageBox.Show("Login successful.");
-
-                    
-                    MainScreen mainScreen = new MainScreen();
-                    
-                    //mainScreen.UserNameTextBlock.Text = $"Hi, {nickname}";
-                    mainScreen.Show();
-                    this.Close();
-                }
-                else
-                {
-                    MessageBox.Show("Invalid credentials. Please try again.");
-                }
-            }
-            else
-            {
-                MessageBox.Show("Please fill in both fields.");
-            }
         }
 
         //Password in passwordbox changed for loginand register panel
@@ -503,8 +492,5 @@ namespace WPF
                 }
             }
         }
-
-
-
     }
 }

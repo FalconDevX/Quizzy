@@ -22,7 +22,6 @@ namespace WPF
 {
     public partial class MainScreen : Window
     {
-
         public MainScreen()
         {
             InitializeComponent();
@@ -31,11 +30,44 @@ namespace WPF
             SetAvatar();
         }
 
+        ///SIDEBAR///
+
+        //Home button clicked
+        private void HomeButton_Click(object sender, RoutedEventArgs e)
+        {
+            ShowOnlySelectedBorder("HomeBorder");
+        }
+
+        //Settings button clicked
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            ShowOnlySelectedBorder("SettingsBorder");
+        }
+
+        //show selected border(current panel from sidebar) function
+        private void ShowOnlySelectedBorder(string borderName)
+        {
+            foreach (var child in MainGrid.Children)
+            {
+                if (child is Border border)
+                {
+                    if (border.Name == borderName)
+                    {
+                        border.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        border.Visibility = Visibility.Collapsed;
+                    }
+                }
+            }
+        }
+
+        ///SETTINGS///
+
         //Setting default avatar
         public void SetDefaultAvatar(int avatarNumber)
         {
-            
-            // Utworzenie dynamicznej ścieżki do zasobu
             string avatarPath = $"/Resources/MainScreen/Avatars/Avatar{avatarNumber}.png";
             Uri resourceUri = new Uri(avatarPath, UriKind.Relative);
             StreamResourceInfo resourceInfo = Application.GetResourceStream(resourceUri);
@@ -50,7 +82,7 @@ namespace WPF
                     }
                 }
             }
-            
+
             UserService userService = new UserService();
             userService.SaveAvatarToDatabase();
 
@@ -76,21 +108,19 @@ namespace WPF
                     SidebarUserPhoto.Source = imageSource;
                     AvatarUserPhoto.Source = imageSource;
 
-
-                    UserAvatarImage.Width = 150; 
+                    UserAvatarImage.Width = 150;
                     UserAvatarImage.Height = 150;
 
                     AvatarUserPhoto.Height = 150;
                     AvatarUserPhoto.Width = 150;
 
                     SidebarUserPhoto.Width = 88;
-                    SidebarUserPhoto.Height = 88; 
+                    SidebarUserPhoto.Height = 88;
 
-                  
                     UserAvatarImage.Stretch = Stretch.UniformToFill;
                     SidebarUserPhoto.Stretch = Stretch.UniformToFill;
                     AvatarUserPhoto.Stretch = Stretch.UniformToFill;
-     
+
                     UserAvatarImage.Clip = new EllipseGeometry(new Point(UserAvatarImage.Width / 2, UserAvatarImage.Height / 2), UserAvatarImage.Width / 2, UserAvatarImage.Height / 2);
                     SidebarUserPhoto.Clip = new EllipseGeometry(new Point(SidebarUserPhoto.Width / 2, SidebarUserPhoto.Height / 2), SidebarUserPhoto.Width / 2, SidebarUserPhoto.Height / 2);
                     AvatarUserPhoto.Clip = new EllipseGeometry(new Point(AvatarUserPhoto.Width / 2, AvatarUserPhoto.Height / 2), AvatarUserPhoto.Width / 2, AvatarUserPhoto.Height / 2);
@@ -99,48 +129,16 @@ namespace WPF
             else
             {
                 UserAvatarImage.Source = new BitmapImage(new Uri("/Resources/MainScreen/SideBar/DefaultLogoIcon.png", UriKind.Relative));
-                UserAvatarImage.Width = 100; // Adjust as needed
-                UserAvatarImage.Height = 100; // Adjust as needed
+                UserAvatarImage.Width = 100;
+                UserAvatarImage.Height = 100;
                 UserAvatarImage.Stretch = Stretch.UniformToFill;
                 UserAvatarImage.Clip = new EllipseGeometry(new Point(UserAvatarImage.Width / 2, UserAvatarImage.Height / 2), UserAvatarImage.Width / 2, UserAvatarImage.Height / 2);
             }
         }
 
-
-        //Home button clicked
-        private void HomeButton_Click(object sender, RoutedEventArgs e)
-        {
-            ShowOnlySelectedBorder("HomeBorder");
-        }
-
-        //Settings button clicked
-        private void SettingsButton_Click(object sender, RoutedEventArgs e)
-        {
-            ShowOnlySelectedBorder("SettingsBorder"); 
-        }
-
-        //show selected border function
-        private void ShowOnlySelectedBorder(string borderName)
-        {
-            foreach (var child in MainGrid.Children)
-            {
-                if (child is Border border)
-                {
-                    if (border.Name == borderName)
-                    {
-                        border.Visibility = Visibility.Visible; 
-                    }
-                    else
-                    {
-                        border.Visibility = Visibility.Collapsed;
-                    }
-                }
-            }
-        }
-
+        //Change avatar button
         private void ChangeAvatarButton_Click(object sender, RoutedEventArgs e)
         {
-            // Otwieranie okna dialogowego do wyboru pliku
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp";
 
@@ -150,7 +148,6 @@ namespace WPF
                 UserService userService = new UserService();
                 userService.SaveUserAvatar(CurrentUser.UserId, filePath);
 
-                // Aktualizacja CurrentUser.Avatar po zapisaniu pliku
                 using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
                 {
                     using (BinaryReader br = new BinaryReader(fs))
@@ -159,7 +156,6 @@ namespace WPF
                     }
                 }
 
-                // Ustawienie nowego avatara
                 SetAvatar();
             }
             else
@@ -168,18 +164,7 @@ namespace WPF
             }
         }
 
-
-        //exit application
-        private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
-        }
-
-        //minimize application
-        private void MinimizeWindowButton_Click(Object sender, RoutedEventArgs e)
-        {
-            this.WindowState = WindowState.Minimized;
-        }
+        //Avatars button section
 
         private void AvatarButton1_Click(object sender, RoutedEventArgs e)
         {
@@ -240,5 +225,17 @@ namespace WPF
         {
             SetDefaultAvatar(12);
         }
+
+        //exit application
+        private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        //minimize application
+        private void MinimizeWindowButton_Click(Object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
     }
-} 
+}

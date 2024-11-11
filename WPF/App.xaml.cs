@@ -12,13 +12,13 @@ namespace WPF
     {
     }
 
-    //globalne zmienne obecnie zalogowanego użytkownika
+    //global variables for current login user
     public static class CurrentUser
     {
         public static string? Login { get; set; }
         public static string? Email { get; set; }
         public static int UserId { get; set; }
-        public static byte[]? Avatar { get; set; } 
+        public static byte[]? Avatar { get; set; }
     }
 
     public class UserService
@@ -68,7 +68,6 @@ namespace WPF
                     return false;
                 }
 
-                // Zapytanie sprawdzające login lub email, rozróżniające wielkość liter
                 string query = "SELECT UserId, Login, Email FROM Users WHERE (Login COLLATE Latin1_General_BIN = @Identifier OR Email COLLATE Latin1_General_BIN = @Identifier) AND PasswordHash COLLATE Latin1_General_BIN = @Password";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
@@ -79,11 +78,9 @@ namespace WPF
                     {
                         if (reader.Read())
                         {
-                            // Przypisanie danych do klasy CurrentUser
                             CurrentUser.UserId = Convert.ToInt32(reader["UserId"]);
                             CurrentUser.Login = Convert.ToString(reader["Login"]);
                             CurrentUser.Email = Convert.ToString(reader["Email"]);
-
 
                             return true;
                         }
@@ -96,7 +93,6 @@ namespace WPF
             }
         }
 
-
         //checking if login exist
         public bool IsLoginTaken(string login)
         {
@@ -105,7 +101,6 @@ namespace WPF
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                // Sprawdzenie, czy login istnieje z rozróżnieniem wielkości liter
                 string query = "SELECT COUNT(1) FROM Users WHERE Login COLLATE Latin1_General_BIN = @Login";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
@@ -125,7 +120,6 @@ namespace WPF
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                // Sprawdzenie, czy email istnieje z rozróżnieniem wielkości liter
                 string query = "SELECT COUNT(1) FROM Users WHERE Email COLLATE Latin1_General_BIN = @Email";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
@@ -208,7 +202,7 @@ namespace WPF
             }
         }
 
-        //funkcja pobierania avatara z bazy danych 
+        //funkcja pobierania avatara z bazy danych
         public void GetUserAvatar(int userId)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
@@ -225,7 +219,7 @@ namespace WPF
                     {
                         if (reader.Read() && !reader.IsDBNull(0))
                         {
-                            CurrentUser.Avatar = (byte[])reader["Avatar"]; 
+                            CurrentUser.Avatar = (byte[])reader["Avatar"];
                         }
                         else
                         {
@@ -236,7 +230,4 @@ namespace WPF
             }
         }
     }
-
-    
-
 }

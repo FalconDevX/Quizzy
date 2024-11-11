@@ -38,11 +38,12 @@
         </ControlTemplate>
     </Window.Resources>
 
-
+    <!-- Main app grid -->
     <Grid x:Name="MainGrid" Height="1080">
 
         <Image Margin="-108,-60,-185,0" Source="Resources\MainScreen\MainScreen\Background.png" Stretch="UniformToFill" Height="1148" VerticalAlignment="Top" />
 
+        <!-- Side Bar Grid -->
         <Grid Name="SideBarGrid" Width="280" HorizontalAlignment="Left">
 
             <Grid.Background>
@@ -160,7 +161,8 @@
                 </Button>
 
                 <Image x:Name="AvatarUserPhoto"  Source="/Resources/MainScreen/SideBar/DefaultLogoIcon.png" Width="150" Height="150" Margin="672,250,478,591"/>
-                
+
+                <!-- Section with avatars buttons -->
                 <Grid>
                     <Button x:Name="AvatarButton1" Background="Transparent" Cursor="Hand" Margin="680,418,503,463" Click="AvatarButton1_Click">
                         <Button.Template>
@@ -561,9 +563,7 @@
             </Grid>
         </Border>
 
-
-
-
+        <!-- Close Button -->
         <Button x:Name="CloseButton" HorizontalAlignment="Left" Margin="1634,-14,0,0" VerticalAlignment="Top" Height="82" Width="52" AutomationProperties.Name="CloseButton" Background="Transparent" BorderThickness="0" FocusVisualStyle="{x:Null}" Click="CloseWindowButton_Click">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
@@ -579,6 +579,7 @@
             </Button.Template>
         </Button>
 
+        <!-- Minimize Button -->
         <Button x:Name="MinimizeButton" HorizontalAlignment="Left" Margin="1570,-11,0,0" VerticalAlignment="Top" Height="80" Width="55" AutomationProperties.Name="MinimizeButton" Background="Transparent" BorderThickness="0" FocusVisualStyle="{x:Null}" Click="MinimizeWindowButton_Click">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
@@ -593,7 +594,5 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        
-
     </Grid>
 </Window>
