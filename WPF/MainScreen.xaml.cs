@@ -17,6 +17,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Configuration;
 using System.Windows.Resources;
+using System.Windows.Controls.Primitives;
 
 namespace WPF
 {
@@ -27,20 +28,37 @@ namespace WPF
             InitializeComponent();
             UserNameTextBlock.Text = $"Hi, {CurrentUser.Login}";
             SideBarNickTextBlock.Text = CurrentUser.Login;
+            UserEmailSettingsTextBlock.Text = CurrentUser.Email;
+            UserLoginSettingsTextBlock.Text = CurrentUser.Login;
             SetAvatar();
         }
 
         ///SIDEBAR///
 
+        private void SideBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Odznacz wszystkie przyciski w SideBarPanel
+            foreach (var child in SideBarPanel.Children)
+            {
+                if (child is ToggleButton button && button != sender)
+                {
+                    button.IsChecked = false;
+                }
+            }
+        }
+
+
         //Home button clicked
         private void HomeButton_Click(object sender, RoutedEventArgs e)
         {
+            SideBarButton_Click(sender, new RoutedEventArgs());
             ShowOnlySelectedBorder("HomeBorder");
         }
 
         //Settings button clicked
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
+            SideBarButton_Click(sender, new RoutedEventArgs());
             ShowOnlySelectedBorder("SettingsBorder");
         }
 
