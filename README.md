@@ -66,8 +66,9 @@ This project is licensed under the MIT License. Feel free to use it in your own 
 For any inquiries, you can reach me at GitHub
 
 **Screenshots**
-- **Login Screen**: ![Login Screen](screenshots/login_screen.png)
-- **Main Screen**: ![Main Screen](screenshots/main_screen.png)
-
+- **Login Screen**: ![Login Screen](Screenshots/LoginQuizzy.png)
+- **Register Screen**: ![Main Screen](Screenshots/RegisterQuizzy.png)
+- **Home Screen**: ![Main Screen](Screenshots/HomeScreen.png)
+- **Settings Screen**: ![Main Screen](Screenshots/SettingsScreen.png)
 Feel free to explore the application and contribute to make it even better!
 
