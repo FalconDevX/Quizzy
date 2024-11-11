@@ -4,6 +4,7 @@ using System.Windows;
 using System.Data.SqlClient;
 using Microsoft.Win32;
 using System.IO;
+using System.Resources;
 
 namespace WPF
 {
@@ -180,6 +181,59 @@ namespace WPF
                 }
             }
         }
+
+        public void UploadToCload(int userId, int avatarNumber)
+        {
+            string basePath = @"C:\Quizzy\huuuuuuuuuu\Quizzy\WPF\Resources\MainScreen\Avatars\"; // Zamień na rzeczywistą ścieżkę
+            string filePath = $"{basePath}Avatar{avatarNumber}.png";
+
+            if (!File.Exists(filePath))
+            {
+                MessageBox.Show("Avatar file not found.");
+                return;
+            }
+
+            string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
+            byte[] avatarData;
+
+            // Odczyt pliku zdjęciowego jako dane binarne
+            using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            {
+                using (BinaryReader br = new BinaryReader(fs))
+                {
+                    avatarData = br.ReadBytes((int)fs.Length);
+                }
+            }
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "UPDATE Users SET Avatar = @Avatar WHERE UserId = @UserId";
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+                    cmd.Parameters.AddWithValue("@Avatar", avatarData);
+
+                    try
+                    {
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        if (rowsAffected > 0)
+                        {
+                            MessageBox.Show("Avatar updated successfully.");
+                        }
+                        else
+                        {
+                            MessageBox.Show("User not found or update failed.");
+                        }
+                    }
+                    catch (SqlException ex)
+                    {
+                        MessageBox.Show("Error: " + ex.Message);
+                    }
+                }
+            }
+        }
+
 
         public void GetUserAvatar(int userId)
         {

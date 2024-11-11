@@ -95,7 +95,7 @@
         </Grid>
 
         <!-- Settings Border -->
-        <Border x:Name="SettingsBorder" Background="#990B013D" Width="1300" Margin="341,87,59,2" Visibility="Hidden">
+        <Border x:Name="SettingsBorder" Background="#990B013D" Width="1300" Margin="341,87,59,2" Visibility="Visible">
             <Grid Name="SettingsPanel" Visibility="Visible" HorizontalAlignment="Right" Width="1300">
 
                 <TextBlock Text="Settings" FontSize="75" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Foreground="#9BB5EC" VerticalAlignment="Top" Margin="60,40,252,0"/>
@@ -286,17 +286,269 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
+
+                    <Button x:Name="AvatarButton5" Background="Transparent" Cursor="Hand" Margin="670,572,500,296" Click="AvatarButton5_Click">
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="Transparent">
+                                    <Image x:Name="AvatarImage5" Source="/Resources/MainScreen/Avatars/Avatar5.png" Stretch="Uniform">
+                                        <Image.RenderTransform>
+                                            <TranslateTransform x:Name="Transform1" Y="0"/>
+                                        </Image.RenderTransform>
+                                    </Image>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Trigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="Transform1" Storyboard.TargetProperty="Y" To="-15" Duration="0:0:0.3"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.EnterActions>
+                                        <Trigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="Transform1" Storyboard.TargetProperty="Y" To="0" Duration="0:0:0.3"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.ExitActions>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+                    <Button x:Name="AvatarButton6" Background="Transparent" Cursor="Hand" Margin="1107,425,63,443" Click="AvatarButton6_Click">
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="Transparent">
+                                    <Image x:Name="AvatarImage6" Source="/Resources/MainScreen/Avatars/Avatar6.png" Stretch="Uniform">
+                                        <Image.RenderTransform>
+                                            <TranslateTransform x:Name="Transform1" Y="0"/>
+                                        </Image.RenderTransform>
+                                    </Image>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Trigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="Transform1" Storyboard.TargetProperty="Y" To="-15" Duration="0:0:0.3"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.EnterActions>
+                                        <Trigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="Transform1" Storyboard.TargetProperty="Y" To="0" Duration="0:0:0.3"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.ExitActions>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+                    <Button x:Name="AvatarButton7" Background="Transparent" Cursor="Hand" Margin="969,423,201,445" Click="AvatarButton7_Click">
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="Transparent">
+                                    <Image x:Name="AvatarImage7" Source="/Resources/MainScreen/Avatars/Avatar7.png" Stretch="Uniform">
+                                        <Image.RenderTransform>
+                                            <TranslateTransform x:Name="Transform1" Y="0"/>
+                                        </Image.RenderTransform>
+                                    </Image>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Trigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="Transform1" Storyboard.TargetProperty="Y" To="-15" Duration="0:0:0.3"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.EnterActions>
+                                        <Trigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="Transform1" Storyboard.TargetProperty="Y" To="0" Duration="0:0:0.3"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.ExitActions>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+                    <Button x:Name="AvatarButton8" Background="Transparent" Cursor="Hand" Margin="819,422,351,446" Click="AvatarButton8_Click">
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="Transparent">
+                                    <Image x:Name="AvatarImage8" Source="/Resources/MainScreen/Avatars/Avatar8.png" Stretch="Uniform">
+                                        <Image.RenderTransform>
+                                            <TranslateTransform x:Name="Transform1" Y="0"/>
+                                        </Image.RenderTransform>
+                                    </Image>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Trigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="Transform1" Storyboard.TargetProperty="Y" To="-15" Duration="0:0:0.3"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.EnterActions>
+                                        <Trigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="Transform1" Storyboard.TargetProperty="Y" To="0" Duration="0:0:0.3"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.ExitActions>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+                    <Button x:Name="AvatarButton9" Background="Transparent" Cursor="Hand" Margin="669,423,501,445" Click="AvatarButton9_Click">
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="Transparent">
+                                    <Image x:Name="AvatarImage9" Source="/Resources/MainScreen/Avatars/Avatar9.png" Stretch="Uniform">
+                                        <Image.RenderTransform>
+                                            <TranslateTransform x:Name="Transform1" Y="0"/>
+                                        </Image.RenderTransform>
+                                    </Image>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Trigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="Transform1" Storyboard.TargetProperty="Y" To="-15" Duration="0:0:0.3"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.EnterActions>
+                                        <Trigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="Transform1" Storyboard.TargetProperty="Y" To="0" Duration="0:0:0.3"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.ExitActions>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+                    <Button x:Name="AvatarButton10" Background="Transparent" Cursor="Hand" Margin="1111,580,59,288" Click="AvatarButton10_Click">
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="Transparent">
+                                    <Image x:Name="AvatarImage10" Source="/Resources/MainScreen/Avatars/Avatar10.png" Stretch="Uniform">
+                                        <Image.RenderTransform>
+                                            <TranslateTransform x:Name="Transform1" Y="0"/>
+                                        </Image.RenderTransform>
+                                    </Image>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Trigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="Transform1" Storyboard.TargetProperty="Y" To="-15" Duration="0:0:0.3"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.EnterActions>
+                                        <Trigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="Transform1" Storyboard.TargetProperty="Y" To="0" Duration="0:0:0.3"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.ExitActions>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+                    <Button x:Name="AvatarButton11" Background="Transparent" Cursor="Hand" Margin="968,579,202,289" Click="AvatarButton11_Click">
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="Transparent">
+                                    <Image x:Name="AvatarImage11" Source="/Resources/MainScreen/Avatars/Avatar11.png" Stretch="Uniform">
+                                        <Image.RenderTransform>
+                                            <TranslateTransform x:Name="Transform1" Y="0"/>
+                                        </Image.RenderTransform>
+                                    </Image>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Trigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="Transform1" Storyboard.TargetProperty="Y" To="-15" Duration="0:0:0.3"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.EnterActions>
+                                        <Trigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="Transform1" Storyboard.TargetProperty="Y" To="0" Duration="0:0:0.3"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.ExitActions>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+                    <Button x:Name="AvatarButton12" Background="Transparent" Cursor="Hand" Margin="820,576,350,292" Click="AvatarButton12_Click">
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="Transparent">
+                                    <Image x:Name="AvatarImage12" Source="/Resources/MainScreen/Avatars/Avatar12.png" Stretch="Uniform">
+                                        <Image.RenderTransform>
+                                            <TranslateTransform x:Name="Transform1" Y="0"/>
+                                        </Image.RenderTransform>
+                                    </Image>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Trigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="Transform1" Storyboard.TargetProperty="Y" To="-15" Duration="0:0:0.3"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.EnterActions>
+                                        <Trigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="Transform1" Storyboard.TargetProperty="Y" To="0" Duration="0:0:0.3"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.ExitActions>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
                 </Grid>
-
-
-
-
-
             </Grid>
         </Border>
 
         <!-- Home Border -->
-        <Border x:Name="HomeBorder" Margin="328,60,65,49" Visibility="Visible">
+        <Border x:Name="HomeBorder" Margin="328,60,65,49" Visibility="Hidden">
             <Grid Width="1300" Height="970">
                 <Image x:Name="UserAvatarImage" Source="/Resources/MainScreen/SideBar/DefaultLogoIcon.png" Margin="15,12,1094,764" Width="150" Height="150" />
                 <TextBlock x:Name="UserNameTextBlock" Text="Hi!" Foreground="White" Margin="240,65,0,821" FontSize="70" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed"/>

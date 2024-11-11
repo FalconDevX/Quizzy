@@ -33,33 +33,24 @@ namespace WPF
         //Setting default avatar
         private void SetDefaultAvatar(int avatarNumber)
         {
-            try
-            {
-                // Utworzenie dynamicznej ścieżki do zasobu
-                string avatarPath = $"/Resources/MainScreen/Avatars/Avatar{avatarNumber}.png";
-                Uri resourceUri = new Uri(avatarPath, UriKind.Absolute);
-                StreamResourceInfo resourceInfo = Application.GetResourceStream(resourceUri);
+            UserService userService = new UserService();
+            userService.UploadToCload(CurrentUser.UserId, avatarNumber);
+            // Utworzenie dynamicznej ścieżki do zasobu
+            string avatarPath = $"/Resources/MainScreen/Avatars/Avatar{avatarNumber}.png";
+            Uri resourceUri = new Uri(avatarPath, UriKind.Relative);
+            StreamResourceInfo resourceInfo = Application.GetResourceStream(resourceUri);
 
-                if (resourceInfo != null)
-                {
-                    using (var stream = resourceInfo.Stream)
-                    {
-                        using (BinaryReader br = new BinaryReader(stream))
-                        {
-                            CurrentUser.Avatar = br.ReadBytes((int)stream.Length);
-                        }
-                    }
-                    SetAvatar();
-                }
-                else
-                {
-                    MessageBox.Show($"Nie znaleziono pliku Avatar{avatarNumber}.png w zasobach.");
-                }
-            }
-            catch (Exception ex)
+            if (resourceInfo != null)
             {
-                MessageBox.Show($"Wystąpił błąd podczas odczytu zasobu: {ex.Message}");
+                using (var stream = resourceInfo.Stream)
+                {
+                    using (BinaryReader br = new BinaryReader(stream))
+                    {
+                        CurrentUser.Avatar = br.ReadBytes((int)stream.Length);
+                    }
+                }
             }
+            SetAvatar();
         }
 
         //Setting avatar to current user
@@ -197,6 +188,44 @@ namespace WPF
             SetDefaultAvatar(4);
         }
 
+        private void AvatarButton5_Click(object sender, RoutedEventArgs e)
+        {
+            SetDefaultAvatar(5);
+        }
 
+        private void AvatarButton6_Click(object sender, RoutedEventArgs e)
+        {
+            SetDefaultAvatar(6);
+        }
+
+        private void AvatarButton7_Click(object sender, RoutedEventArgs e)
+        {
+            SetDefaultAvatar(7);
+        }
+
+        private void AvatarButton8_Click(object sender, RoutedEventArgs e)
+        {
+            SetDefaultAvatar(8);
+        }
+
+        private void AvatarButton9_Click(object sender, RoutedEventArgs e)
+        {
+            SetDefaultAvatar(9);
+        }
+
+        private void AvatarButton10_Click(object sender, RoutedEventArgs e)
+        {
+            SetDefaultAvatar(10);
+        }
+
+        private void AvatarButton11_Click(object sender, RoutedEventArgs e)
+        {
+            SetDefaultAvatar(11);
+        }
+
+        private void AvatarButton12_Click(object sender, RoutedEventArgs e)
+        {
+            SetDefaultAvatar(12);
+        }
     }
 } 
