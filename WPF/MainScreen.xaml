@@ -56,8 +56,8 @@
             <StackPanel Name="SideBarPanel" HorizontalAlignment="Left" Margin="0, 0, 0, 0" Width="280">
 
                 <StackPanel Orientation="Horizontal" Height="140" Width="280">
-                    <Image x:Name="SidebarUserPhoto"  Margin="16,0,0,0"  Source="Resources\MainScreen\SideBar\DefaultLogoIcon.png" Width="60" Height="60"/>
-                    <TextBlock Margin="20,0,0,0" Text="John" VerticalAlignment="Center" Foreground="#8FAFE6" FontSize="48" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed"/>
+                    <Image x:Name="SidebarUserPhoto"  Margin="16,0,0,0"  Source="Resources\MainScreen\SideBar\DefaultLogoIcon.png" Width="88" Height="88"/>
+                    <TextBlock x:Name="SideBarNickTextBlock" Margin="20,0,0,0" Text="John" VerticalAlignment="Center" Foreground="#8FAFE6" FontSize="48" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed"/>
                 </StackPanel>
 
                 <Button Template="{StaticResource CustomButtonTemplate}" x:Name ="HomeButton" HorizontalAlignment="Left" Height="90" Width="280" Background="Transparent" BorderThickness="0" Click="HomeButton_Click">
@@ -100,18 +100,18 @@
 
                 <TextBlock Text="Settings" FontSize="75" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Foreground="#9BB5EC" VerticalAlignment="Top" Margin="60,40,252,0"/>
 
-                <Border CornerRadius="15" Background="#0B013D" Margin="652,162,46,171">
-                    <TextBlock Text="Change profile image" FontSize="40" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Foreground="#DE94E7" Margin="20,20,16,542"/>
+                <Border CornerRadius="15" Background="#0B013D" Margin="652,162,46,40">
+                    <TextBlock Text="Change profile image" FontSize="40" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Foreground="#DE94E7" Margin="36,24,82,712"/>
                 </Border>
 
-                <Border CornerRadius="15" Background="#0B013D" Margin="44,162,689,356">
-                    <TextBlock Text="Account Informations" FontSize="40" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Foreground="#DE94E7" Margin="20,20,20,225"/>
+                <Border CornerRadius="15" Background="#0B013D" Margin="44,162,689,303">
+                    <TextBlock Text="Account Informations" FontSize="40" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Foreground="#DE94E7" Margin="36,24,54,444"/>
                 </Border>
 
-                <Button Content="Change Login" Background="#675A9D" FontSize="30" FontWeight="Bold" Foreground="#0B013D" Cursor="Hand" Margin="201,626,839,214" Height="60" Width="260" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed">
+                <Button Content="Change Login" Background="#675A9D" FontSize="30" FontWeight="Bold" Foreground="#0B013D" Cursor="Hand" Margin="183,756,820,175" Height="60" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed">
                     <Button.Template>
                         <ControlTemplate TargetType="{x:Type Button}">
-                            <Border x:Name="ChangeLoginBorder" Background="{TemplateBinding Background}" CornerRadius="15">
+                            <Border x:Name="ChangeLoginBorder" Background="{TemplateBinding Background}" CornerRadius="5">
                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                             <ControlTemplate.Triggers>
@@ -126,10 +126,10 @@
                     </Button.Template>
                 </Button>
 
-                <Button Content="Delete Account" Background="#811574" FontSize="30" FontWeight="Bold" Foreground="White" Cursor="Hand" Margin="201,709,839,131" Height="60" Width="260" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed">
+                <Button Content="Delete Account" Background="#811574" FontSize="30" FontWeight="Bold" Foreground="White" Cursor="Hand" Margin="183,838,819,93" Height="60" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed">
                     <Button.Template>
                         <ControlTemplate TargetType="{x:Type Button}">
-                            <Border x:Name="DeleteAccountBorder" Background="{TemplateBinding Background}" CornerRadius="15">
+                            <Border x:Name="DeleteAccountBorder" Background="{TemplateBinding Background}" CornerRadius="5">
                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                             <ControlTemplate.Triggers>
@@ -143,7 +143,8 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
-                <Button x:Name="ChangeAvatarButton" Background="Transparent" Cursor="Hand" Margin="921,737,319,194" Height="60" Width="60" Click="ChangeAvatarButton_Click">
+
+                <Button x:Name="ChangeAvatarButton" Background="Transparent" Cursor="Hand" Margin="929,860,311,71" Height="60" Width="60" Click="ChangeAvatarButton_Click">
                     <Button.Template>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Border Background="Transparent" CornerRadius="15">
@@ -158,8 +159,10 @@
                     </Button.Template>
                 </Button>
 
+                <Image x:Name="AvatarUserPhoto"  Source="/Resources/MainScreen/SideBar/DefaultLogoIcon.png" Width="150" Height="150" Margin="672,250,478,591"/>
+                
                 <Grid>
-                    <Button x:Name="AvatarButton1" Background="Transparent" Cursor="Hand" Margin="670,268,500,600" Click="AvatarButton1_Click">
+                    <Button x:Name="AvatarButton1" Background="Transparent" Cursor="Hand" Margin="680,418,503,463" Click="AvatarButton1_Click">
                         <Button.Template>
                             <ControlTemplate TargetType="{x:Type Button}">
                                 <Border Background="Transparent">
@@ -191,7 +194,7 @@
                         </Button.Template>
                     </Button>
 
-                    <Button x:Name="AvatarButton2" Background="Transparent" Cursor="Hand" Margin="814,268,356,599" Click="AvatarButton2_Click">
+                    <Button x:Name="AvatarButton2" Background="Transparent" Cursor="Hand" Margin="816,410,354,457" Click="AvatarButton2_Click" Width="110" Height="110">
                         <Button.Template>
                             <ControlTemplate TargetType="{x:Type Button}">
                                 <Border Background="Transparent">
@@ -223,7 +226,7 @@
                         </Button.Template>
                     </Button>
 
-                    <Button x:Name="AvatarButton3" Background="Transparent" Cursor="Hand" Margin="1107,268,66,594" Click="AvatarButton3_Click">
+                    <Button x:Name="AvatarButton3" Background="Transparent" Cursor="Hand" Margin="1109,410,64,452" Click="AvatarButton3_Click" Width="110" Height="110">
                         <Button.Template>
                             <ControlTemplate TargetType="{x:Type Button}">
                                 <Border Background="Transparent">
@@ -255,7 +258,7 @@
                         </Button.Template>
                     </Button>
 
-                    <Button x:Name="AvatarButton4" Background="Transparent" Cursor="Hand" Margin="961,268,208,596" Click="AvatarButton4_Click">
+                    <Button x:Name="AvatarButton4" Background="Transparent" Cursor="Hand" Margin="963,410,206,454" Click="AvatarButton4_Click" Width="110" Height="110">
                         <Button.Template>
                             <ControlTemplate TargetType="{x:Type Button}">
                                 <Border Background="Transparent">
@@ -287,7 +290,7 @@
                         </Button.Template>
                     </Button>
 
-                    <Button x:Name="AvatarButton5" Background="Transparent" Cursor="Hand" Margin="670,572,500,296" Click="AvatarButton5_Click">
+                    <Button x:Name="AvatarButton5" Background="Transparent" Cursor="Hand" Margin="680,724,510,157" Click="AvatarButton5_Click" Width="110" Height="110">
                         <Button.Template>
                             <ControlTemplate TargetType="{x:Type Button}">
                                 <Border Background="Transparent">
@@ -319,7 +322,7 @@
                         </Button.Template>
                     </Button>
 
-                    <Button x:Name="AvatarButton6" Background="Transparent" Cursor="Hand" Margin="1107,425,63,443" Click="AvatarButton6_Click">
+                    <Button x:Name="AvatarButton6" Background="Transparent" Cursor="Hand" Margin="1109,567,61,301" Click="AvatarButton6_Click" Width="110" Height="110">
                         <Button.Template>
                             <ControlTemplate TargetType="{x:Type Button}">
                                 <Border Background="Transparent">
@@ -351,7 +354,7 @@
                         </Button.Template>
                     </Button>
 
-                    <Button x:Name="AvatarButton7" Background="Transparent" Cursor="Hand" Margin="969,423,201,445" Click="AvatarButton7_Click">
+                    <Button x:Name="AvatarButton7" Background="Transparent" Cursor="Hand" Margin="971,565,199,303" Click="AvatarButton7_Click" Width="110" Height="110">
                         <Button.Template>
                             <ControlTemplate TargetType="{x:Type Button}">
                                 <Border Background="Transparent">
@@ -383,7 +386,7 @@
                         </Button.Template>
                     </Button>
 
-                    <Button x:Name="AvatarButton8" Background="Transparent" Cursor="Hand" Margin="819,422,351,446" Click="AvatarButton8_Click">
+                    <Button x:Name="AvatarButton8" Background="Transparent" Cursor="Hand" Margin="821,564,349,304" Click="AvatarButton8_Click" Width="110" Height="110">
                         <Button.Template>
                             <ControlTemplate TargetType="{x:Type Button}">
                                 <Border Background="Transparent">
@@ -415,7 +418,7 @@
                         </Button.Template>
                     </Button>
 
-                    <Button x:Name="AvatarButton9" Background="Transparent" Cursor="Hand" Margin="669,423,501,445" Click="AvatarButton9_Click">
+                    <Button x:Name="AvatarButton9" Background="Transparent" Cursor="Hand" Margin="680,572,509,309" Click="AvatarButton9_Click" Width="110" Height="110">
                         <Button.Template>
                             <ControlTemplate TargetType="{x:Type Button}">
                                 <Border Background="Transparent">
@@ -447,7 +450,7 @@
                         </Button.Template>
                     </Button>
 
-                    <Button x:Name="AvatarButton10" Background="Transparent" Cursor="Hand" Margin="1111,580,59,288" Click="AvatarButton10_Click">
+                    <Button x:Name="AvatarButton10" Background="Transparent" Cursor="Hand" Margin="1113,724,57,146" Click="AvatarButton10_Click" Width="110" Height="110">
                         <Button.Template>
                             <ControlTemplate TargetType="{x:Type Button}">
                                 <Border Background="Transparent">
@@ -479,7 +482,7 @@
                         </Button.Template>
                     </Button>
 
-                    <Button x:Name="AvatarButton11" Background="Transparent" Cursor="Hand" Margin="968,579,202,289" Click="AvatarButton11_Click">
+                    <Button x:Name="AvatarButton11" Background="Transparent" Cursor="Hand" Margin="970,724,200,147" Click="AvatarButton11_Click" Width="110" Height="110">
                         <Button.Template>
                             <ControlTemplate TargetType="{x:Type Button}">
                                 <Border Background="Transparent">
@@ -511,7 +514,7 @@
                         </Button.Template>
                     </Button>
 
-                    <Button x:Name="AvatarButton12" Background="Transparent" Cursor="Hand" Margin="820,576,350,292" Click="AvatarButton12_Click">
+                    <Button x:Name="AvatarButton12" Background="Transparent" Cursor="Hand" Margin="822,724,348,150" Click="AvatarButton12_Click" Width="110" Height="110">
                         <Button.Template>
                             <ControlTemplate TargetType="{x:Type Button}">
                                 <Border Background="Transparent">
@@ -559,12 +562,38 @@
         </Border>
 
 
-        <Button HorizontalAlignment="Left" Margin="1634,-14,0,0" VerticalAlignment="Top" Height="82" Width="52" AutomationProperties.Name="CloseButton" Background="Transparent" BorderThickness="0" FocusVisualStyle="{x:Null}" Click="CloseWindowButton_Click">
-            <Image Source="/Resources/StartScreen/CloseIcon.png" Height="79" Width="50" RenderTransformOrigin="4.887,0.473"/>
+
+
+        <Button x:Name="CloseButton" HorizontalAlignment="Left" Margin="1634,-14,0,0" VerticalAlignment="Top" Height="82" Width="52" AutomationProperties.Name="CloseButton" Background="Transparent" BorderThickness="0" FocusVisualStyle="{x:Null}" Click="CloseWindowButton_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="Transparent" CornerRadius="15">
+                        <Image x:Name="AvatarImage" Source="/Resources/StartScreen/CloseIcon.png" Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="AvatarImage" Property="Source" Value="/Resources/StartScreen/CloseIcon_Hover.png"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
         </Button>
-        <Button HorizontalAlignment="Left" Margin="1570,-13,0,0" VerticalAlignment="Top" Height="80" Width="55" AutomationProperties.Name="MinimizeButton" Background="Transparent" BorderThickness="0" FocusVisualStyle="{x:Null}" Click="MinimizeWindowButton_Click">
-            <Image Source="/Resources/StartScreen/minimizeIcon.png" Height="74" Width="51"/>
+
+        <Button x:Name="MinimizeButton" HorizontalAlignment="Left" Margin="1570,-11,0,0" VerticalAlignment="Top" Height="80" Width="55" AutomationProperties.Name="MinimizeButton" Background="Transparent" BorderThickness="0" FocusVisualStyle="{x:Null}" Click="MinimizeWindowButton_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="Transparent" CornerRadius="15">
+                        <Image x:Name="AvatarImage" Source="/Resources/StartScreen/minimizeIcon.png" Height="74" Width="51" Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="AvatarImage" Property="Source" Value="/Resources/StartScreen/MinimizeIcon_Hover.png"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
         </Button>
         
+
     </Grid>
 </Window>

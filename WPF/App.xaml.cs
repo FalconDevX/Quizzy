@@ -14,10 +14,10 @@ namespace WPF
 
     public static class CurrentUser
     {
-        public static string Login { get; set; }
-        public static string Email { get; set; }
+        public static string? Login { get; set; }
+        public static string? Email { get; set; }
         public static int UserId { get; set; }
-        public static byte[] Avatar { get; set; } 
+        public static byte[]? Avatar { get; set; } 
     }
 
 
@@ -138,6 +138,38 @@ namespace WPF
             }
         }
 
+        public void SaveAvatarToDatabase()
+        {
+            // Sprawdź, czy avatar nie jest pusty
+            if (CurrentUser.Avatar == null || CurrentUser.Avatar.Length == 0)
+            {
+                throw new InvalidOperationException("Avatar is not set.");
+            }
+
+            // Connection string do bazy danych - zastąp własnym connection stringiem
+            string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                // Zapytanie SQL do aktualizacji avatara
+                string query = "UPDATE Users SET Avatar = @Avatar WHERE UserId = @UserId";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    // Dodaj parametry do zapytania
+                    command.Parameters.AddWithValue("@Avatar", CurrentUser.Avatar);
+                    command.Parameters.AddWithValue("@UserId", CurrentUser.UserId);
+
+                    // Otwórz połączenie i wykonaj zapytanie
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+
+            Console.WriteLine("Avatar has been successfully saved to the database.");
+        }
+
+
         public void SaveUserAvatar(int userId, string filePath)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
@@ -181,59 +213,6 @@ namespace WPF
                 }
             }
         }
-
-        public void UploadToCload(int userId, int avatarNumber)
-        {
-            string basePath = @"C:\Quizzy\huuuuuuuuuu\Quizzy\WPF\Resources\MainScreen\Avatars\"; // Zamień na rzeczywistą ścieżkę
-            string filePath = $"{basePath}Avatar{avatarNumber}.png";
-
-            if (!File.Exists(filePath))
-            {
-                MessageBox.Show("Avatar file not found.");
-                return;
-            }
-
-            string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
-            byte[] avatarData;
-
-            // Odczyt pliku zdjęciowego jako dane binarne
-            using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-            {
-                using (BinaryReader br = new BinaryReader(fs))
-                {
-                    avatarData = br.ReadBytes((int)fs.Length);
-                }
-            }
-
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                conn.Open();
-                string query = "UPDATE Users SET Avatar = @Avatar WHERE UserId = @UserId";
-                using (SqlCommand cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@UserId", userId);
-                    cmd.Parameters.AddWithValue("@Avatar", avatarData);
-
-                    try
-                    {
-                        int rowsAffected = cmd.ExecuteNonQuery();
-                        if (rowsAffected > 0)
-                        {
-                            MessageBox.Show("Avatar updated successfully.");
-                        }
-                        else
-                        {
-                            MessageBox.Show("User not found or update failed.");
-                        }
-                    }
-                    catch (SqlException ex)
-                    {
-                        MessageBox.Show("Error: " + ex.Message);
-                    }
-                }
-            }
-        }
-
 
         public void GetUserAvatar(int userId)
         {

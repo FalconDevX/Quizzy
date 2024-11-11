@@ -27,14 +27,14 @@ namespace WPF
         {
             InitializeComponent();
             UserNameTextBlock.Text = $"Hi, {CurrentUser.Login}";
+            SideBarNickTextBlock.Text = CurrentUser.Login;
             SetAvatar();
         }
 
         //Setting default avatar
-        private void SetDefaultAvatar(int avatarNumber)
+        public void SetDefaultAvatar(int avatarNumber)
         {
-            UserService userService = new UserService();
-            userService.UploadToCload(CurrentUser.UserId, avatarNumber);
+            
             // Utworzenie dynamicznej ścieżki do zasobu
             string avatarPath = $"/Resources/MainScreen/Avatars/Avatar{avatarNumber}.png";
             Uri resourceUri = new Uri(avatarPath, UriKind.Relative);
@@ -50,12 +50,19 @@ namespace WPF
                     }
                 }
             }
+            
+            UserService userService = new UserService();
+            userService.SaveAvatarToDatabase();
+
             SetAvatar();
         }
 
         //Setting avatar to current user
         private void SetAvatar()
         {
+            UserService userService = new UserService();
+            userService.GetUserAvatar(CurrentUser.UserId);
+
             if (CurrentUser.Avatar != null && CurrentUser.Avatar.Length > 0)
             {
                 using (var stream = new MemoryStream(CurrentUser.Avatar))
@@ -67,20 +74,26 @@ namespace WPF
                     imageSource.EndInit();
                     UserAvatarImage.Source = imageSource;
                     SidebarUserPhoto.Source = imageSource;
+                    AvatarUserPhoto.Source = imageSource;
 
-                   
+
                     UserAvatarImage.Width = 150; 
-                    UserAvatarImage.Height = 150; 
-                    SidebarUserPhoto.Width = 50;
-                    SidebarUserPhoto.Height = 50; 
+                    UserAvatarImage.Height = 150;
+
+                    AvatarUserPhoto.Height = 150;
+                    AvatarUserPhoto.Width = 150;
+
+                    SidebarUserPhoto.Width = 88;
+                    SidebarUserPhoto.Height = 88; 
 
                   
                     UserAvatarImage.Stretch = Stretch.UniformToFill;
                     SidebarUserPhoto.Stretch = Stretch.UniformToFill;
-
+                    AvatarUserPhoto.Stretch = Stretch.UniformToFill;
      
                     UserAvatarImage.Clip = new EllipseGeometry(new Point(UserAvatarImage.Width / 2, UserAvatarImage.Height / 2), UserAvatarImage.Width / 2, UserAvatarImage.Height / 2);
                     SidebarUserPhoto.Clip = new EllipseGeometry(new Point(SidebarUserPhoto.Width / 2, SidebarUserPhoto.Height / 2), SidebarUserPhoto.Width / 2, SidebarUserPhoto.Height / 2);
+                    AvatarUserPhoto.Clip = new EllipseGeometry(new Point(AvatarUserPhoto.Width / 2, AvatarUserPhoto.Height / 2), AvatarUserPhoto.Width / 2, AvatarUserPhoto.Height / 2);
                 }
             }
             else
