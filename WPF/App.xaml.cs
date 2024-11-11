@@ -12,6 +12,7 @@ namespace WPF
     {
     }
 
+    //globalne zmienne obecnie zalogowanego użytkownika
     public static class CurrentUser
     {
         public static string? Login { get; set; }
@@ -19,8 +20,6 @@ namespace WPF
         public static int UserId { get; set; }
         public static byte[]? Avatar { get; set; } 
     }
-
-
 
     public class UserService
     {
@@ -138,29 +137,25 @@ namespace WPF
             }
         }
 
+        //Zapisywanie avatara w bazie danych - funkcja używana tylko przez domyślne avatary
         public void SaveAvatarToDatabase()
         {
-            // Sprawdź, czy avatar nie jest pusty
             if (CurrentUser.Avatar == null || CurrentUser.Avatar.Length == 0)
             {
                 throw new InvalidOperationException("Avatar is not set.");
             }
 
-            // Connection string do bazy danych - zastąp własnym connection stringiem
             string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                // Zapytanie SQL do aktualizacji avatara
                 string query = "UPDATE Users SET Avatar = @Avatar WHERE UserId = @UserId";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    // Dodaj parametry do zapytania
                     command.Parameters.AddWithValue("@Avatar", CurrentUser.Avatar);
                     command.Parameters.AddWithValue("@UserId", CurrentUser.UserId);
 
-                    // Otwórz połączenie i wykonaj zapytanie
                     connection.Open();
                     command.ExecuteNonQuery();
                 }
@@ -169,14 +164,13 @@ namespace WPF
             Console.WriteLine("Avatar has been successfully saved to the database.");
         }
 
-
+        //zapisywanie avatara w bazie danych - funkcja używana przez dodawanie własnego avatara
         public void SaveUserAvatar(int userId, string filePath)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
 
             byte[] avatarData;
 
-            // Odczyt pliku zdjęciowego jako dane binarne
             using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
             {
                 using (BinaryReader br = new BinaryReader(fs))
@@ -214,6 +208,7 @@ namespace WPF
             }
         }
 
+        //funkcja pobierania avatara z bazy danych 
         public void GetUserAvatar(int userId)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
@@ -230,7 +225,7 @@ namespace WPF
                     {
                         if (reader.Read() && !reader.IsDBNull(0))
                         {
-                            CurrentUser.Avatar = (byte[])reader["Avatar"]; // Przypisanie avatara do CurrentUser
+                            CurrentUser.Avatar = (byte[])reader["Avatar"]; 
                         }
                         else
                         {
