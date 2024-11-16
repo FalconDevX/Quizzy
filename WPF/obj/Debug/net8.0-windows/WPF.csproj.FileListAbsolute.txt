@@ -399,3 +399,5 @@ C:\Quizzy\huuuuuuuuuu\Quizzy\WPF\obj\Debug\net8.0-windows\WPF.pdb
 C:\Quizzy\huuuuuuuuuu\Quizzy\WPF\obj\Debug\net8.0-windows\WPF.genruntimeconfig.cache
 C:\Quizzy\huuuuuuuuuu\Quizzy\WPF\obj\Debug\net8.0-windows\ref\WPF.dll
 C:\Quizzy\huuuuuuuuuu\Quizzy\WPF\bin\Debug\net8.0-windows\WPF.dll.config
+C:\Quizzy\huuuuuuuuuu\Quizzy\WPF\obj\Debug\net8.0-windows\DialogBox.g.cs
+C:\Quizzy\huuuuuuuuuu\Quizzy\WPF\obj\Debug\net8.0-windows\DialogBox.baml

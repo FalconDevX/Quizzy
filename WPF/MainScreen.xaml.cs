@@ -255,5 +255,16 @@ namespace WPF
         {
             this.WindowState = WindowState.Minimized;
         }
+
+        //Change login button
+        private void ChangeLoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            DialogBox dialogbox = new DialogBox();
+            dialogbox.ShowDialog();
+
+            SideBarNickTextBlock.Text = CurrentUser.Login;
+            UserLoginSettingsTextBlock.Text = CurrentUser.Login;
+            UserNameTextBlock.Text = $"Hi, {CurrentUser.Login}";
+        }
     }
 }

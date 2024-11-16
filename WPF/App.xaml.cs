@@ -229,5 +229,54 @@ namespace WPF
                 }
             }
         }
+
+        // Change user login function
+        public void ChangeUserLogin(int userId, string newLogin)
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+
+                string checkQuery = "SELECT COUNT(1) FROM Users WHERE Login COLLATE Latin1_General_BIN = @NewLogin";
+                using (SqlCommand checkCmd = new SqlCommand(checkQuery, conn))
+                {
+                    checkCmd.Parameters.AddWithValue("@NewLogin", newLogin);
+                    int count = Convert.ToInt32(checkCmd.ExecuteScalar());
+
+                    if (count > 0)
+                    {
+                        MessageBox.Show("Login is already taken. Please choose another one.");
+                        return;
+                    }
+                }
+                string query = "UPDATE Users SET Login = @NewLogin WHERE UserId = @UserId";
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@NewLogin", newLogin);
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+
+                    try
+                    {
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        if (rowsAffected > 0)
+                        {
+                            CurrentUser.Login = newLogin; 
+                            MessageBox.Show("Login updated successfully.");
+                        }
+                        else
+                        {
+                            MessageBox.Show("User not found or update failed.");
+                        }
+                    }
+                    catch (SqlException ex)
+                    {
+                        MessageBox.Show("Error: " + ex.Message);
+                    }
+                }
+            }
+        }
+
     }
 }

@@ -117,7 +117,7 @@
 
 
 
-                <Button Content="Change Login" Background="#675A9D" FontSize="30" FontWeight="Bold" Foreground="#0B013D" Cursor="Hand" Margin="183,756,820,175" Height="60" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed">
+                <Button x:Name="ChangeLoginButton" Content="Change Login" Background="#675A9D" FontSize="30" FontWeight="Bold" Foreground="#0B013D" Cursor="Hand" Margin="183,756,820,175" Height="60" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Click="ChangeLoginButton_Click">
                     <Button.Template>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Border x:Name="ChangeLoginBorder" Background="{TemplateBinding Background}" CornerRadius="5">
