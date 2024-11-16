@@ -2172,11 +2172,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Quizzy\\API_Quizzy\\Quizzy\\QuizzyAPI\\QuizzyAPI.csproj",
+      "projectUniqueName": "C:\\Quizzy\\API_Quizzy\\QuizzyAPI\\QuizzyAPI.csproj",
       "projectName": "QuizzyAPI",
-      "projectPath": "C:\\Quizzy\\API_Quizzy\\Quizzy\\QuizzyAPI\\QuizzyAPI.csproj",
+      "projectPath": "C:\\Quizzy\\API_Quizzy\\QuizzyAPI\\QuizzyAPI.csproj",
       "packagesPath": "C:\\Users\\mateu\\.nuget\\packages\\",
-      "outputPath": "C:\\Quizzy\\API_Quizzy\\Quizzy\\QuizzyAPI\\obj\\",
+      "outputPath": "C:\\Quizzy\\API_Quizzy\\QuizzyAPI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\mateu\\AppData\\Roaming\\NuGet\\NuGet.Config",
