@@ -260,11 +260,30 @@ namespace WPF
         private void ChangeLoginButton_Click(object sender, RoutedEventArgs e)
         {
             DialogBox dialogbox = new DialogBox();
+            dialogbox.DeleteButton.Visibility = Visibility.Visible;
+            dialogbox.ChangeButton.Visibility = Visibility.Collapsed;
+            dialogbox.DialogBoxTextBLock.Text = "Change";
+            dialogbox.DialogBoxTextBox.Tag = "Type new login";
+            dialogbox.DialogBoxTextBlockInfo.Text = "Login taken";
+            dialogbox.ChangeButton.Content = "Change";
             dialogbox.ShowDialog();
 
             SideBarNickTextBlock.Text = CurrentUser.Login;
             UserLoginSettingsTextBlock.Text = CurrentUser.Login;
             UserNameTextBlock.Text = $"Hi, {CurrentUser.Login}";
+        }
+
+        //Delete account button
+
+        private void DeleteAccountButton_Click(object sender, RoutedEventArgs e)
+        {
+            DialogBox dialogbox = new DialogBox();
+            dialogbox.ChangeButton.Visibility = Visibility.Collapsed;
+            dialogbox.DeleteButton.Visibility = Visibility.Visible;
+            dialogbox.DialogBoxTextBLock.Text = "Delete Account";
+            dialogbox.DialogBoxTextBox.Tag = "Retype your login";
+            dialogbox.DialogBoxTextBlockInfo.Text = "Login do not match";
+            dialogbox.ShowDialog();
         }
     }
 }

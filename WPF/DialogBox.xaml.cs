@@ -29,12 +29,12 @@ namespace WPF
 
         private void ChangeLoginButton_Click(object sender, RoutedEventArgs e)
         {
-            string newlogin = ChangeLoginTextBox.Text;
+            string newlogin = DialogBoxTextBlockInfo.Text;
 
             UserService userService = new UserService();
             if (userService.IsLoginTaken(newlogin))
             {
-                LoginTakenTextBlock.Visibility = Visibility.Visible;
+                DialogBoxTextBlockInfo.Visibility = Visibility.Visible;
             }
             else if(newlogin.Length>7)
             {
@@ -50,9 +50,15 @@ namespace WPF
             }
         }
 
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            
+            MessageBox.Show("Account delete");
+        }
+
         private void ChangeLoginTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            LoginTakenTextBlock.Visibility = Visibility.Hidden;
+            DialogBoxTextBlockInfo.Visibility = Visibility.Hidden;
         }
     }
 }

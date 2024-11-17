@@ -70,19 +70,30 @@
         <Image Margin="-10,-12,-13,-11" Source="/DailogBoxBackground.png"/>
 
         <StackPanel Width="259"  HorizontalAlignment="Center">
-            <!-- TextBlock NewLogin -->
-            <TextBlock HorizontalAlignment="Center" Foreground="White" Margin="0,20,0,0" TextWrapping="Wrap" Text="Provide new login" FontSize="30" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Width="212"/>
+            <!-- TextBlock DialogBox -->
+            <TextBlock x:Name="DialogBoxTextBLock" HorizontalAlignment="Center" Foreground="White" Margin="0,20,0,0" TextWrapping="Wrap" Text="Provide new login" FontSize="30" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Width="212"/>
 
             <!-- Border z TextBox dla Email -->
             <Border HorizontalAlignment="Center" Margin="0,20,0,0" Width="240" Height="40" BorderBrush="#191D67" BorderThickness="1" CornerRadius="10" Background="#191D67">
-                <TextBox x:Name ="ChangeLoginTextBox"  Tag="Type new login" VerticalContentAlignment="Center" Height="40" Foreground="#8FAFE6" CaretBrush="#8FAFE6" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" Margin="10,-1,9,-1" GotFocus="ChangeLoginTextBox_GotFocus" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed"/>
+                <TextBox x:Name = "DialogBoxTextBox"  Tag="Type new login" VerticalContentAlignment="Center" Height="40" Foreground="#8FAFE6" CaretBrush="#8FAFE6" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" Margin="10,-1,9,-1" GotFocus="ChangeLoginTextBox_GotFocus" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed"/>
             </Border>
 
             <!-- Login taken TextBlock -->
-            <TextBlock x:Name="LoginTakenTextBlock" HorizontalAlignment="Center" Foreground="#DE8689" Margin="0,10,0,0" TextWrapping="Wrap" Text="Login taken" FontSize="15" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Visibility="Hidden"/>
+            <TextBlock x:Name="DialogBoxTextBlockInfo" HorizontalAlignment="Center" Foreground="#DE8689" Margin="0,10,0,0" TextWrapping="Wrap" Text="Login taken" FontSize="15" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Visibility="Hidden"/>
 
             <!-- Przycisk Change -->
-            <Button HorizontalAlignment="Center" Margin="0,30,0,0" Content="Change" Background="#DE8689"  AutomationProperties.Name="LoginButton" Width="240" Height="46" FontSize="22" FontWeight="Bold" Foreground="White" Cursor="Hand" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Click="ChangeLoginButton_Click">
+            <Button x:Name="ChangeButton" Visibility="Collapsed" HorizontalAlignment="Center" Margin="0,30,0,0" Content="Change" Background="#DE8689"  AutomationProperties.Name="LoginButton" Width="240" Height="46" FontSize="22" FontWeight="Bold" Foreground="White" Cursor="Hand" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Click="ChangeLoginButton_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            
+            <!-- Przycisk Delete -->
+            <Button x:Name="DeleteButton" Content="Delete" Visibility="Collapsed" HorizontalAlignment="Center" Margin="0,30,0,0" Background="#DE8689"  AutomationProperties.Name="LoginButton" Width="240" Height="46" FontSize="22" FontWeight="Bold" Foreground="White" Cursor="Hand" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Click="ChangeLoginButton_Click">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Border Background="{TemplateBinding Background}" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}">

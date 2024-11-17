@@ -135,7 +135,7 @@
                     </Button.Template>
                 </Button>
 
-                <Button Content="Delete Account" Background="#811574" FontSize="30" FontWeight="Bold" Foreground="White" Cursor="Hand" Margin="183,838,819,93" Height="60" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed">
+                <Button Content="Delete Account" Background="#811574" FontSize="30" FontWeight="Bold" Foreground="White" Cursor="Hand" Margin="183,838,819,93" Height="60" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Click="DeleteAccountButton_Click">
                     <Button.Template>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Border x:Name="DeleteAccountBorder" Background="{TemplateBinding Background}" CornerRadius="5">
