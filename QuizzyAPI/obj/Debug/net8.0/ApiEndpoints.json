@@ -1,5 +1,68 @@
 [
   {
+    "ContainingType": "QuizzyAPI.Controllers.ChangeUserInfo",
+    "Method": "ChangeAvatar",
+    "RelativePath": "api/ChangeUserInfo/ChangeAvatar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "avatar",
+        "Type": "System.Byte[]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "QuizzyAPI.Controllers.ChangeUserInfo",
+    "Method": "ChangeLogin",
+    "RelativePath": "api/ChangeUserInfo/ChangeLogin",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "login",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "QuizzyAPI.Controllers.ChangeUserInfo",
+    "Method": "ChangePasswd",
+    "RelativePath": "api/ChangeUserInfo/ChangePasswd",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "passwd",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "QuizzyAPI.Controllers.GetUserId",
     "Method": "GetUserIdByEmail",
     "RelativePath": "api/GetUserId/GetUserIdByEmail",
@@ -26,6 +89,22 @@
       {
         "Name": "login",
         "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "QuizzyAPI.Controllers.GetUserInfo",
+    "Method": "GetAvatar",
+    "RelativePath": "api/GetUserInfo/GetAvatarById",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
         "IsRequired": false
       }
     ],

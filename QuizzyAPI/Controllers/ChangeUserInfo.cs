@@ -90,31 +90,41 @@ namespace QuizzyAPI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new { message = "An error occurred: " + ex.Message });
             }
         }
-        [HttpPost]
         [Route("ChangeAvatar")]
-        public IActionResult ChangeAvatar(int id, byte[] avatar)
+        [HttpPost]
+        public IActionResult ChangeAvatar(int id, IFormFile avatar)
         {
             try
             {
-                using (SqlConnection con = new SqlConnection(_configuration.GetConnectionString("ConnString")))
+                if (avatar == null || avatar.Length == 0)
                 {
-                    string query = "UPDATE Users SET Avatar = @avatar WHERE UserID = @id";
-                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    return BadRequest("No file was uploaded.");
+                }
+
+                using (var memoryStream = new MemoryStream())
+                {
+                    avatar.CopyTo(memoryStream);
+                    byte[] avatarBytes = memoryStream.ToArray();
+
+                    using (SqlConnection con = new SqlConnection(_configuration.GetConnectionString("ConnString")))
                     {
-                        cmd.Parameters.AddWithValue("@avatar", avatar);
-                        cmd.Parameters.AddWithValue("@id", id);
-
-                        con.Open();
-
-                        int rowsAffected = cmd.ExecuteNonQuery();
-
-                        if (rowsAffected > 0)
+                        string query = "UPDATE Users SET Avatar = @avatar WHERE UserID = @id";
+                        using (SqlCommand cmd = new SqlCommand(query, con))
                         {
-                            return Ok("Avatar Updated succesfully.");
-                        }
-                        else
-                        {
-                            return NotFound("User with the provided ID doesn't exist.");
+                            cmd.Parameters.AddWithValue("@avatar", avatarBytes);
+                            cmd.Parameters.AddWithValue("@id", id);
+
+                            con.Open();
+                            int rowsAffected = cmd.ExecuteNonQuery();
+
+                            if (rowsAffected > 0)
+                            {
+                                return Ok("Avatar updated successfully.");
+                            }
+                            else
+                            {
+                                return NotFound("User with the provided ID doesn't exist.");
+                            }
                         }
                     }
                 }
@@ -128,5 +138,7 @@ namespace QuizzyAPI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new { message = "An error occurred: " + ex.Message });
             }
         }
+
+
     }
 }

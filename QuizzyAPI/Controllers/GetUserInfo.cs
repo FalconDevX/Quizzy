@@ -63,26 +63,45 @@ namespace QuizzyAPI.Controllers
                 return NotFound("User with the provided ID doesn't exist.");
             }
         }
+
+
+
         [HttpGet]
         [Route("GetAvatarById")]
-        public IActionResult GetAvatar(int id) 
+        public async Task<IActionResult> GetAvatar(int id)
         {
-            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("ConnString").ToString());
-            SqlDataAdapter adapter = new SqlDataAdapter("SELECT Avatar FROM [dbo].[Users] WHERE UserID = @Id", con);
-            adapter.SelectCommand.Parameters.AddWithValue("@Id", id);
-
-            DataTable dt = new DataTable();
-            adapter.Fill(dt);
-
-            if (dt.Rows.Count > 0)
+            using (SqlConnection con = new SqlConnection(_configuration.GetConnectionString("ConnString")))
             {
-                byte[] avatar = (byte[])dt.Rows[0]["Avatar"];
-                return Ok(avatar);
-            }
-            else
-            {
-                return NotFound("User with the provided ID doesn't exist.");
+                try
+                {
+                    await con.OpenAsync(); 
+
+                    using (SqlDataAdapter adapter = new SqlDataAdapter("SELECT Avatar FROM [dbo].[Users] WHERE UserID = @Id", con))
+                    {
+                        adapter.SelectCommand.Parameters.AddWithValue("@Id", id);
+
+                        DataTable dt = new DataTable();
+                        adapter.Fill(dt);
+
+                        if (dt.Rows.Count > 0)
+                        {
+                            byte[] avatar = (byte[])dt.Rows[0]["Avatar"];
+                            return File(avatar, "image/jpeg");
+                        }
+                        else
+                        {
+                            return NotFound(); 
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    return StatusCode(500); 
+                }
             }
         }
+
+
+
     }
 }
