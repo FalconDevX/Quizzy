@@ -42,18 +42,22 @@ namespace QuizzyAPI.Controllers
                         if (result != null)
                         {
                             int userId = Convert.ToInt32(result);
-                            return Ok(userId);
+                            return Ok(new { message = "User registered successfully", userId = userId });
                         }
                         else
                         {
-                            return BadRequest("User could not be registered.");
+                            return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Failed to register user" });
                         }
                     }
                 }
             }
+            catch (SqlException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Database error: " + ex.Message });
+            }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "An error occurred: " + ex.Message });
             }
         }
     }
