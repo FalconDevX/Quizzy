@@ -452,10 +452,6 @@ namespace WPF
 
                 System.Diagnostics.Debug.WriteLine(login);
 
-                MessageBox.Show(login);
-                MessageBox.Show(email);
-                MessageBox.Show(password);
-
                 bool IsRegistrationSuccess = await userService.RegisterUserApi(login, email, password);
 
                 if (IsRegistrationSuccess)

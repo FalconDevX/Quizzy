@@ -23,21 +23,26 @@ namespace WPF
 {
     public partial class MainScreen : Window
     {
+        public UserService userService;
+        private readonly UserService _avatarService;
         public MainScreen()
         {
+            _avatarService = new UserService();
             InitializeComponent();
             Loaded += MainScreen_Loaded;
             
-            
-            SetAvatar();
         }
 
         //Loading screen function
         private async void MainScreen_Loaded(object sender, RoutedEventArgs e)
         {
             UserService userservice = new UserService();
+            
             CurrentUser.UserId = await userservice.GetUserIdByLoginApi(CurrentUser.Login);
             CurrentUser.Email = await userservice.GetEmailByIdApi(CurrentUser.UserId);
+
+            LoadAvatar();
+
             UserNameTextBlock.Text = $"Hi, {CurrentUser.Login}";
             SideBarNickTextBlock.Text = CurrentUser.Login;
             UserEmailSettingsTextBlock.Text = CurrentUser.Email;
@@ -45,10 +50,9 @@ namespace WPF
             
         }
 
+        ///SIDEBAR///
 
-            ///SIDEBAR///
-
-            private void SideBarButton_Click(object sender, RoutedEventArgs e)
+        private void SideBarButton_Click(object sender, RoutedEventArgs e)
         {
             // Odznacz wszystkie przyciski w SideBarPanel
             foreach (var child in SideBarPanel.Children)
@@ -115,60 +119,11 @@ namespace WPF
             }
 
             UserService userService = new UserService();
-            userService.SaveAvatarToDatabase();
-
-            SetAvatar();
         }
 
-        //Setting avatar to current user
-        private void SetAvatar()
-        {
-            UserService userService = new UserService();
-            userService.GetUserAvatar(CurrentUser.UserId);
-
-            if (CurrentUser.Avatar != null && CurrentUser.Avatar.Length > 0)
-            {
-                using (var stream = new MemoryStream(CurrentUser.Avatar))
-                {
-                    var imageSource = new BitmapImage();
-                    imageSource.BeginInit();
-                    imageSource.StreamSource = stream;
-                    imageSource.CacheOption = BitmapCacheOption.OnLoad;
-                    imageSource.EndInit();
-                    UserAvatarImage.Source = imageSource;
-                    SidebarUserPhoto.Source = imageSource;
-                    AvatarUserPhoto.Source = imageSource;
-
-                    UserAvatarImage.Width = 150;
-                    UserAvatarImage.Height = 150;
-
-                    AvatarUserPhoto.Height = 150;
-                    AvatarUserPhoto.Width = 150;
-
-                    SidebarUserPhoto.Width = 88;
-                    SidebarUserPhoto.Height = 88;
-
-                    UserAvatarImage.Stretch = Stretch.UniformToFill;
-                    SidebarUserPhoto.Stretch = Stretch.UniformToFill;
-                    AvatarUserPhoto.Stretch = Stretch.UniformToFill;
-
-                    UserAvatarImage.Clip = new EllipseGeometry(new Point(UserAvatarImage.Width / 2, UserAvatarImage.Height / 2), UserAvatarImage.Width / 2, UserAvatarImage.Height / 2);
-                    SidebarUserPhoto.Clip = new EllipseGeometry(new Point(SidebarUserPhoto.Width / 2, SidebarUserPhoto.Height / 2), SidebarUserPhoto.Width / 2, SidebarUserPhoto.Height / 2);
-                    AvatarUserPhoto.Clip = new EllipseGeometry(new Point(AvatarUserPhoto.Width / 2, AvatarUserPhoto.Height / 2), AvatarUserPhoto.Width / 2, AvatarUserPhoto.Height / 2);
-                }
-            }
-            else
-            {
-                UserAvatarImage.Source = new BitmapImage(new Uri("/Resources/MainScreen/SideBar/DefaultLogoIcon.png", UriKind.Relative));
-                UserAvatarImage.Width = 100;
-                UserAvatarImage.Height = 100;
-                UserAvatarImage.Stretch = Stretch.UniformToFill;
-                UserAvatarImage.Clip = new EllipseGeometry(new Point(UserAvatarImage.Width / 2, UserAvatarImage.Height / 2), UserAvatarImage.Width / 2, UserAvatarImage.Height / 2);
-            }
-        }
 
         //Change avatar button
-        private void ChangeAvatarButton_Click(object sender, RoutedEventArgs e)
+        private async void ChangeAvatarButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp";
@@ -177,7 +132,6 @@ namespace WPF
             {
                 string filePath = openFileDialog.FileName;
                 UserService userService = new UserService();
-                userService.SaveUserAvatar(CurrentUser.UserId, filePath);
 
                 using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
                 {
@@ -187,13 +141,24 @@ namespace WPF
                     }
                 }
 
-                SetAvatar();
+                // Wywołanie funkcji do aktualizacji avatara na serwerze
+                bool isSuccess = await userService.ChangeUserAvatarAsync(filePath, CurrentUser.UserId);
+                if (isSuccess)
+                {
+                    MessageBox.Show("Avatar został pomyślnie zaktualizowany.");
+                }
+                else
+                {
+                    MessageBox.Show("Aktualizacja avatara nie powiodła się.");
+                }
             }
             else
             {
                 MessageBox.Show("Nie wybrano pliku.");
             }
+            LoadAvatar();
         }
+
 
         //Avatars button section
 
@@ -297,6 +262,45 @@ namespace WPF
             dialogbox.DialogBoxTextBox.Tag = "Retype your login";
             dialogbox.DialogBoxTextBlockInfo.Text = "Login do not match";
             dialogbox.ShowDialog();
+        }
+
+        private async void LoadAvatar()
+        {
+            int userId = CurrentUser.UserId;
+            BitmapImage avatarImage = await _avatarService.GetAvatarAsync(userId);
+
+            if (avatarImage != null)
+            {
+                UserAvatarImage.Source = avatarImage;
+                SidebarUserPhoto.Source = avatarImage;
+                AvatarUserPhoto.Source = avatarImage;
+
+                UserAvatarImage.Width = 150;
+                UserAvatarImage.Height = 150;
+
+                AvatarUserPhoto.Height = 150;
+                AvatarUserPhoto.Width = 150;
+
+                SidebarUserPhoto.Width = 88;
+                SidebarUserPhoto.Height = 88;
+
+                UserAvatarImage.Stretch = Stretch.UniformToFill;
+                SidebarUserPhoto.Stretch = Stretch.UniformToFill;
+                AvatarUserPhoto.Stretch = Stretch.UniformToFill;
+
+                UserAvatarImage.Clip = new EllipseGeometry(new Point(UserAvatarImage.Width / 2, UserAvatarImage.Height / 2), UserAvatarImage.Width / 2, UserAvatarImage.Height / 2);
+                SidebarUserPhoto.Clip = new EllipseGeometry(new Point(SidebarUserPhoto.Width / 2, SidebarUserPhoto.Height / 2), SidebarUserPhoto.Width / 2, SidebarUserPhoto.Height / 2);
+                AvatarUserPhoto.Clip = new EllipseGeometry(new Point(AvatarUserPhoto.Width / 2, AvatarUserPhoto.Height / 2), AvatarUserPhoto.Width / 2, AvatarUserPhoto.Height / 2);
+
+            }
+            else
+            {
+                UserAvatarImage.Source = new BitmapImage(new Uri("/Resources/MainScreen/SideBar/DefaultLogoIcon.png", UriKind.Relative));
+                UserAvatarImage.Width = 100;
+                UserAvatarImage.Height = 100;
+                UserAvatarImage.Stretch = Stretch.UniformToFill;
+                UserAvatarImage.Clip = new EllipseGeometry(new Point(UserAvatarImage.Width / 2, UserAvatarImage.Height / 2), UserAvatarImage.Width / 2, UserAvatarImage.Height / 2);
+            }
         }
     }
 }

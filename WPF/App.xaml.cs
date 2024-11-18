@@ -8,12 +8,14 @@ using System.Resources;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Net.Http.Json;
+using System.Windows.Media.Imaging;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace WPF
 {
     public partial class App : Application
     {
-        
     }
 
     //global variables for current login user
@@ -32,7 +34,7 @@ namespace WPF
         public UserService()
         {
             _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri("https://quizapi-dccjbsaedqcthte3.polandcentral-01.azurewebsites.net/api/"); // Zmień na adres swojego API
+            _httpClient.BaseAddress = new Uri("https://quizapi-dccjbsaedqcthte3.polandcentral-01.azurewebsites.net/api/"); 
         }
 
         public async Task<bool> IsLoginTakenApi(string login)
@@ -73,7 +75,9 @@ namespace WPF
         {
             try
             {
-                string url = $"RegisterUser/Register?login={Uri.EscapeDataString(login)}&email={Uri.EscapeDataString(email)}&password={Uri.EscapeDataString(password)}";
+                string hashedPassword = HashPassword(password);
+
+                string url = $"RegisterUser/Register?login={Uri.EscapeDataString(login)}&email={Uri.EscapeDataString(email)}&password={Uri.EscapeDataString(hashedPassword)}";
 
                 HttpResponseMessage response = await _httpClient.PostAsync(url, null);
 
@@ -97,6 +101,17 @@ namespace WPF
             }
         }
 
+        //Hashing password function
+        public static string HashPassword(string password)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
+                byte[] hashBytes = sha256.ComputeHash(passwordBytes);
+                return Convert.ToBase64String(hashBytes);
+            }
+        }
+
 
 
 
@@ -106,7 +121,6 @@ namespace WPF
             try
             {
                 string endpoint = identifier.Contains("@") ? "RightPasswd/UsingEmail" : "RightPasswd/UsingLogin";
-
                 bool isEmail = identifier.Contains("@");
 
                 var response = await _httpClient.GetAsync($"{endpoint}?{(isEmail ? "email" : "login")}={Uri.EscapeDataString(identifier)}&passwd={Uri.EscapeDataString(password)}");
@@ -116,20 +130,22 @@ namespace WPF
                     bool isValid = bool.Parse(await response.Content.ReadAsStringAsync());
                     if (isValid)
                     {
-                        if (isEmail)
-                        {
-                            CurrentUser.Email = identifier;
-                            UserService userService = new UserService();
-                            CurrentUser.UserId = await userService.GetUserIdByEmailApi(CurrentUser.Email);
-                            CurrentUser.Login = await userService.GetLoginByIdApi(CurrentUser.UserId);
-                        }
-                        else
-                        {
-                            CurrentUser.Login = identifier;
-                        }
-                        return true;
+                        return await SetCurrentUserInfo(identifier, isEmail);
                     }
                 }
+
+                string hashedPassword = HashPassword(password);
+                response = await _httpClient.GetAsync($"{endpoint}?{(isEmail ? "email" : "login")}={Uri.EscapeDataString(identifier)}&passwd={Uri.EscapeDataString(hashedPassword)}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    bool isValid = bool.Parse(await response.Content.ReadAsStringAsync());
+                    if (isValid)
+                    {
+                        return await SetCurrentUserInfo(identifier, isEmail);
+                    }
+                }
+
                 return false;
             }
             catch (Exception ex)
@@ -139,104 +155,22 @@ namespace WPF
             }
         }
 
-        //Zapisywanie avatara w bazie danych - funkcja używana tylko przez domyślne avatary
-        public void SaveAvatarToDatabase()
+        private async Task<bool> SetCurrentUserInfo(string identifier, bool isEmail)
         {
-            if (CurrentUser.Avatar == null || CurrentUser.Avatar.Length == 0)
+            if (isEmail)
             {
-                throw new InvalidOperationException("Avatar is not set.");
+                CurrentUser.Email = identifier;
+                UserService userService = new UserService();
+                CurrentUser.UserId = await userService.GetUserIdByEmailApi(CurrentUser.Email);
+                CurrentUser.Login = await userService.GetLoginByIdApi(CurrentUser.UserId);
             }
-
-            string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            else
             {
-                string query = "UPDATE Users SET Avatar = @Avatar WHERE UserId = @UserId";
-
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@Avatar", CurrentUser.Avatar);
-                    command.Parameters.AddWithValue("@UserId", CurrentUser.UserId);
-
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                }
+                CurrentUser.Login = identifier;
             }
-
-            Console.WriteLine("Avatar has been successfully saved to the database.");
+            return true;
         }
 
-        //zapisywanie avatara w bazie danych - funkcja używana przez dodawanie własnego avatara
-        public void SaveUserAvatar(int userId, string filePath)
-        {
-            string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
-
-            byte[] avatarData;
-
-            using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-            {
-                using (BinaryReader br = new BinaryReader(fs))
-                {
-                    avatarData = br.ReadBytes((int)fs.Length);
-                }
-            }
-
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                conn.Open();
-                string query = "UPDATE Users SET Avatar = @Avatar WHERE UserId = @UserId";
-                using (SqlCommand cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@UserId", userId);
-                    cmd.Parameters.AddWithValue("@Avatar", avatarData);
-
-                    try
-                    {
-                        int rowsAffected = cmd.ExecuteNonQuery();
-                        if (rowsAffected > 0)
-                        {
-                            MessageBox.Show("Avatar updated successfully.");
-                        }
-                        else
-                        {
-                            MessageBox.Show("User not found or update failed.");
-                        }
-                    }
-                    catch (SqlException ex)
-                    {
-                        MessageBox.Show("Error: " + ex.Message);
-                    }
-                }
-            }
-        }
-
-        //funkcja pobierania avatara z bazy danych
-        public void GetUserAvatar(int userId)
-        {
-            string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
-
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                conn.Open();
-                string query = "SELECT Avatar FROM Users WHERE UserId = @UserId";
-                using (SqlCommand cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@UserId", userId);
-
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        if (reader.Read() && !reader.IsDBNull(0))
-                        {
-                            CurrentUser.Avatar = (byte[])reader["Avatar"];
-                        }
-                        else
-                        {
-                            CurrentUser.Avatar = null;
-                        }
-                    }
-                }
-            }
-        }
 
         // Change user login function
         public void ChangeUserLogin(int userId, string newLogin)
@@ -360,10 +294,91 @@ namespace WPF
             }
         }
 
+        ///AVATAR///
+
+        public async Task<BitmapImage> GetAvatarAsync(int userId)
+        {
+            try
+            {
+               
+                var response = await _httpClient.GetAsync($"GetUserInfo/GetAvatarById?id={userId}");
+                if (response.IsSuccessStatusCode)
+                {
+                    var avatarBytes = await response.Content.ReadAsByteArrayAsync();
+                    var bitmap = new BitmapImage();
+                    using (var stream = new MemoryStream(avatarBytes))
+                    {
+                        bitmap.BeginInit();
+                        bitmap.StreamSource = stream;
+                        bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                        bitmap.EndInit();
+                    }
+                    return bitmap;
+                }
+                else
+                {
+                    return new BitmapImage();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+                return new BitmapImage();
+            }
+        }
+
+        public async Task<bool> ChangeUserAvatarAsync(string filePath, int userId)
+        {
+            try
+            {
+                using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                {
+                    using (var content = new MultipartFormDataContent())
+                    {
+                        var streamContent = new StreamContent(fileStream);
+                        streamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/octet-stream");
+
+                        content.Add(streamContent, "avatar", Path.GetFileName(filePath));
+
+                        var response = await _httpClient.PostAsync($"ChangeUserInfo/ChangeAvatar?id={userId}", content);
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            string result = await response.Content.ReadAsStringAsync();
+                            MessageBox.Show("Avatar updated successfully. Response: " + result);
+                            return true;
+                        }
+                        else
+                        {
+                            string errorMessage = await response.Content.ReadAsStringAsync();
+                            MessageBox.Show("Failed to update avatar. Server response: " + errorMessage);
+                            return false;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+                return false;
+            }
+        }
+
+
+
+
+
+
 
 
 
     }
 
 
+
+
+
+
 }
+
+
