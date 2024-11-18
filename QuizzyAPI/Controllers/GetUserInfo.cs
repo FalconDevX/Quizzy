@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Text;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
@@ -56,6 +57,27 @@ namespace QuizzyAPI.Controllers
             {
                 string login = dt.Rows[0]["Login"].ToString();
                 return Ok(login);
+            }
+            else
+            {
+                return NotFound("User with the provided ID doesn't exist.");
+            }
+        }
+        [HttpGet]
+        [Route("GetAvatarById")]
+        public IActionResult GetAvatar(int id) 
+        {
+            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("ConnString").ToString());
+            SqlDataAdapter adapter = new SqlDataAdapter("SELECT Avatar FROM [dbo].[Users] WHERE UserID = @Id", con);
+            adapter.SelectCommand.Parameters.AddWithValue("@Id", id);
+
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+
+            if (dt.Rows.Count > 0)
+            {
+                byte[] avatar = (byte[])dt.Rows[0]["Avatar"];
+                return Ok(avatar);
             }
             else
             {
