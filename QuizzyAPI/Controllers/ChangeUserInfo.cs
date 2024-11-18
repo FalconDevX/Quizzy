@@ -52,7 +52,44 @@ namespace QuizzyAPI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new { message = "An error occurred: " + ex.Message });
             }
         }
+        [HttpPost]
+        [Route("ChangePasswd")]
+        public IActionResult ChangePasswd(int id, string passwd)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(_configuration.GetConnectionString("ConnString")))
+                {
+                    string query = "UPDATE Users SET PasswordHash = @newpasswd WHERE UserID = @id";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@newpasswd", passwd);
+                        cmd.Parameters.AddWithValue("@id", id);
 
+                        con.Open();
+
+                        int rowsAffected = cmd.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+                        {
+                            return Ok("Password Updated succesfully.");
+                        }
+                        else
+                        {
+                            return NotFound("User with the provided ID doesn't exist.");
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Database error: " + ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "An error occurred: " + ex.Message });
+            }
+        }
         [HttpPost]
         [Route("ChangeAvatar")]
         public IActionResult ChangeAvatar(int id, byte[] avatar)

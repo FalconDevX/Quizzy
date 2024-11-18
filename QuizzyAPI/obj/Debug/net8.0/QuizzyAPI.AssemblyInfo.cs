@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("QuizzyAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7a9f133cfe59b226284a5fadeff27dac8f20b348")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a8b636ccf908e71a5c0d8bc5b36a5f7b93e4e9dd")]
 [assembly: System.Reflection.AssemblyProductAttribute("QuizzyAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("QuizzyAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
