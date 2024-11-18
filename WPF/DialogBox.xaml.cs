@@ -27,12 +27,12 @@ namespace WPF
            this.Close();
         }
 
-        private void ChangeLoginButton_Click(object sender, RoutedEventArgs e)
+        private async void ChangeLoginButton_Click(object sender, RoutedEventArgs e)
         {
             string newlogin = DialogBoxTextBlockInfo.Text;
 
             UserService userService = new UserService();
-            if (userService.IsLoginTaken(newlogin))
+            if (await userService.IsLoginTakenApi(newlogin))
             {
                 DialogBoxTextBlockInfo.Visibility = Visibility.Visible;
             }

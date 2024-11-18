@@ -19,6 +19,7 @@ namespace WPF
         {
             InitializeComponent();
 
+
             LoginPanel.Visibility = Visibility.Visible;
             RegisterPanel.Visibility = Visibility.Collapsed;
         }
@@ -357,8 +358,8 @@ namespace WPF
             CheckPasswordsMatch();
         }
 
-        //function if login button clicked
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        //login button click
+        private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             string identifier = EmailTextBoxLogin.Text;
             string password;
@@ -373,7 +374,7 @@ namespace WPF
             }
 
             UserService userService = new UserService();
-            bool isAuthenticated = userService.LoginUser(identifier, password);
+            bool isAuthenticated = await userService.LoginUser(identifier, password);
 
             if (!string.IsNullOrWhiteSpace(identifier) && password != "")
             {
@@ -382,7 +383,6 @@ namespace WPF
                     MessageBox.Show("Login successful.");
 
                     MainScreen mainScreen = new MainScreen();
-
                     mainScreen.Show();
                     this.Close();
                 }
@@ -397,8 +397,9 @@ namespace WPF
             }
         }
 
-        //Register i Login Button Click
-        private void RegisterButton_Click(object sender, RoutedEventArgs e)
+
+        //Register button click
+        private async void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
             string email = EmailTextBoxRegister.Text;
             string password;
@@ -417,40 +418,66 @@ namespace WPF
             }
 
             UserService userService = new UserService();
+
             if (password != repeatedPassword)
             {
                 CheckPasswordsMatch();
                 return;
             }
-            else if (userService.IsLoginTaken(login))
+
+            if (login != "")
             {
-                MessageBox.Show("Login already exists. Please choose a different one.");
-                return;
+                if (await userService.IsLoginTakenApi(login))
+                {
+                    MessageBox.Show("Login already exists. Please choose a different one.");
+                    return;
+                }
             }
-            else if (userService.IsEmailTaken(email))
+            
+            if(email != "")
             {
-                MessageBox.Show("Email already exists. Please choose a different one.");
-                return;
+                if (await userService.IsEmailTakenApi(email))
+                {
+                    MessageBox.Show("Email already exists. Please choose a different one.");
+                    return;
+                }
             }
-            else if (IsValidEmail(EmailTextBoxRegister.Text) && NickTextBoxRegister.Text != "" && EmailTextBoxRegister.Text != "" && PassTextBoxRegister.Text != "" && RepPassTextBoxRegister.Text != "" && IsValidPasswd(password))
+            
+            if (IsValidEmail(email) && !string.IsNullOrWhiteSpace(login) && !string.IsNullOrWhiteSpace(email) &&
+                !string.IsNullOrWhiteSpace(password) && IsValidPasswd(password))
             {
                 MainScreen mainScreen = new MainScreen();
 
                 string displayName = login.Contains("@") ? login.Split('@')[0] : login;
 
-                System.Diagnostics.Debug.WriteLine(NickTextBoxRegister.Text);
-                userService.RegisterUser(login, email, password);
-                MessageBox.Show("Register successful!");
-                mainScreen.UserNameTextBlock.Text = $"Hi, {displayName}";
-                mainScreen.Show();
-                this.Close();
+                System.Diagnostics.Debug.WriteLine(login);
+
+                MessageBox.Show(login);
+                MessageBox.Show(email);
+                MessageBox.Show(password);
+
+                bool IsRegistrationSuccess = await userService.RegisterUserApi(login, email, password);
+
+                if (IsRegistrationSuccess)
+                {
+                    MessageBox.Show("Register successful!");
+                    CurrentUser.Login = login;
+                    mainScreen.UserNameTextBlock.Text = $"Hi, {displayName}";
+                    mainScreen.Show();
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Registration not successfull");
+                }
+
             }
             else
             {
-                MessageBox.Show("Please fill all textboxes");
+                MessageBox.Show("Please fill all textboxes with valid data.");
             }
-            return;
         }
+
 
         //Password in passwordbox changed for loginand register panel
         private void PasswordBoxLogin_PasswordChanged(object sender, RoutedEventArgs e)

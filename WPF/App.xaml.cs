@@ -5,11 +5,15 @@ using System.Data.SqlClient;
 using Microsoft.Win32;
 using System.IO;
 using System.Resources;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Net.Http.Json;
 
 namespace WPF
 {
     public partial class App : Application
     {
+        
     }
 
     //global variables for current login user
@@ -23,111 +27,115 @@ namespace WPF
 
     public class UserService
     {
-        //register user function
-        public void RegisterUser(string login, string email, string password)
+        private readonly HttpClient _httpClient;
+
+        public UserService()
         {
-            string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
+            _httpClient = new HttpClient();
+            _httpClient.BaseAddress = new Uri("https://quizapi-dccjbsaedqcthte3.polandcentral-01.azurewebsites.net/api/"); // Zmień na adres swojego API
+        }
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+        public async Task<bool> IsLoginTakenApi(string login)
+        {
+            try
             {
-                conn.Open();
-                string query = "INSERT INTO Users (Login, Email, PasswordHash) VALUES (@Login, @Email, @Password)";
-                using (SqlCommand cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@Login", login);
-                    cmd.Parameters.AddWithValue("@Email", email);
-                    cmd.Parameters.AddWithValue("@Password", password);
+                HttpResponseMessage response = await _httpClient.GetAsync($"IsTaken/IsLoginTaken?login={login}");
+                response.EnsureSuccessStatusCode();
 
-                    try
-                    {
-                        cmd.ExecuteNonQuery();
-                        MessageBox.Show("User registered successfully.");
-                    }
-                    catch (SqlException ex)
-                    {
-                        MessageBox.Show("Error: " + ex.Message);
-                    }
-                }
+                string result = await response.Content.ReadAsStringAsync();
+                return bool.Parse(result);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error while checking login: " + ex.Message);
+                return false;
             }
         }
 
-        //login user function
-        public bool LoginUser(string identifier, string password)
+        public async Task<bool> IsEmailTakenApi(string email)
         {
-            string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
-
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            try
             {
-                try
+                HttpResponseMessage response = await _httpClient.GetAsync($"IsTaken/IsEmailTaken?email={email}");
+                response.EnsureSuccessStatusCode();
+
+                string result = await response.Content.ReadAsStringAsync();
+                return bool.Parse(result);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error while checking email: " + ex.Message);
+                return false;
+            }
+        }
+
+        public async Task<bool> RegisterUserApi(string login, string email, string password)
+        {
+            try
+            {
+                string url = $"RegisterUser/Register?login={Uri.EscapeDataString(login)}&email={Uri.EscapeDataString(email)}&password={Uri.EscapeDataString(password)}";
+
+                HttpResponseMessage response = await _httpClient.PostAsync(url, null);
+
+                if (response.IsSuccessStatusCode)
                 {
-                    conn.Open();
+                    string result = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show($"User registered successfully. Response: {result}");
+                    return true;
                 }
-                catch
+                else
                 {
-                    MessageBox.Show("Error: Unable to connect to the database.");
+                    string errorMessage = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Failed to register user. Server response: {errorMessage}");
                     return false;
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error during registration: {ex.Message}");
+                return false;
+            }
+        }
 
-                string query = "SELECT UserId, Login, Email FROM Users WHERE (Login COLLATE Latin1_General_BIN = @Identifier OR Email COLLATE Latin1_General_BIN = @Identifier) AND PasswordHash COLLATE Latin1_General_BIN = @Password";
-                using (SqlCommand cmd = new SqlCommand(query, conn))
+
+
+
+        //login user function
+        public async Task<bool> LoginUser(string identifier, string password)
+        {
+            try
+            {
+                string endpoint = identifier.Contains("@") ? "RightPasswd/UsingEmail" : "RightPasswd/UsingLogin";
+
+                bool isEmail = identifier.Contains("@");
+
+                var response = await _httpClient.GetAsync($"{endpoint}?{(isEmail ? "email" : "login")}={Uri.EscapeDataString(identifier)}&passwd={Uri.EscapeDataString(password)}");
+
+                if (response.IsSuccessStatusCode)
                 {
-                    cmd.Parameters.AddWithValue("@Identifier", identifier);
-                    cmd.Parameters.AddWithValue("@Password", password);
-
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    bool isValid = bool.Parse(await response.Content.ReadAsStringAsync());
+                    if (isValid)
                     {
-                        if (reader.Read())
+                        if (isEmail)
                         {
-                            CurrentUser.UserId = Convert.ToInt32(reader["UserId"]);
-                            CurrentUser.Login = Convert.ToString(reader["Login"]);
-                            CurrentUser.Email = Convert.ToString(reader["Email"]);
-
-                            return true;
+                            CurrentUser.Email = identifier;
+                            UserService userService = new UserService();
+                            CurrentUser.UserId = await userService.GetUserIdByEmailApi(CurrentUser.Email);
+                            CurrentUser.Login = await userService.GetLoginByIdApi(CurrentUser.UserId);
                         }
                         else
                         {
-                            return false;
+                            CurrentUser.Login = identifier;
                         }
+                        return true;
                     }
                 }
+                return false;
             }
-        }
-
-        //checking if login exist
-        public bool IsLoginTaken(string login)
-        {
-            string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
-
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            catch (Exception ex)
             {
-                conn.Open();
-                string query = "SELECT COUNT(1) FROM Users WHERE Login COLLATE Latin1_General_BIN = @Login";
-                using (SqlCommand cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@Login", login);
-
-                    int count = Convert.ToInt32(cmd.ExecuteScalar());
-                    return count > 0;
-                }
-            }
-        }
-
-        //checking if email exist
-        public bool IsEmailTaken(string email)
-        {
-            string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
-
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                conn.Open();
-                string query = "SELECT COUNT(1) FROM Users WHERE Email COLLATE Latin1_General_BIN = @Email";
-                using (SqlCommand cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@Email", email);
-
-                    int count = Convert.ToInt32(cmd.ExecuteScalar());
-                    return count > 0;
-                }
+                MessageBox.Show($"Error: {ex.Message}");
+                return false;
             }
         }
 
@@ -278,5 +286,84 @@ namespace WPF
             }
         }
 
+
+        //Getting email using Id
+        public async Task<string> GetEmailByIdApi(int userId)
+        {
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync($"GetUserInfo/GetEmailById?id={userId}");
+                response.EnsureSuccessStatusCode();
+
+                string email = await response.Content.ReadAsStringAsync();
+                return email;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error while retrieving email: " + ex.Message);
+                return string.Empty;
+            }
+        }
+
+
+        //Getting login using Id
+        public async Task<string> GetLoginByIdApi(int userId)
+        {
+            try  
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync($"GetUserInfo/GetLoginById?id={userId}");
+                response.EnsureSuccessStatusCode();
+
+                string login = await response.Content.ReadAsStringAsync();
+                return login;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error while retrieving login: " + ex.Message);
+                return string.Empty;
+            }
+        }
+
+
+        public async Task<int> GetUserIdByLoginApi(string login)
+        {
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync($"GetUserId/GetUserIdByLogin?login={login}"
+);
+                response.EnsureSuccessStatusCode();
+
+                string userId = await response.Content.ReadAsStringAsync();
+                return int.Parse(userId);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error while retrieving user ID: " + ex.Message);
+                return -1;
+            }
+        }
+
+        public async Task<int> GetUserIdByEmailApi(string email)
+        {
+            try                                                       
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync($"GetUserId/GetUserIdByEmail?email={Uri.EscapeDataString(email)}");
+                response.EnsureSuccessStatusCode();
+
+                string userId = await response.Content.ReadAsStringAsync();
+                return int.Parse(userId);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error while retrieving user ID by email: " + ex.Message);
+                return -1;
+            }
+        }
+
+
+
+
     }
+
+
 }

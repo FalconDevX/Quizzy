@@ -26,16 +26,29 @@ namespace WPF
         public MainScreen()
         {
             InitializeComponent();
+            Loaded += MainScreen_Loaded;
+            
+            
+            SetAvatar();
+        }
+
+        //Loading screen function
+        private async void MainScreen_Loaded(object sender, RoutedEventArgs e)
+        {
+            UserService userservice = new UserService();
+            CurrentUser.UserId = await userservice.GetUserIdByLoginApi(CurrentUser.Login);
+            CurrentUser.Email = await userservice.GetEmailByIdApi(CurrentUser.UserId);
             UserNameTextBlock.Text = $"Hi, {CurrentUser.Login}";
             SideBarNickTextBlock.Text = CurrentUser.Login;
             UserEmailSettingsTextBlock.Text = CurrentUser.Email;
             UserLoginSettingsTextBlock.Text = CurrentUser.Login;
-            SetAvatar();
+            
         }
 
-        ///SIDEBAR///
 
-        private void SideBarButton_Click(object sender, RoutedEventArgs e)
+            ///SIDEBAR///
+
+            private void SideBarButton_Click(object sender, RoutedEventArgs e)
         {
             // Odznacz wszystkie przyciski w SideBarPanel
             foreach (var child in SideBarPanel.Children)
