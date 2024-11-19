@@ -239,7 +239,7 @@
 
             <!-- Label I have account -->
 
-            <Label Content="I have account" Foreground="#8FAFE6" FontSize="16" Cursor="Hand" AutomationProperties.Name="YesAccountLabel" Width="115" Margin ="17,5,0,0"  MouseLeftButtonDown="YesAccountLabel_MouseLeftButtonDown" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" />
+            <Label Content="I have an account" Foreground="#8FAFE6" FontSize="16" Cursor="Hand" AutomationProperties.Name="YesAccountLabel" Width="120" Margin ="17,5,0,0"  MouseLeftButtonDown="YesAccountLabel_MouseLeftButtonDown" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" />
 
 
         </StackPanel>

@@ -406,7 +406,7 @@ namespace WPF
             string repeatedPassword;
             string login = NickTextBoxRegister.Text;
 
-            if (ShowPasswordLogin.IsChecked == true)
+            if (ShowPasswordLogin.IsChecked == false)
             {
                 password = PassBoxRegister.Password;
                 repeatedPassword = RepPassBoxRegister.Password;

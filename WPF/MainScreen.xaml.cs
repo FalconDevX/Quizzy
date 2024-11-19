@@ -271,9 +271,7 @@ namespace WPF
 
             if (avatarImage != null)
             {
-                UserAvatarImage.Source = avatarImage;
-                SidebarUserPhoto.Source = avatarImage;
-                AvatarUserPhoto.Source = avatarImage;
+                
 
                 UserAvatarImage.Width = 150;
                 UserAvatarImage.Height = 150;
@@ -295,7 +293,10 @@ namespace WPF
             }
             else
             {
-                UserAvatarImage.Source = new BitmapImage(new Uri("/Resources/MainScreen/SideBar/DefaultLogoIcon.png", UriKind.Relative));
+                avatarImage = new BitmapImage(new Uri("/Resources/MainScreen/SideBar/DefaultLogoIcon.png", UriKind.Relative));
+                UserAvatarImage.Source = avatarImage;
+                SidebarUserPhoto.Source = avatarImage;
+                AvatarUserPhoto.Source = avatarImage;
                 UserAvatarImage.Width = 100;
                 UserAvatarImage.Height = 100;
                 UserAvatarImage.Stretch = Stretch.UniformToFill;
