@@ -238,9 +238,10 @@ namespace WPF
         private void ChangeLoginButton_Click(object sender, RoutedEventArgs e)
         {
             DialogBox dialogbox = new DialogBox();
-            dialogbox.DeleteButton.Visibility = Visibility.Visible;
-            dialogbox.ChangeButton.Visibility = Visibility.Collapsed;
-            dialogbox.DialogBoxTextBLock.Text = "Change";
+            dialogbox.DeleteButton.Visibility = Visibility.Collapsed;
+            dialogbox.ChangeButton.Visibility = Visibility.Visible;
+            dialogbox.DeleteTextBlock.Visibility = Visibility.Collapsed;
+            dialogbox.ChangeLoginTextBlock.Visibility = Visibility.Visible;
             dialogbox.DialogBoxTextBox.Tag = "Type new login";
             dialogbox.DialogBoxTextBlockInfo.Text = "Login taken";
             dialogbox.ChangeButton.Content = "Change";
@@ -258,7 +259,8 @@ namespace WPF
             DialogBox dialogbox = new DialogBox();
             dialogbox.ChangeButton.Visibility = Visibility.Collapsed;
             dialogbox.DeleteButton.Visibility = Visibility.Visible;
-            dialogbox.DialogBoxTextBLock.Text = "Delete Account";
+            dialogbox.ChangeLoginTextBlock.Visibility = Visibility.Collapsed;
+            dialogbox.DeleteTextBlock.Visibility = Visibility.Visible;
             dialogbox.DialogBoxTextBox.Tag = "Retype your login";
             dialogbox.DialogBoxTextBlockInfo.Text = "Login do not match";
             dialogbox.ShowDialog();
