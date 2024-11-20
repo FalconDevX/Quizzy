@@ -361,16 +361,16 @@ namespace WPF
         //login button click
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            string identifier = EmailTextBoxLogin.Text;
+            string identifier = EmailTextBoxLogin.Text.Trim();
             string password;
 
             if (ShowPasswordLogin.IsChecked == true)
             {
-                password = PassTextBoxLogin.Text;
+                password = PassTextBoxLogin.Text.Trim();
             }
             else
             {
-                password = PassBoxLogin.Password;
+                password = PassBoxLogin.Password.Trim();
             }
 
             if (!string.IsNullOrWhiteSpace(identifier) && password != "")
@@ -406,20 +406,20 @@ namespace WPF
         //Register button click
         private async void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
-            string email = EmailTextBoxRegister.Text;
+            string email = EmailTextBoxRegister.Text.Trim();
             string password;
             string repeatedPassword;
-            string login = NickTextBoxRegister.Text;
+            string login = NickTextBoxRegister.Text.Trim();
 
             if (ShowPasswordLogin.IsChecked == false)
             {
-                password = PassBoxRegister.Password;
-                repeatedPassword = RepPassBoxRegister.Password;
+                password = PassBoxRegister.Password.Trim();
+                repeatedPassword = RepPassBoxRegister.Password.Trim();
             }
             else
             {
-                password = PassTextBoxRegister.Text;
-                repeatedPassword = RepPassTextBoxRegister.Text;
+                password = PassTextBoxRegister.Text.Trim();
+                repeatedPassword = RepPassTextBoxRegister.Text.Trim();
             }
 
             UserService userService = new UserService();
