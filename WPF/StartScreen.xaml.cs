@@ -376,12 +376,13 @@ namespace WPF
             {
                 UserService userService = new UserService();
 
-                MessageBox.Show("Connecting to the database. Please wait...");
+                LoadingSpinner.Visibility = Visibility.Visible;
 
                 bool isAuthenticated = await userService.LoginUser(identifier, password);
 
                 if (isAuthenticated)
                 {
+                    LoadingSpinner.Visibility = Visibility.Hidden;
                     MessageBox.Show("Login successful.");
 
                     MainScreen mainScreen = new MainScreen();
@@ -390,6 +391,7 @@ namespace WPF
                 }
                 else
                 {
+                    LoadingSpinner.Visibility = Visibility.Hidden;
                     MessageBox.Show("Invalid credentials. Please try again.");
                 }
             }

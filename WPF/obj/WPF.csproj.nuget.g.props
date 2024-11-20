@@ -12,4 +12,14 @@
   <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <SourceRoot Include="C:\Users\mateu\.nuget\packages\" />
   </ItemGroup>
+  <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <Content Include="$(NuGetPackageRoot)mpcoding.wpf.loadinganimations\1.0.2\contentFiles\any\netcoreapp3.1\MpCodingDP.ico" Condition="Exists('$(NuGetPackageRoot)mpcoding.wpf.loadinganimations\1.0.2\contentFiles\any\netcoreapp3.1\MpCodingDP.ico')">
+      <NuGetPackageId>MpCoding.WPF.LoadingAnimations</NuGetPackageId>
+      <NuGetPackageVersion>1.0.2</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Pack>false</Pack>
+      <Private>False</Private>
+      <Link>MpCodingDP.ico</Link>
+    </Content>
+  </ItemGroup>
 </Project>

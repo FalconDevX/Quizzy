@@ -69,3 +69,5 @@ C:\Quizzy\QuizzyAplication\WPF\obj\Debug\net8.0-windows\ref\WPF.dll
 C:\Quizzy\QuizzyAplication\WPF\bin\Debug\net8.0-windows\WPF.dll.config
 C:\Quizzy\QuizzyAplication\WPF\obj\Debug\net8.0-windows\DeleteAccount.g.cs
 C:\Quizzy\QuizzyAplication\WPF\obj\Debug\net8.0-windows\DeleteAccount.baml
+C:\Quizzy\QuizzyAplication\WPF\bin\Debug\net8.0-windows\MpCoding.WPF.LoadingAnimations.dll
+C:\Quizzy\QuizzyAplication\WPF\obj\Debug\net8.0-windows\WPF_Content.g.cs

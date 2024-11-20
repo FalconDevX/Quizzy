@@ -281,6 +281,14 @@
           }
         }
       },
+      "MpCoding.WPF.LoadingAnimations/1.0.2": {
+        "runtime": {
+          "lib/netcoreapp3.1/MpCoding.WPF.LoadingAnimations.dll": {
+            "assemblyVersion": "1.0.2.0",
+            "fileVersion": "1.0.2.0"
+          }
+        }
+      },
       "runtime.native.System.Data.SqlClient.sni/4.7.0": {
         "dependencies": {
           "runtime.win-arm64.runtime.native.System.Data.SqlClient.sni": "4.4.0",
@@ -697,6 +705,13 @@
       "sha512": "sha512-KSrRMb5vNi0CWSGG1++id2ZOs/1QhRqROt+qgbEAdQuGjGrFcl4AOl4/exGPUYz2wUnU42nvJqon1T3U0kPXLA==",
       "path": "microsoft.win32.registry/4.7.0",
       "hashPath": "microsoft.win32.registry.4.7.0.nupkg.sha512"
+    },
+    "MpCoding.WPF.LoadingAnimations/1.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-St9WZMTJgqJ5M+OXDycfbg0ripQsXDpd3EyELCsKMLdUPDgWwgsJ6CkG05OY8tyuzIhGKVx3yS1cuUJPEifHgQ==",
+      "path": "mpcoding.wpf.loadinganimations/1.0.2",
+      "hashPath": "mpcoding.wpf.loadinganimations.1.0.2.nupkg.sha512"
     },
     "runtime.native.System.Data.SqlClient.sni/4.7.0": {
       "type": "package",
