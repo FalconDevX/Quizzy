@@ -19,7 +19,6 @@ namespace WPF
         {
             InitializeComponent();
 
-
             LoginPanel.Visibility = Visibility.Visible;
             RegisterPanel.Visibility = Visibility.Collapsed;
         }
@@ -373,11 +372,14 @@ namespace WPF
                 password = PassBoxLogin.Password;
             }
 
-            UserService userService = new UserService();
-            bool isAuthenticated = await userService.LoginUser(identifier, password);
-
             if (!string.IsNullOrWhiteSpace(identifier) && password != "")
             {
+                UserService userService = new UserService();
+
+                MessageBox.Show("Connecting to the database. Please wait...");
+
+                bool isAuthenticated = await userService.LoginUser(identifier, password);
+
                 if (isAuthenticated)
                 {
                     MessageBox.Show("Login successful.");

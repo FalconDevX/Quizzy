@@ -75,8 +75,8 @@
             <StackPanel Name="SideBarPanel" HorizontalAlignment="Left" Margin="0, 0, 0, 0" Width="280">
 
                 <StackPanel Orientation="Horizontal" Height="140" Width="280">
-                    <Image x:Name="SidebarUserPhoto"  Margin="16,0,0,0"  Source="Resources\MainScreen\SideBar\DefaultLogoIcon.png" Width="88" Height="88"/>
-                    <TextBlock x:Name="SideBarNickTextBlock" Margin="20,0,0,0" Text="John" VerticalAlignment="Center" Foreground="#8FAFE6" FontSize="48" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed"/>
+                    <Image x:Name="SidebarUserPhoto"  Margin="16,0,0,0"  Source="Resources\MainScreen\SideBar\DefaultLogoIcon.png" Width="60" Height="60"/>
+                    <TextBlock x:Name="SideBarNickTextBlock" Margin="20,0,0,0" Text="John" VerticalAlignment="Center" Foreground="#8FAFE6" FontSize="35" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed"/>
                 </StackPanel>
 
                 <ToggleButton x:Name="HomeButton" Content="Home" Tag="Resources\MainScreen\SideBar\ListIcon.png" Style="{StaticResource SideBarToggleButtonStyle}" Height="90" Width="280" IsChecked="True" Click="HomeButton_Click"/>

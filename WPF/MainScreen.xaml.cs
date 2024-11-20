@@ -269,20 +269,27 @@ namespace WPF
         private async void LoadAvatar()
         {
             int userId = CurrentUser.UserId;
-            BitmapImage avatarImage = await _avatarService.GetAvatarAsync(userId);
+            BitmapImage avatarImage;
 
-            if (avatarImage != null)
+            try
             {
-                
+                avatarImage = await _avatarService.GetAvatarAsync(userId);
+
+                if (avatarImage == null)
+                {
+                    avatarImage = new BitmapImage(new Uri("/Resources/MainScreen/SideBar/DefaultLogoIcon.png", UriKind.Relative));
+                }
+
+                UserAvatarImage.Source = avatarImage;
+                SidebarUserPhoto.Source = avatarImage;
+                AvatarUserPhoto.Source = avatarImage;
 
                 UserAvatarImage.Width = 150;
                 UserAvatarImage.Height = 150;
-
                 AvatarUserPhoto.Height = 150;
                 AvatarUserPhoto.Width = 150;
-
-                SidebarUserPhoto.Width = 88;
-                SidebarUserPhoto.Height = 88;
+                SidebarUserPhoto.Width = 60;
+                SidebarUserPhoto.Height = 60;
 
                 UserAvatarImage.Stretch = Stretch.UniformToFill;
                 SidebarUserPhoto.Stretch = Stretch.UniformToFill;
@@ -291,19 +298,22 @@ namespace WPF
                 UserAvatarImage.Clip = new EllipseGeometry(new Point(UserAvatarImage.Width / 2, UserAvatarImage.Height / 2), UserAvatarImage.Width / 2, UserAvatarImage.Height / 2);
                 SidebarUserPhoto.Clip = new EllipseGeometry(new Point(SidebarUserPhoto.Width / 2, SidebarUserPhoto.Height / 2), SidebarUserPhoto.Width / 2, SidebarUserPhoto.Height / 2);
                 AvatarUserPhoto.Clip = new EllipseGeometry(new Point(AvatarUserPhoto.Width / 2, AvatarUserPhoto.Height / 2), AvatarUserPhoto.Width / 2, AvatarUserPhoto.Height / 2);
-
             }
-            else
+            catch (Exception ex)
             {
+                MessageBox.Show($"An error occurred while loading the avatar: {ex.Message}");
+
                 avatarImage = new BitmapImage(new Uri("/Resources/MainScreen/SideBar/DefaultLogoIcon.png", UriKind.Relative));
                 UserAvatarImage.Source = avatarImage;
                 SidebarUserPhoto.Source = avatarImage;
                 AvatarUserPhoto.Source = avatarImage;
+
                 UserAvatarImage.Width = 100;
                 UserAvatarImage.Height = 100;
                 UserAvatarImage.Stretch = Stretch.UniformToFill;
                 UserAvatarImage.Clip = new EllipseGeometry(new Point(UserAvatarImage.Width / 2, UserAvatarImage.Height / 2), UserAvatarImage.Width / 2, UserAvatarImage.Height / 2);
             }
         }
+
     }
 }

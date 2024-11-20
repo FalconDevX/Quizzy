@@ -296,34 +296,36 @@ namespace WPF
 
         ///AVATAR///
 
-        public async Task<BitmapImage> GetAvatarAsync(int userId)
+        public async Task<BitmapImage?> GetAvatarAsync(int userId)
         {
             try
             {
-               
                 var response = await _httpClient.GetAsync($"GetUserInfo/GetAvatarById?id={userId}");
+
                 if (response.IsSuccessStatusCode)
                 {
                     var avatarBytes = await response.Content.ReadAsByteArrayAsync();
-                    var bitmap = new BitmapImage();
-                    using (var stream = new MemoryStream(avatarBytes))
+
+                    if (avatarBytes != null && avatarBytes.Length > 0)
                     {
-                        bitmap.BeginInit();
-                        bitmap.StreamSource = stream;
-                        bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                        bitmap.EndInit();
+                        var bitmap = new BitmapImage();
+                        using (var stream = new MemoryStream(avatarBytes))
+                        {
+                            bitmap.BeginInit();
+                            bitmap.StreamSource = stream;
+                            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                            bitmap.EndInit();
+                        }
+                        return bitmap;
                     }
-                    return bitmap;
                 }
-                else
-                {
-                    return new BitmapImage();
-                }
+
+                return null;
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error: {ex.Message}");
-                return new BitmapImage();
+                return null;
             }
         }
 
