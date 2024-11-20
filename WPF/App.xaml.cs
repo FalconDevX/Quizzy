@@ -84,7 +84,7 @@ namespace WPF
                 if (response.IsSuccessStatusCode)
                 {
                     string result = await response.Content.ReadAsStringAsync();
-                    MessageBox.Show($"User registered successfully. Response: {result}");
+                    MessageBox.Show($"User registered successfully.");
                     return true;
                 }
                 else

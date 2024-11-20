@@ -333,6 +333,7 @@ namespace WPF
             CheckPasswordsValid();
             PassBoxRegister.Style = null;
             PassNotMatchLabel.Visibility = Visibility.Hidden;
+            InvalidPassLabel.Visibility = Visibility.Hidden;
         }
 
         private void RepPassTextBoxRegister_GotFocus(object sender, RoutedEventArgs e)
