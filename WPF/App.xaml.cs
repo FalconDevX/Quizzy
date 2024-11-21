@@ -347,7 +347,6 @@ namespace WPF
                         if (response.IsSuccessStatusCode)
                         {
                             string result = await response.Content.ReadAsStringAsync();
-                            MessageBox.Show("Avatar updated successfully. Response: " + result);
                             return true;
                         }
                         else

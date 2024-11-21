@@ -1,11 +1,12 @@
 ﻿<Window x:Class="WPF.MainScreen"
+        xmlns:mp="http://schemas.mpcoding.com/mpcoding/wpf/loadinganimation"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF"
         mc:Ignorable="d"
-        Title="MainScreen" 
+        Title="Quizzy" 
         WindowState="Maximized"
         WindowStyle="None"
         Width="1700" Height="1080"
@@ -170,6 +171,8 @@
 
                 <Image x:Name="AvatarUserPhoto"  Source="/Resources/MainScreen/SideBar/DefaultLogoIcon.png" Width="150" Height="150" Margin="672,250,478,591"/>
 
+                <mp:DotsRingSpinner x:Name="LoadingSpinner" Color="#8A1178" Width="70" Height="70" Margin="470,0,0,340" Duration="0:0:2.0" Visibility="Hidden"/>
+                
                 <!-- Section with avatars buttons -->
                 <Grid>
                     <Button x:Name="AvatarButton1" Background="Transparent" Cursor="Hand" Margin="680,418,503,463" Click="AvatarButton1_Click">
@@ -565,7 +568,7 @@
             <Grid Width="1300" Height="970">
                 <Image x:Name="UserAvatarImage" Source="/Resources/MainScreen/SideBar/DefaultLogoIcon.png" Margin="15,12,1094,764" Width="150" Height="150" />
                 <TextBlock x:Name="UserNameTextBlock" Text="Hi!" Foreground="White" Margin="240,65,0,821" FontSize="70" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed"/>
-
+                
                 <Border Margin="0,250,0,420" Background="#0B013D" CornerRadius="30" Height="300" Width="1300"/>
                 <Border Margin="0,600,0,75" Background="#0B013D" CornerRadius="30" Height="300" Width="1300"/>
             </Grid>
@@ -602,5 +605,6 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
+
     </Grid>
 </Window>

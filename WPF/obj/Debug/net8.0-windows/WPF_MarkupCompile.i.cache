@@ -11,10 +11,10 @@ false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 C:\Quizzy\QuizzyAplication\WPF\App.xaml
 4-1312682911
-1-1336031266
+13-1239522329
 9-1861319512
 217-1276808230
 DeleteAccount.xaml;DialogBox.xaml;MainScreen.xaml;StartScreen.xaml;
 
-True
+False
 

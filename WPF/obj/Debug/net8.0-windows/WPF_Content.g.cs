@@ -9,5 +9,17 @@
 //------------------------------------------------------------------------------
 
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("mpcodingdp.ico")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/mainscreen/avatars/avatar1.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/mainscreen/avatars/avatar10.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/mainscreen/avatars/avatar11.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/mainscreen/avatars/avatar12.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/mainscreen/avatars/avatar2.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/mainscreen/avatars/avatar3.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/mainscreen/avatars/avatar4.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/mainscreen/avatars/avatar5.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/mainscreen/avatars/avatar6.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/mainscreen/avatars/avatar7.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/mainscreen/avatars/avatar8.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/mainscreen/avatars/avatar9.png")]
 
 

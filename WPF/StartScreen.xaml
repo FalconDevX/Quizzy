@@ -184,7 +184,7 @@
             <!-- Label I don't have account -->
             <Label Content="I don't have an account" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#8FAFE6" FontSize="16" Margin="70,8,0,0" Cursor="Hand" AutomationProperties.Name="NoAccountLabel" MouseLeftButtonDown="NoAccountLabel_MouseLeftButtonDown" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed"/>
 
-            <mp:DotsRingSpinner x:Name="LoadingSpinner" Width="64" Height="63" Color="#8A1178" Duration="0:0:2.0" Margin="0,20,0,0" Visibility="Hidden"/>
+            <mp:DotsRingSpinner x:Name="LoadingSpinner" Width="64" Height="63" Color="#8A1178" Duration="0:0:2.0" Visibility="Hidden"/>
 
         </StackPanel>
         <StackPanel x:Name="RegisterPanel" AutomationProperties.Name="RegisterPanel" Margin="324,137,339,-35">

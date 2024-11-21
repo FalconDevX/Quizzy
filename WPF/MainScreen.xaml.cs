@@ -101,24 +101,33 @@ namespace WPF
         ///SETTINGS///
 
         //Setting default avatar
-        public void SetDefaultAvatar(int avatarNumber)
+        public async void SetDefaultAvatar(int avatarNumber)
         {
-            string avatarPath = $"/Resources/MainScreen/Avatars/Avatar{avatarNumber}.png";
-            Uri resourceUri = new Uri(avatarPath, UriKind.Relative);
-            StreamResourceInfo resourceInfo = Application.GetResourceStream(resourceUri);
+            LoadingSpinner.Visibility = Visibility.Visible;
 
-            if (resourceInfo != null)
+            string basePath = AppDomain.CurrentDomain.BaseDirectory;
+            string avatarPath = System.IO.Path.Combine(basePath, "Resources", "MainScreen", "Avatars", $"Avatar{avatarNumber}.png");
+
+            if (System.IO.File.Exists(avatarPath))
             {
-                using (var stream = resourceInfo.Stream)
+                using (var stream = System.IO.File.OpenRead(avatarPath))
                 {
                     using (BinaryReader br = new BinaryReader(stream))
                     {
                         CurrentUser.Avatar = br.ReadBytes((int)stream.Length);
                     }
                 }
+
+                UserService userService = new UserService();
+                await userService.ChangeUserAvatarAsync(avatarPath, CurrentUser.UserId);
+            }
+            else
+            {
+                MessageBox.Show($"Avatar file not found: {avatarPath}");
             }
 
-            UserService userService = new UserService();
+            LoadAvatar();
+            LoadingSpinner.Visibility = Visibility.Hidden;
         }
 
 
@@ -130,6 +139,7 @@ namespace WPF
 
             if (openFileDialog.ShowDialog() == true)
             {
+                LoadingSpinner.Visibility = Visibility.Visible;
                 string filePath = openFileDialog.FileName;
                 UserService userService = new UserService();
 
@@ -141,13 +151,8 @@ namespace WPF
                     }
                 }
 
-                // Wywołanie funkcji do aktualizacji avatara na serwerze
                 bool isSuccess = await userService.ChangeUserAvatarAsync(filePath, CurrentUser.UserId);
-                if (isSuccess)
-                {
-                    MessageBox.Show("Avatar został pomyślnie zaktualizowany.");
-                }
-                else
+                if (!isSuccess)
                 {
                     MessageBox.Show("Aktualizacja avatara nie powiodła się.");
                 }
@@ -157,6 +162,7 @@ namespace WPF
                 MessageBox.Show("Nie wybrano pliku.");
             }
             LoadAvatar();
+            LoadingSpinner.Visibility = Visibility.Hidden;
         }
 
 
