@@ -387,10 +387,9 @@ namespace WPF
             }
         }
 
-        ///JSON file///
-        
-
     }
+
+    ///JSON file///
 
     public class QuizFile
     {
@@ -412,7 +411,7 @@ namespace WPF
             string json = JsonSerializer.Serialize(quiz, options);
 
             File.WriteAllText(filePath, json);
-            MessageBox.Show($"Quiz zapisano do pliku: {filePath}");
+
         }
 
         //Read quiz from json
@@ -428,10 +427,6 @@ namespace WPF
             {
                 string json = File.ReadAllText(filePath);
                 Quiz quiz = JsonSerializer.Deserialize<Quiz>(json); 
-                MessageBox.Show("Quiz wczytano pomyślnie.");
-                MessageBox.Show($"Nazwa: {quiz.Name}, {quiz.Category}, {quiz.LastModified}");
-
-
                 return quiz;
                 
             }

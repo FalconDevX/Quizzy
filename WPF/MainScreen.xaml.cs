@@ -53,6 +53,12 @@ namespace WPF
             QuizFile quizfile = new QuizFile();
             quizfile.CreateAndSaveQuizExample("Quiz1","json1");
             quizfile.CreateAndSaveQuizExample("Quiz2", "json2");
+            quizfile.CreateAndSaveQuizExample("Well", "json3");
+            quizfile.CreateAndSaveQuizExample("Well", "json4");
+            quizfile.CreateAndSaveQuizExample("Well", "json5");
+            quizfile.CreateAndSaveQuizExample("Well", "json6");
+            quizfile.CreateAndSaveQuizExample("Well", "json7");
+            quizfile.CreateAndSaveQuizExample("Well", "json8");
 
             ListBoxItems();
 
@@ -376,6 +382,12 @@ namespace WPF
         {
             AddQuizToItems("C:/Quizzy/QuizzyAplication/json1.json");
             AddQuizToItems("C:/Quizzy/QuizzyAplication/json2.json");
+            AddQuizToItems("C:/Quizzy/QuizzyAplication/json3.json");
+            AddQuizToItems("C:/Quizzy/QuizzyAplication/json4.json");
+            AddQuizToItems("C:/Quizzy/QuizzyAplication/json5.json");
+            AddQuizToItems("C:/Quizzy/QuizzyAplication/json6.json");
+            AddQuizToItems("C:/Quizzy/QuizzyAplication/json7.json");
+            AddQuizToItems("C:/Quizzy/QuizzyAplication/json8.json");
 
             if (Items == null || Items.Count == 0)
             {

@@ -575,103 +575,157 @@
             <Grid Width="1300" Height="970">
                 <Image x:Name="UserAvatarImage" Source="/Resources/MainScreen/SideBar/DefaultLogoIcon.png" Margin="15,12,1094,764" Width="150" Height="150" />
                 <TextBlock x:Name="UserNameTextBlock" Text="Hi!" Foreground="White" Margin="240,65,0,821" FontSize="70" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed"/>
-
                 <Border Background="#0B013D" 
                     CornerRadius="15" 
                     Padding="5" 
                     Margin="0,211,0,0">
-                    <ListBox x:Name="QuizListBox"
-                         ItemsSource="{Binding Source={StaticResource GroupedItems}}"
-                         Foreground="White"
-                         Background="Transparent"
-                         BorderThickness="0"
-                         FontSize="20"
-                         FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed">
-                         <!-- Styl kontenera elementów -->
-                        <ListBox.ItemContainerStyle>
-                            <Style TargetType="ListBoxItem">
-                                <Setter Property="Background" Value="Transparent"/>
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="ListBoxItem">
-                                            <Border x:Name="ItemBorder"
-                                    Background="{TemplateBinding Background}"
-                                    CornerRadius="5"
-                                    Padding="5"
-                                    BorderThickness="0">
-                                                <!-- Zerowa grubość ramki -->
-                                                <ContentPresenter/>
-                                            </Border>
-                                            <ControlTemplate.Triggers>
-                                                <!-- Zmiana koloru podczas zaznaczenia -->
-                                                <Trigger Property="IsSelected" Value="True">
-                                                    <Setter TargetName="ItemBorder" Property="Background" Value="#4A46BB"/>
-                                                    <!-- Kolor zaznaczenia -->
-                                                    <Setter TargetName="ItemBorder" Property="BorderThickness" Value="0"/>
-                                                    <!-- Zerowa ramka -->
-                                                </Trigger>
-                                                <!-- Zmiana koloru najechania -->
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter TargetName="ItemBorder" Property="Background" Value="#332EB7"/>
-                                                    <!-- Kolor najechania -->
-                                                </Trigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </ListBox.ItemContainerStyle>
+                    <Grid>
+                        <!-- Przycisk dodawania quizu -->
+                        <Button x:Name="AddQuizButton" Content="+" Width="50" Height="50" FontSize="30" Foreground="White" Background="#332EB7" BorderBrush="#4A46BB" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10" BorderThickness="0" ToolTip="Add new quiz">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border x:Name="ButtonBorder" Background="{TemplateBinding Background}" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <!-- Zmiana koloru po najechaniu -->
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="ButtonBorder" Property="Background" Value="#4A46BB"/>
+                                            <!-- Kolor hover -->
+                                        </Trigger>
+                                        <!-- Zmiana koloru po naciśnięciu -->
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter TargetName="ButtonBorder" Property="Background" Value="#2E4099"/>
+                                            <!-- Kolor kliknięcia -->
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
 
-                        <!-- Styl grupowania -->
-                        <ListBox.GroupStyle>
-                            <GroupStyle>
-                                <GroupStyle.HeaderTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Name}"
-                                           FontSize="30"
-                                           Foreground="White"
-                                           Margin="10,5,0,5"
-                                           FontWeight="Bold"/>
-                                    </DataTemplate>
-                                </GroupStyle.HeaderTemplate>
-                            </GroupStyle>
-                        </ListBox.GroupStyle>
+                        <!-- Lista quizów -->
+                        <ListBox x:Name="QuizListBox" ItemsSource="{Binding Source={StaticResource GroupedItems}}" Foreground="White" Background="Transparent" BorderThickness="0" FontSize="20" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Margin="0,70,0,0">
+                            <ListBox.Resources>
+                                <!-- Styl dla ScrollBarThumb -->
+                                <Style x:Key="ScrollBarThumb" TargetType="{x:Type Thumb}">
+                                    <Setter Property="OverridesDefaultStyle" Value="true"/>
+                                    <Setter Property="IsTabStop" Value="false"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type Thumb}">
+                                                <Border x:Name="rectangle"
+                                SnapsToDevicePixels="True"
+                                Background="#130C80" 
+                                                    CornerRadius="3"
+                                Height="{TemplateBinding Height}"
+                                Width="{TemplateBinding Width}"/>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
 
-                        <!-- Szablon elementów -->
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Border Margin="5" Background="#130C80" Padding="10" CornerRadius="5">
-                                    <DockPanel>
-                                        <!-- Miniatura po lewej stronie -->
-                                        <Image Source="{Binding Image}"
-                                           Width="50"
-                                           Height="50"
-                                           Margin="0,0,10,0"
-                                           Stretch="UniformToFill"
-                                           VerticalAlignment="Center"
-                                           HorizontalAlignment="Center"
-                                           ClipToBounds="True"/>
+                                <!-- Styl dla ScrollBar -->
+                                <Style TargetType="{x:Type ScrollBar}">
+                                    <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false"/>
+                                    <Setter Property="Stylus.IsFlicksEnabled" Value="false"/>
+                                    <Setter Property="Width" Value="14"/>
+                                    <Setter Property="Margin" Value="0,0,10,0"/>
+                                    <!-- Pasek przewijania bez marginesu -->
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ScrollBar}">
+                                                <Grid x:Name="Bg" SnapsToDevicePixels="true" Background="Transparent">
+                                                    <Border Padding="0 4">
+                                                        <Track x:Name="PART_Track"
+                                                           IsDirectionReversed="true"
+                                                           IsEnabled="{TemplateBinding IsMouseOver}"
+                                                           Width="13"
+                                                           HorizontalAlignment="Center">
+                                                            <Track.DecreaseRepeatButton>
+                                                                <RepeatButton Opacity="0" Command="{x:Static ScrollBar.PageUpCommand}" />
+                                                            </Track.DecreaseRepeatButton>
+                                                            <Track.IncreaseRepeatButton>
+                                                                <RepeatButton Opacity="0" Command="{x:Static ScrollBar.PageDownCommand}" />
+                                                            </Track.IncreaseRepeatButton>
+                                                            <Track.Thumb>
+                                                                <Thumb Style="{StaticResource ScrollBarThumb}" />
+                                                            </Track.Thumb>
+                                                        </Track>
+                                                    </Border>
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.Resources>
 
-                                        <!-- Dane tekstowe -->
-                                        <StackPanel>
-                                            <!-- Nazwa -->
-                                            <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="25" Foreground="White"/>
-                                            <!-- Liczba pytań -->
-                                            <TextBlock Text="Questions: " FontWeight="Bold" FontSize="15" Foreground="Gray"/>
-                                            <TextBlock Text="{Binding QuestionCount}" FontSize="15" Foreground="LightGray"/>
-                                            <!-- Data ostatniej modyfikacji -->
-                                            <TextBlock Text="Last Modified: " FontWeight="Bold" FontSize="15" Foreground="Gray"/>
-                                            <TextBlock Text="{Binding LastModified}" FontSize="15" Foreground="LightGray"/>
-                                        </StackPanel>
-                                    </DockPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                            <!-- Styl dla elementów listy -->
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListBoxItem">
+                                                <Border x:Name="ItemBorder" Background="{TemplateBinding Background}" CornerRadius="5" Padding="5" BorderThickness="0" Margin="0,0,10,0">
+                                                    <!-- Margines od prawej -->
+                                                    <ContentPresenter/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <!-- Zmiana koloru podczas zaznaczenia -->
+                                                    <Trigger Property="IsSelected" Value="True">
+                                                        <Setter TargetName="ItemBorder" Property="Background" Value="#4A46BB"/>
+                                                    </Trigger>
+                                                    <!-- Zmiana koloru najechania -->
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="ItemBorder" Property="Background" Value="#332EB7"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+
+                            <!-- Szablon elementów -->
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Margin="5,0,10,0" Background="#130C80" Padding="10" CornerRadius="5">
+                                        <!-- Margines od prawej -->
+                                        <DockPanel>
+                                            <!-- Miniatura po lewej stronie -->
+                                            <Image Source="{Binding Image}" 
+                                               Width="50" 
+                                               Height="50" 
+                                               Margin="0,0,10,0" 
+                                               Stretch="UniformToFill" 
+                                               VerticalAlignment="Center" 
+                                               HorizontalAlignment="Center" 
+                                               ClipToBounds="True"/>
+
+                                            <!-- Dane tekstowe -->
+                                            <StackPanel>
+                                                <!-- Nazwa -->
+                                                <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="25" Foreground="White"/>
+                                                <!-- Liczba pytań -->
+                                                <TextBlock Text="Questions: " FontWeight="Bold" FontSize="15" Foreground="Gray"/>
+                                                <TextBlock Text="{Binding QuestionCount}" FontSize="15" Foreground="LightGray"/>
+                                                <!-- Data ostatniej modyfikacji -->
+                                                <TextBlock Text="Last Modified: " FontWeight="Bold" FontSize="15" Foreground="Gray"/>
+                                                <TextBlock Text="{Binding LastModified}" FontSize="15" Foreground="LightGray"/>
+                                            </StackPanel>
+                                        </DockPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+
+                    </Grid>
                 </Border>
+
             </Grid>
         </Border>
+
 
         <!-- Close Button -->
         <Button x:Name="CloseButton" HorizontalAlignment="Left" Margin="1634,-14,0,0" VerticalAlignment="Top" Height="82" Width="52" AutomationProperties.Name="CloseButton" Background="Transparent" BorderThickness="0" FocusVisualStyle="{x:Null}" Click="CloseWindowButton_Click">
