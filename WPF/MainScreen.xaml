@@ -20,6 +20,10 @@
         <SolidColorBrush x:Key="ButtonDefaultColor" Color="Transparent"/>
         <SolidColorBrush x:Key="ButtonCheckedColor" Color="#8A1178"/>
 
+        <SolidColorBrush x:Key="TextBox.Static.Border" Color="#8FAFE6"/>
+        <SolidColorBrush x:Key="TextBox.MouseOver.Border" Color="#FF7EB4EA"/>
+        <SolidColorBrush x:Key="TextBox.Focus.Border" Color="#FF569DE5"/>
+
         <!-- Template dla przycisków -->
         <Style x:Key="SideBarToggleButtonStyle" TargetType="ToggleButton">
             <Setter Property="Background" Value="Transparent"/>
@@ -62,6 +66,198 @@
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
 
+        <!-- Styl uniwersalny dla TextBoxów z placeholderem -->
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="SelectionBrush" Value="LightPink"/>
+            <Setter Property="SelectionOpacity" Value="0.5"/>
+            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource TextBox.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="AllowDrop" Value="true"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+
+            <!-- Szablon dla placeholdera -->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5" SnapsToDevicePixels="True">
+                            <Grid>
+                                <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+
+                                <!-- Placeholder TextBlock -->
+                                <TextBlock x:Name="placeHolderTextBlock" 
+                                   Foreground="#8FAFE6" 
+                                   FontSize="{TemplateBinding FontSize}" 
+                                   FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" 
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Left"
+                                   Margin="5,0,0,0" 
+                                   Visibility="Collapsed"
+                                   Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Tag}"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource TextBox.MouseOver.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource TextBox.Focus.Border}"/>
+                            </Trigger>
+                            <Trigger Property="Text" Value="">
+                                <Setter Property="Visibility" TargetName="placeHolderTextBlock" Value="Visible"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <SolidColorBrush x:Key="ComboBoxNormalBorderBrush" Color="#191D67" />
+        <SolidColorBrush x:Key="ComboBoxNormalBackgroundBrush" Color="#191D67" />
+        <SolidColorBrush x:Key="ComboBoxDisabledForegroundBrush" Color="#8FAFE6" />
+        <SolidColorBrush x:Key="ComboBoxDisabledBackgroundBrush" Color="#191D67" />
+        <SolidColorBrush x:Key="ComboBoxDisabledBorderBrush" Color="#191D67" />
+
+        <ControlTemplate TargetType="ToggleButton" x:Key="ComboBoxToggleButtonTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="20" />
+                </Grid.ColumnDefinitions>
+                <Border Grid.ColumnSpan="2" Name="Border"
+              BorderBrush="{StaticResource ComboBoxNormalBorderBrush}" 
+              CornerRadius="0" BorderThickness="1, 1, 1, 1" 
+              Background="{StaticResource ComboBoxNormalBackgroundBrush}" />
+                <Border Grid.Column="1" Margin="1, 1, 1, 1" BorderBrush="#444" Name="ButtonBorder"
+              CornerRadius="0, 0, 0, 0" BorderThickness="0, 0, 0, 0" 
+              Background="{StaticResource ComboBoxNormalBackgroundBrush}" />
+
+                <Path Name="Arrow" Grid.Column="1" 
+            Data="M0,0 L0,2 L4,6 L8,2 L8,0 L4,4 z"
+            HorizontalAlignment="Center" Fill="White"
+            VerticalAlignment="Center" />
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="UIElement.IsMouseOver" Value="True">
+                    <Setter Property="Panel.Background" TargetName="ButtonBorder" Value="#191D67"/>
+                </Trigger>
+                <Trigger Property="ToggleButton.IsChecked" Value="True">
+                    <Setter Property="Panel.Background" TargetName="ButtonBorder" Value="#191D67"/>
+                    <Setter Property="Shape.Fill" TargetName="Arrow" Value="#191D67"/>
+                </Trigger>
+                <Trigger Property="UIElement.IsEnabled" Value="False">
+                    <Setter Property="Panel.Background" TargetName="Border" Value="{StaticResource ComboBoxDisabledBackgroundBrush}"/>
+                    <Setter Property="Panel.Background" TargetName="ButtonBorder" Value="{StaticResource ComboBoxDisabledBackgroundBrush}"/>
+                    <Setter Property="Border.BorderBrush" TargetName="ButtonBorder" Value="{StaticResource ComboBoxDisabledBorderBrush}"/>
+                    <Setter Property="TextElement.Foreground" Value="{StaticResource ComboBoxDisabledForegroundBrush}"/>
+                    <Setter Property="Shape.Fill" TargetName="Arrow" Value="#191D67"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <Style x:Key="ComboBoxFlatStyle" TargetType="{x:Type ComboBox}">
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+            <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
+            <Setter Property="FontFamily" Value="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" />
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="Foreground" Value="#8FAFE6" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ComboBox}">
+                        <Grid>
+                            <ToggleButton Name="ToggleButton" Grid.Column="2"
+                                  ClickMode="Press" Focusable="False"
+                                  IsChecked="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                  Template="{StaticResource ComboBoxToggleButtonTemplate}" />
+                            <ContentPresenter Name="ContentSite" Margin="5,3,23,3" IsHitTestVisible="False"
+                                      HorizontalAlignment="Left" VerticalAlignment="Center"                              
+                                      Content="{TemplateBinding ComboBox.SelectionBoxItem}" 
+                                      ContentTemplate="{TemplateBinding ComboBox.SelectionBoxItemTemplate}"
+                                      ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" />
+                            <TextBox Name="PART_EditableTextBox" Margin="3,3,23,3"                     
+                             IsReadOnly="{TemplateBinding IsReadOnly}"
+                             Visibility="Hidden" Background="Transparent"
+                             HorizontalAlignment="Left" VerticalAlignment="Center"
+                             Focusable="True" >
+                                <TextBox.Template>
+                                    <ControlTemplate TargetType="TextBox">
+                                        <Border Name="PART_ContentHost" Focusable="False" />
+                                    </ControlTemplate>
+                                </TextBox.Template>
+                            </TextBox>
+                            <!-- Popup showing items -->
+                            <Popup Name="Popup" Placement="Bottom"
+                           Focusable="False" AllowsTransparency="True"
+                           IsOpen="{TemplateBinding ComboBox.IsDropDownOpen}"
+                           PopupAnimation="Slide">
+                                <Grid Name="DropDown" SnapsToDevicePixels="True"
+                              MinWidth="{TemplateBinding ActualWidth}"
+                              MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <Border Name="DropDownBorder" Background="#191D67" Margin="0,1,0,0"
+                                    CornerRadius="0" BorderThickness="1,1,1,1" 
+                                    BorderBrush="{StaticResource ComboBoxNormalBorderBrush}" />
+                                    <ScrollViewer Margin="4" SnapsToDevicePixels="True">
+                                        <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained" />
+                                    </ScrollViewer>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="ItemsControl.HasItems" Value="False">
+                                <Setter Property="MinHeight" TargetName="DropDownBorder" Value="95" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="{StaticResource ComboBoxDisabledForegroundBrush}" />
+                            </Trigger>
+                            <Trigger Property="ItemsControl.IsGrouping" Value="True">
+                                <Setter Property="ScrollViewer.CanContentScroll" Value="False" />
+                            </Trigger>
+                            <Trigger Property="IsEditable" Value="True">
+                                <Setter Property="KeyboardNavigation.IsTabStop" Value="False" />
+                                <Setter Property="Visibility" TargetName="PART_EditableTextBox" Value="Visible" />
+                                <Setter Property="Visibility" TargetName="ContentSite" Value="Hidden" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type ComboBoxItem}">
+            <Setter Property="Foreground" Value="#8FAFE6" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Padding" Value="5,3" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                        <Border Name="Border" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <!-- Kolor podczas zaznaczenia -->
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#8A1178" />
+                                <!-- Różowy -->
+                                <Setter Property="Foreground" Value="#8FAFE6" />
+                            </Trigger>
+                            <!-- Kolor podczas najechania -->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#B431A1" />
+                                <!-- Intensywny różowy -->
+                                <Setter Property="Foreground" Value="#8FAFE6" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </Window.Resources>
 
     <!-- Main app grid -->
@@ -84,7 +280,7 @@
 
                 <StackPanel Orientation="Horizontal" Height="140" Width="280">
                     <Image x:Name="SidebarUserPhoto"  Margin="16,0,0,0"  Source="Resources\MainScreen\SideBar\DefaultLogoIcon.png" Width="60" Height="60"/>
-                    <TextBlock x:Name="SideBarNickTextBlock" Margin="20,0,0,0" Text="John" VerticalAlignment="Center" Foreground="#8FAFE6" FontSize="35" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed"/>
+                    <TextBlock x:Name="SideBarNickTextBlock" Margin="20,0,0,0" Text="John" VerticalAlignment="Center" Foreground="#8FAFE6" FontSize="25" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed"/>
                 </StackPanel>
 
                 <ToggleButton x:Name="HomeButton" Content="Home" Tag="Resources\MainScreen\SideBar\ListIcon.png" Style="{StaticResource SideBarToggleButtonStyle}" Height="90" Width="280" IsChecked="True" Click="HomeButton_Click"/>
@@ -92,7 +288,7 @@
                 <ToggleButton x:Name="FriendsButton" Content="Friends" Tag="Resources\MainScreen\SideBar\FriendsIcon.png" Style="{StaticResource SideBarToggleButtonStyle}" Height="90" Width="280" Click="SideBarButton_Click"/>
                 <ToggleButton x:Name="EditButton" Content="Edit" Tag="Resources\MainScreen\SideBar\EditIcon.png" Style="{StaticResource SideBarToggleButtonStyle}" Height="90" Width="280" Click="SideBarButton_Click"/>
                 <ToggleButton x:Name="SettingsButton" Content="Settings" Tag="Resources\MainScreen\SideBar\SettingsIcon.png" Style="{StaticResource SideBarToggleButtonStyle}" Height="90" Width="280" Margin="0,450,0,0" Click="SettingsButton_Click"/>
-                
+
             </StackPanel>
 
         </Grid>
@@ -109,6 +305,7 @@
 
                 <Border CornerRadius="15" Background="#0B013D" Margin="44,162,689,303">
                     <StackPanel Margin="20">
+                        
                         <TextBlock Text="Account informations" FontSize="40" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Foreground="#DE94E7" Margin="10,0,0,0"/>
                         <TextBlock Text="e-mail" FontSize="30" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Foreground="White" Margin="10,25,0,20"/>
                         <Border CornerRadius="15" Background="#191D67" Height="70" Width="524">
@@ -179,7 +376,7 @@
                 <Image x:Name="AvatarUserPhoto"  Source="/Resources/MainScreen/SideBar/DefaultLogoIcon.png" Width="150" Height="150" Margin="672,250,478,591"/>
 
                 <mp:DotsRingSpinner x:Name="LoadingSpinner" Color="#8A1178" Width="70" Height="70" Margin="470,0,0,340" Duration="0:0:2.0" Visibility="Hidden"/>
-                
+
                 <!-- Section with avatars buttons -->
                 <Grid>
                     <Button x:Name="AvatarButton1" Background="Transparent" Cursor="Hand" Margin="680,418,503,463" Click="AvatarButton1_Click">
@@ -581,7 +778,7 @@
                     Margin="0,211,0,0">
                     <Grid>
                         <!-- Przycisk dodawania quizu -->
-                        <Button x:Name="AddQuizButton" Content="+" Width="50" Height="50" FontSize="30" Foreground="White" Background="#332EB7" BorderBrush="#4A46BB" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10" BorderThickness="0" ToolTip="Add new quiz">
+                        <Button x:Name="AddQuizButton" Content="+" Width="50" Height="50" FontSize="30" Foreground="White" Background="#332EB7" BorderBrush="#4A46BB" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10" BorderThickness="0" ToolTip="Add new quiz" Click="AddQuizButton_Click">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
                                     <Border x:Name="ButtonBorder" Background="{TemplateBinding Background}" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
@@ -726,7 +923,6 @@
             </Grid>
         </Border>
 
-
         <!-- Close Button -->
         <Button x:Name="CloseButton" HorizontalAlignment="Left" Margin="1634,-14,0,0" VerticalAlignment="Top" Height="82" Width="52" AutomationProperties.Name="CloseButton" Background="Transparent" BorderThickness="0" FocusVisualStyle="{x:Null}" Click="CloseWindowButton_Click">
             <Button.Template>
@@ -758,7 +954,64 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        
+
+        <!-- Create new quiz-->
+        <Border x:Name="NewQuizBorder" Margin="328,101,52,49" Visibility="Hidden" Background="#0B013D" CornerRadius="10">
+            <StackPanel>
+                <Button x:Name="BackToHomeButton" Margin="280,20,20,0" Content="&lt;" HorizontalAlignment="Right" Background="#8A1178" Width="60" Height="60" VerticalAlignment="Top"  FontSize="40" FontWeight="Bold" Foreground="White" Cursor="Hand" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Click="BackToHomeButton_Click">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}" CornerRadius="10" BorderBrush="{TemplateBinding BorderBrush}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <StackPanel x:Name="AddNewQuizPanel" Margin="300,0,300,0">
+                    <TextBlock Text="Create new quiz" HorizontalAlignment="Center" Margin="0,20,0,0" Foreground="White" FontSize="60" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" />
+
+                    <Image x:Name="ImageQuiz" Margin="0,30,0,0" Source="/Resources/MainScreen/Quiz/DefaultQuizLogo.png" Width="150" Height="150"/>
+
+                    <Button x:Name="AddImageQuizButton" Margin="280,0,0,0" Content="+" HorizontalAlignment="Center" Background="#8A1178" Width="60" Height="60" VerticalAlignment="Top"  FontSize="40" FontWeight="Bold" Foreground="White" Cursor="Hand" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}" CornerRadius="10" BorderBrush="{TemplateBinding BorderBrush}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+                    <Border HorizontalAlignment="Center" Margin="0,30,0,0" Width="350" Height="60" BorderBrush="#191D67" BorderThickness="1" CornerRadius="10" Background="#191D67">
+                        <TextBox x:Name ="NewQuizNameTextBox" Margin="10,0,0,0" Tag="Type new quiz name" VerticalContentAlignment="Center" Height="60" Foreground="#8FAFE6" CaretBrush="#8FAFE6" Background="Transparent" BorderThickness="0" FontSize="25" Cursor="IBeam" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" GotFocus="NewQuizNameTextBox_GotFocus" LostFocus="NewQuizNameTextBox_LostFocus"/>
+                    </Border>
+
+                    <Border HorizontalAlignment="Center" Margin="0,30,0,0" Width="350" Height="120" BorderBrush="#191D67" BorderThickness="1" CornerRadius="10" Background="#191D67">
+                        <TextBox x:Name ="DescriptionTextBox" VerticalAlignment="Top" Margin="10,0,0,0" Tag="Add short description" VerticalContentAlignment="Center" Height="60" Foreground="#8FAFE6" CaretBrush="#8FAFE6" Background="Transparent" BorderThickness="0" FontSize="25" Cursor="IBeam" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" GotFocus="DescriptionTextBox_GotFocus" LostFocus="DescriptionTextBox_LostFocus"/>
+                    </Border>
+
+                    <Border HorizontalAlignment="Center" Margin="0,30,0,0" Width="350" Height="60" BorderBrush="#191D67" BorderThickness="1" CornerRadius="10" Background="#191D67">
+                        <ComboBox Style="{StaticResource ComboBoxFlatStyle}" Width="350" Height="30">
+                            <ComboBoxItem Foreground="White" FontSize="20" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Content="Option 1" />
+                            <ComboBoxItem Foreground="White" FontSize="20" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Content="Option 2" />
+                            <ComboBoxItem Foreground="White" FontSize="20" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Content="Option 3" />
+                        </ComboBox>
+                    </Border>
+
+                    <Button x:Name="CreateQuizButton" Content="Create quiz" HorizontalAlignment="Center" Background="#8A1178" Width="260" Height="80" VerticalAlignment="Top"  FontSize="40" FontWeight="Bold" Foreground="White" Margin="0,30,0,0" Cursor="Hand" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}" CornerRadius="10" BorderBrush="{TemplateBinding BorderBrush}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+                </StackPanel>
+            </StackPanel>
+            
+        </Border>
 
     </Grid>
 </Window>

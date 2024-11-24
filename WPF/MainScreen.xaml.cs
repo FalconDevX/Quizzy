@@ -424,5 +424,54 @@ namespace WPF
                 return null;
             }
         }
+
+        private void AddQuizButton_Click(object sender, RoutedEventArgs e)
+        {
+            HomeBorder.Visibility = Visibility.Hidden;
+            NewQuizBorder.Visibility = Visibility.Visible;
+        }
+
+        private void BackToHomeButton_Click(object sender, RoutedEventArgs e)
+        {
+            HomeBorder.Visibility= Visibility.Visible;
+            NewQuizBorder.Visibility= Visibility.Hidden;
+        }
+
+        private void NewQuizNameTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+            if (textBox != null && textBox.Text == "")
+            {
+                textBox.Tag = "";
+            }
+        }
+
+        private void DescriptionTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+            if (textBox != null && textBox.Text == "")
+            {
+                textBox.Tag = "";
+            }
+        }
+
+        private void NewQuizNameTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+            if (textBox != null && textBox.Text == "")
+            {
+                textBox.Tag = "Type new quiz name";
+            }
+        }
+
+        private void DescriptionTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+            if (textBox != null && textBox.Text == "")
+            {
+                textBox.Tag = "Add short description";
+            }
+        }
+
     }
 }

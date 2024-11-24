@@ -28,6 +28,7 @@
     <None Remove="Resources\MainScreen\MainScreen\Background.png" />
     <None Remove="Resources\MainScreen\MainScreen\ChangeProfileIcon.png" />
     <None Remove="Resources\MainScreen\MainScreen\ChangeProfileIcon_Hover.png" />
+    <None Remove="Resources\MainScreen\Quiz\DefaultQuizLogo.png" />
     <None Remove="Resources\MainScreen\SideBar\DefaultLogoIcon.png" />
     <None Remove="Resources\MainScreen\SideBar\EditIcon.png" />
     <None Remove="Resources\MainScreen\SideBar\FriendsIcon.png" />
@@ -102,6 +103,7 @@
     <Resource Include="Background.png" />
     <Resource Include="Resources\MainScreen\MainScreen\ChangeProfileIcon.png" />
     <Resource Include="Resources\MainScreen\MainScreen\ChangeProfileIcon_Hover.png" />
+    <Resource Include="Resources\MainScreen\Quiz\DefaultQuizLogo.png" />
     <Resource Include="Resources\MainScreen\SideBar\DefaultLogoIcon.png" />
     <Resource Include="Resources\MainScreen\SideBar\EditIcon.png" />
     <Resource Include="Resources\MainScreen\SideBar\FriendsIcon.png" />
