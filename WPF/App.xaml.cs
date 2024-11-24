@@ -11,11 +11,33 @@ using System.Net.Http.Json;
 using System.Windows.Media.Imaging;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 
 namespace WPF
 {
     public partial class App : Application
     {
+    }
+
+    //Quiz structure
+    public class Quiz
+    {
+        public string? Name { get; set; }
+        public string? Category { get; set; }
+        public DateTime LastModified { get; set; }
+        public int QuestionCount { get; set; }
+
+        public string? Image { get; set; }
+        public List<Question>? Questions { get; set; }
+    }
+
+    //Question structure
+    public class Question
+    {
+        public string? QuestionText { get; set; }
+        public List<string>? Answers { get; set; }
+        public int CorrectAnswerIndex { get; set; }
+        public string? Image { get; set; }
     }
 
     //global variables for current login user
@@ -365,21 +387,95 @@ namespace WPF
             }
         }
 
-
-
-
-
-
-
-
+        ///JSON file///
+        
 
     }
 
+    public class QuizFile
+    {
+        //Convert image to byte table
+        private string ConvertImageToBase64(string imagePath)
+        {
+            if (File.Exists(imagePath))
+            {
+                byte[] imageBytes = File.ReadAllBytes(imagePath);
+                return Convert.ToBase64String(imageBytes);
+            }
+            return string.Empty;
+        }
+
+        //Save quiz to JSON
+        public void SaveQuizToJson(Quiz quiz, string filePath)
+        {
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            string json = JsonSerializer.Serialize(quiz, options);
+
+            File.WriteAllText(filePath, json);
+            MessageBox.Show($"Quiz zapisano do pliku: {filePath}");
+        }
+
+        //Read quiz from json
+        public Quiz LoadQuizFromJson(string filePath)
+        {
+            if (!File.Exists(filePath))
+            {
+                MessageBox.Show("Plik nie istnieje.");
+                return null;
+            }
+
+            try
+            {
+                string json = File.ReadAllText(filePath);
+                Quiz quiz = JsonSerializer.Deserialize<Quiz>(json); 
+                MessageBox.Show("Quiz wczytano pomyślnie.");
+                MessageBox.Show($"Nazwa: {quiz.Name}, {quiz.Category}, {quiz.LastModified}");
 
 
+                return quiz;
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Wystąpił błąd podczas odczytu: {ex.Message}");
+                return null;
+            }
+        }
 
+        //Debug create custom quiz
+        public void CreateAndSaveQuizExample(string QuizName, string JsonName)
+        {
+            string basePath = AppDomain.CurrentDomain.BaseDirectory;
+            string imagesPath = System.IO.Path.Combine(basePath, "Resources", "MainScreen", "Avatars");
 
-
+            var quiz = new Quiz
+            {
+                Name = QuizName,
+                Category = "General Knowledge",
+                LastModified = DateTime.Now,
+                QuestionCount = 2,
+                Image = ConvertImageToBase64(System.IO.Path.Combine(imagesPath, "Avatar5.png")),
+                Questions = new List<Question>
+            {
+                new Question
+                {
+                    QuestionText = "What is the capital of France?",
+                    Answers = new List<string> { "Paris", "London", "Berlin", "Rome" },
+                    CorrectAnswerIndex = 0,
+                    Image = ConvertImageToBase64(System.IO.Path.Combine(imagesPath, "Avatar3.png"))
+                },
+                new Question
+                {
+                    QuestionText = "What is 2+2?",
+                    Answers = new List<string> { "3", "4", "5", "6" },
+                    CorrectAnswerIndex = 1,
+                    Image = ConvertImageToBase64(System.IO.Path.Combine(imagesPath, "Avatar3.png"))
+                }
+            }
+            };
+            SaveQuizToJson(quiz, $"C:/Quizzy/QuizzyAplication/{JsonName}.json");
+        }
+    }
 }
 
 

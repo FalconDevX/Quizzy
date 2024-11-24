@@ -82,3 +82,6 @@ C:\Quizzy\QuizzyAplication\WPF\bin\Debug\net8.0-windows\Resources\MainScreen\Ava
 C:\Quizzy\QuizzyAplication\WPF\bin\Debug\net8.0-windows\Resources\MainScreen\Avatars\Avatar7.png
 C:\Quizzy\QuizzyAplication\WPF\bin\Debug\net8.0-windows\Resources\MainScreen\Avatars\Avatar8.png
 C:\Quizzy\QuizzyAplication\WPF\bin\Debug\net8.0-windows\Resources\MainScreen\Avatars\Avatar9.png
+C:\Quizzy\QuizzyAplication\WPF\bin\Debug\net8.0-windows\MessagePack.dll
+C:\Quizzy\QuizzyAplication\WPF\bin\Debug\net8.0-windows\MessagePack.Annotations.dll
+C:\Quizzy\QuizzyAplication\WPF\bin\Debug\net8.0-windows\Microsoft.NET.StringTools.dll

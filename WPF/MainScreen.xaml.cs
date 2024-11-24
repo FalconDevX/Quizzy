@@ -21,8 +21,21 @@ using System.Windows.Controls.Primitives;
 
 namespace WPF
 {
+    public class Item
+    {
+        public string? Name { get; set; }
+        public string? Category { get; set; }
+        public DateTime LastModified { get; set; }
+        public int QuestionCount { get; set; }
+        public ImageSource? Image { get; set; }
+        public List<Question>? Questions { get; set; }
+    }
+
+
     public partial class MainScreen : Window
     {
+        
+
         public UserService userService;
         private readonly UserService _avatarService;
         public MainScreen()
@@ -30,14 +43,21 @@ namespace WPF
             _avatarService = new UserService();
             InitializeComponent();
             Loaded += MainScreen_Loaded;
-            
         }
 
         //Loading screen function
         private async void MainScreen_Loaded(object sender, RoutedEventArgs e)
         {
-            UserService userservice = new UserService();
             
+
+            QuizFile quizfile = new QuizFile();
+            quizfile.CreateAndSaveQuizExample("Quiz1","json1");
+            quizfile.CreateAndSaveQuizExample("Quiz2", "json2");
+
+            ListBoxItems();
+
+            UserService userservice = new UserService();
+
             CurrentUser.UserId = await userservice.GetUserIdByLoginApi(CurrentUser.Login);
             CurrentUser.Email = await userservice.GetEmailByIdApi(CurrentUser.UserId);
 
@@ -47,7 +67,7 @@ namespace WPF
             SideBarNickTextBlock.Text = CurrentUser.Login;
             UserEmailSettingsTextBlock.Text = CurrentUser.Email;
             UserLoginSettingsTextBlock.Text = CurrentUser.Login;
-            
+
         }
 
         ///SIDEBAR///
@@ -321,5 +341,76 @@ namespace WPF
             }
         }
 
+        private List<Item> Items;
+
+        //Adding one quiz to Item list
+        private void AddQuizToItems(string jsonpath)
+        {
+            QuizFile quizFile = new QuizFile();
+            Quiz quiz = quizFile.LoadQuizFromJson(jsonpath);
+
+            if (quiz != null)
+            {
+                if (Items == null)
+                {
+                    Items = new List<Item>();
+                }
+
+                Items.Add(new Item
+                {
+                    Name = quiz.Name,
+                    Category = quiz.Category,
+                    LastModified = quiz.LastModified,
+                    Image = ConvertBase64ToImage(quiz.Image),
+                    QuestionCount = quiz.Questions.Count
+                });
+            }
+            else
+            {
+                MessageBox.Show("Nie udało się wczytać quizu z JSON.");
+            }
+        }
+
+        //Set quizes
+        private void ListBoxItems()
+        {
+            AddQuizToItems("C:/Quizzy/QuizzyAplication/json1.json");
+            AddQuizToItems("C:/Quizzy/QuizzyAplication/json2.json");
+
+            if (Items == null || Items.Count == 0)
+            {
+                MessageBox.Show("Brak quizów do wyświetlenia.");
+                return;
+            }
+            var groupedItems = (CollectionViewSource)FindResource("GroupedItems");
+
+            groupedItems.Source = Items;
+        }
+
+        //Convert image to Base64
+        private ImageSource ConvertBase64ToImage(string base64String)
+        {
+            if (string.IsNullOrEmpty(base64String))
+                return null;
+
+            try
+            {
+                byte[] imageBytes = Convert.FromBase64String(base64String);
+                using (var stream = new MemoryStream(imageBytes))
+                {
+                    var bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmap.StreamSource = stream;
+                    bitmap.EndInit();
+                    return bitmap;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Błąd podczas konwersji Base64 na obraz: {ex.Message}");
+                return null;
+            }
+        }
     }
 }
