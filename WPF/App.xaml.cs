@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
+using System.Windows.Media;
 
 namespace WPF
 {
@@ -394,15 +395,52 @@ namespace WPF
     public class QuizFile
     {
         //Convert image to byte table
-        private string ConvertImageToBase64(string imagePath)
+        private string ConvertImageToBase64(ImageSource imageSource)
         {
-            if (File.Exists(imagePath))
+            if (imageSource is BitmapImage bitmapImage)
             {
-                byte[] imageBytes = File.ReadAllBytes(imagePath);
-                return Convert.ToBase64String(imageBytes);
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+                    encoder.Frames.Add(BitmapFrame.Create(bitmapImage));
+                    encoder.Save(ms);
+                    byte[] imageBytes = ms.ToArray();
+                    return Convert.ToBase64String(imageBytes);
+                }
             }
             return string.Empty;
         }
+
+
+
+
+        //Convert byte table to image 
+
+        public ImageSource ConvertBase64ToImage(string base64String)
+        {
+            if (!string.IsNullOrEmpty(base64String))
+            {
+                try
+                {
+                    byte[] imageBytes = Convert.FromBase64String(base64String);
+                    using (MemoryStream ms = new MemoryStream(imageBytes))
+                    {
+                        BitmapImage image = new BitmapImage();
+                        image.BeginInit();
+                        image.CacheOption = BitmapCacheOption.OnLoad; // Zapewnia ładowanie obrazu w pamięci
+                        image.StreamSource = ms;
+                        image.EndInit();
+                        return image;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Błąd podczas konwersji obrazu: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            return null;
+        }
+
 
         //Save quiz to JSON
         public void SaveQuizToJson(Quiz quiz, string filePath)
@@ -438,18 +476,18 @@ namespace WPF
         }
 
         //Debug create custom quiz
-        public void CreateAndSaveQuizExample(string QuizName, string JsonName)
+        public void CreateAndSaveQuizExample(string QuizName, string JsonName, string Category, ImageSource image)
         {
             string basePath = AppDomain.CurrentDomain.BaseDirectory;
-            string imagesPath = System.IO.Path.Combine(basePath, "Resources", "MainScreen", "Avatars");
+            string QuizesPath = System.IO.Path.Combine(basePath, "Resources", "Quizes", JsonName);
 
             var quiz = new Quiz
             {
                 Name = QuizName,
-                Category = "General Knowledge",
+                Category = Category,
                 LastModified = DateTime.Now,
                 QuestionCount = 2,
-                Image = ConvertImageToBase64(System.IO.Path.Combine(imagesPath, "Avatar5.png")),
+                Image = ConvertImageToBase64(image),
                 Questions = new List<Question>
             {
                 new Question
@@ -457,14 +495,14 @@ namespace WPF
                     QuestionText = "What is the capital of France?",
                     Answers = new List<string> { "Paris", "London", "Berlin", "Rome" },
                     CorrectAnswerIndex = 0,
-                    Image = ConvertImageToBase64(System.IO.Path.Combine(imagesPath, "Avatar3.png"))
+                    Image = ConvertImageToBase64(image),
                 },
                 new Question
                 {
                     QuestionText = "What is 2+2?",
                     Answers = new List<string> { "3", "4", "5", "6" },
                     CorrectAnswerIndex = 1,
-                    Image = ConvertImageToBase64(System.IO.Path.Combine(imagesPath, "Avatar3.png"))
+                    Image = ConvertImageToBase64(image),
                 }
             }
             };

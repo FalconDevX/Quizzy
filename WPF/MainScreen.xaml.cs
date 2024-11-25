@@ -21,6 +21,7 @@ using System.Windows.Controls.Primitives;
 
 namespace WPF
 {
+
     public class Item
     {
         public string? Name { get; set; }
@@ -38,6 +39,7 @@ namespace WPF
 
         public UserService userService;
         private readonly UserService _avatarService;
+        private Item SelectedItem { get; set; } = new Item();
         public MainScreen()
         {
             _avatarService = new UserService();
@@ -51,14 +53,6 @@ namespace WPF
             
 
             QuizFile quizfile = new QuizFile();
-            quizfile.CreateAndSaveQuizExample("Quiz1","json1");
-            quizfile.CreateAndSaveQuizExample("Quiz2", "json2");
-            quizfile.CreateAndSaveQuizExample("Well", "json3");
-            quizfile.CreateAndSaveQuizExample("Well", "json4");
-            quizfile.CreateAndSaveQuizExample("Well", "json5");
-            quizfile.CreateAndSaveQuizExample("Well", "json6");
-            quizfile.CreateAndSaveQuizExample("Well", "json7");
-            quizfile.CreateAndSaveQuizExample("Well", "json8");
 
             ListBoxItems();
 
@@ -380,14 +374,8 @@ namespace WPF
         //Set quizes
         private void ListBoxItems()
         {
-            AddQuizToItems("C:/Quizzy/QuizzyAplication/json1.json");
-            AddQuizToItems("C:/Quizzy/QuizzyAplication/json2.json");
-            AddQuizToItems("C:/Quizzy/QuizzyAplication/json3.json");
-            AddQuizToItems("C:/Quizzy/QuizzyAplication/json4.json");
-            AddQuizToItems("C:/Quizzy/QuizzyAplication/json5.json");
-            AddQuizToItems("C:/Quizzy/QuizzyAplication/json6.json");
-            AddQuizToItems("C:/Quizzy/QuizzyAplication/json7.json");
-            AddQuizToItems("C:/Quizzy/QuizzyAplication/json8.json");
+            AddQuizToItems("C:/Quizzy/QuizzyAplication/test.json");
+            
 
             if (Items == null || Items.Count == 0)
             {
@@ -435,6 +423,7 @@ namespace WPF
         {
             HomeBorder.Visibility= Visibility.Visible;
             NewQuizBorder.Visibility= Visibility.Hidden;
+            ListBoxItems();
         }
 
         private void NewQuizNameTextBox_GotFocus(object sender, RoutedEventArgs e)
@@ -472,6 +461,62 @@ namespace WPF
                 textBox.Tag = "Add short description";
             }
         }
+        
 
+        private void AddImageQuizButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp";
+
+            QuizFile quizfile = new QuizFile();
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string filePath = openFileDialog.FileName;
+
+                using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                {
+                    using (BinaryReader br = new BinaryReader(fs))
+                    {
+                        string base64String = Convert.ToBase64String(br.ReadBytes((int)fs.Length));
+                        SelectedItem.Image = quizfile.ConvertBase64ToImage(base64String);
+                        ImageQuiz.Source = SelectedItem.Image;
+                    }
+                }
+            }
+        }
+
+
+        //function for creating quiz
+        private void CreateQuizButton_Click(object sender, RoutedEventArgs e)
+        {
+            Item item = new Item();
+
+            QuizFile quizFile = new QuizFile();
+
+            var selectedItem = (ComboBoxItem)CategoryQuizComboBox.SelectedItem;
+            if (selectedItem != null)
+            {
+                string selectedCategory = selectedItem.Content.ToString();
+                item.Category = selectedCategory; 
+            }
+            else
+            {
+                MessageBox.Show("Nie wybrano kategorii.");
+            }
+
+            if (!string.IsNullOrWhiteSpace(NewQuizNameTextBox.Text))
+            {
+                item.Name = NewQuizNameTextBox.Text;
+            }
+            else
+            {
+                MessageBox.Show("Nazwa quizu nie może być pusta.", "Błąd", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+
+            quizFile.CreateAndSaveQuizExample(item.Name, item.Name, item.Category, SelectedItem.Image);
+            
+
+        }
     }
 }

@@ -122,4 +122,8 @@
     <Resource Include="Resources\StartScreen\minimizeIcon_Hover.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Resources\Quizes\" />
+  </ItemGroup>
+
 </Project>
