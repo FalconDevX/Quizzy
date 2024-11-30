@@ -21,5 +21,6 @@
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/mainscreen/avatars/avatar7.png")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/mainscreen/avatars/avatar8.png")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/mainscreen/avatars/avatar9.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/quizes/defaultquizlogo.png")]
 
 

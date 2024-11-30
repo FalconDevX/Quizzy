@@ -443,14 +443,33 @@ namespace WPF
 
 
         //Save quiz to JSON
-        public void SaveQuizToJson(Quiz quiz, string filePath)
+        public bool SaveQuizToJson(Quiz quiz, string folderPath)
         {
             var options = new JsonSerializerOptions { WriteIndented = true };
             string json = JsonSerializer.Serialize(quiz, options);
 
-            File.WriteAllText(filePath, json);
+            try
+            {
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
 
+                string filePath = Path.Combine(folderPath, quiz.Name + ".json");
+
+                File.WriteAllText(filePath, json);
+
+                MessageBox.Show($"Quiz saved successfully to: {filePath}");
+
+                return true; 
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error saving quiz: {ex.Message}");
+                return false;
+            }
         }
+
 
         //Read quiz from json
         public Quiz LoadQuizFromJson(string filePath)
@@ -476,38 +495,32 @@ namespace WPF
         }
 
         //Debug create custom quiz
-        public void CreateAndSaveQuizExample(string QuizName, string JsonName, string Category, ImageSource image)
+        public bool CreateAndSaveQuiz(string QuizName, string JsonName, string Category, ImageSource image)
         {
-            string basePath = AppDomain.CurrentDomain.BaseDirectory;
-            string QuizesPath = System.IO.Path.Combine(basePath, "Resources", "Quizes", JsonName);
+            string QuizesPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Quizzy", "Quizes");
 
             var quiz = new Quiz
             {
                 Name = QuizName,
                 Category = Category,
                 LastModified = DateTime.Now,
-                QuestionCount = 2,
                 Image = ConvertImageToBase64(image),
-                Questions = new List<Question>
-            {
-                new Question
-                {
-                    QuestionText = "What is the capital of France?",
-                    Answers = new List<string> { "Paris", "London", "Berlin", "Rome" },
-                    CorrectAnswerIndex = 0,
-                    Image = ConvertImageToBase64(image),
-                },
-                new Question
-                {
-                    QuestionText = "What is 2+2?",
-                    Answers = new List<string> { "3", "4", "5", "6" },
-                    CorrectAnswerIndex = 1,
-                    Image = ConvertImageToBase64(image),
-                }
-            }
+                Questions = new List<Question> { }
             };
-            SaveQuizToJson(quiz, $"C:/Quizzy/QuizzyAplication/{JsonName}.json");
+
+            quiz.QuestionCount = quiz.Questions.Count;
+
+            if (SaveQuizToJson(quiz,QuizesPath))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            
         }
+
     }
 }
 

@@ -891,14 +891,15 @@
                                         <!-- Margines od prawej -->
                                         <DockPanel>
                                             <!-- Miniatura po lewej stronie -->
-                                            <Image Source="{Binding Image}" 
-                                               Width="50" 
-                                               Height="50" 
-                                               Margin="0,0,10,0" 
-                                               Stretch="UniformToFill" 
-                                               VerticalAlignment="Center" 
-                                               HorizontalAlignment="Center" 
-                                               ClipToBounds="True"/>
+                                            <Border Background="#B431A1" Width="50" Height="50" CornerRadius="9" Margin="0,0,10,0">
+                                                <Image Source="{Binding Image}" 
+                                                   Width="50" 
+                                                   Height="50" 
+                                                   Stretch="UniformToFill" 
+                                                   VerticalAlignment="Center" 
+                                                   HorizontalAlignment="Center" 
+                                                   ClipToBounds="True"/>
+                                            </Border>
 
                                             <!-- Dane tekstowe -->
                                             <StackPanel>

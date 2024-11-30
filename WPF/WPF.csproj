@@ -28,7 +28,6 @@
     <None Remove="Resources\MainScreen\MainScreen\Background.png" />
     <None Remove="Resources\MainScreen\MainScreen\ChangeProfileIcon.png" />
     <None Remove="Resources\MainScreen\MainScreen\ChangeProfileIcon_Hover.png" />
-    <None Remove="Resources\MainScreen\Quiz\DefaultQuizLogo.png" />
     <None Remove="Resources\MainScreen\SideBar\DefaultLogoIcon.png" />
     <None Remove="Resources\MainScreen\SideBar\EditIcon.png" />
     <None Remove="Resources\MainScreen\SideBar\FriendsIcon.png" />
@@ -103,7 +102,9 @@
     <Resource Include="Background.png" />
     <Resource Include="Resources\MainScreen\MainScreen\ChangeProfileIcon.png" />
     <Resource Include="Resources\MainScreen\MainScreen\ChangeProfileIcon_Hover.png" />
-    <Resource Include="Resources\MainScreen\Quiz\DefaultQuizLogo.png" />
+    <Content Include="Resources\Quizes\DefaultQuizLogo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Resources\MainScreen\SideBar\DefaultLogoIcon.png" />
     <Resource Include="Resources\MainScreen\SideBar\EditIcon.png" />
     <Resource Include="Resources\MainScreen\SideBar\FriendsIcon.png" />
@@ -112,7 +113,9 @@
     <Resource Include="Resources\MainScreen\SideBar\SettingsIcon.png" />
     <Resource Include="Resources\MainScreen\SideBar\StatisticsIcon.png" />
     <Resource Include="Resources\RobotoCondensed-Regular.ttf" />
-    <Resource Include="Resources\StartScreen\Background.png" />
+    <Resource Include="Resources\StartScreen\Background.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\StartScreen\CloseIcon.png" />
     <Resource Include="Resources\StartScreen\CloseIcon_Hover.png" />
     <Resource Include="Resources\StartScreen\Icon.ico" />
@@ -121,9 +124,12 @@
     <Resource Include="Resources\StartScreen\minimizeIcon.png" />
     <Resource Include="Resources\StartScreen\minimizeIcon_Hover.png" />
   </ItemGroup>
-
+  
   <ItemGroup>
-    <Folder Include="Resources\Quizes\" />
+    <Content Include="Resources\Quizes\**\*.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
+
 
 </Project>

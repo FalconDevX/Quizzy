@@ -85,3 +85,4 @@ C:\Quizzy\QuizzyAplication\WPF\bin\Debug\net8.0-windows\Resources\MainScreen\Ava
 C:\Quizzy\QuizzyAplication\WPF\bin\Debug\net8.0-windows\MessagePack.dll
 C:\Quizzy\QuizzyAplication\WPF\bin\Debug\net8.0-windows\MessagePack.Annotations.dll
 C:\Quizzy\QuizzyAplication\WPF\bin\Debug\net8.0-windows\Microsoft.NET.StringTools.dll
+C:\Quizzy\QuizzyAplication\WPF\bin\Debug\net8.0-windows\Resources\Quizes\DefaultQuizLogo.png
