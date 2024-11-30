@@ -7,9 +7,10 @@
             xmlns:local="clr-namespace:WPF"
             mc:Ignorable="d"
             WindowStyle="None"
-            ResizeMode="CanMinimize"
+            ResizeMode="CanResizeWithGrip"
             WindowStartupLocation="CenterScreen"
             Title="Quizzy" Height="540" Width="960" SizeToContent="WidthAndHeight"
+            MinHeight="550" MinWidth="450"
             Icon="Resources/StartScreen/Icon.ico">
 
     <Window.Resources>
@@ -147,10 +148,10 @@
 
     <Grid KeyDown="MainGrid_KeyDown">
         <!-- Obraz tła -->
-        <Image HorizontalAlignment="Center" Height="540" VerticalAlignment="Top" Width="960" Source="Resources\StartScreen\Background.png" Stretch="UniformToFill"/>
-
-        <StackPanel x:Name="LoginPanel" AutomationProperties.Name="LoginPanel" Margin="325,134,344,56" Visibility="Visible">
-
+        <Grid.Background>
+            <ImageBrush ImageSource="Resources/StartScreen/Background.png" Stretch="UniformToFill"/>
+        </Grid.Background>
+        <StackPanel x:Name="LoginPanel" AutomationProperties.Name="LoginPanel" Margin="50" VerticalAlignment="Center" HorizontalAlignment="Center">
             <!-- Nagłówek "Log in" -->
             <!-- <TextBlock x:Name="LoginTextBlock" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Log in" VerticalAlignment="Top" FontFamily="Segoe UI" FontSize="48" FontWeight="Bold" Foreground="White" Margin="84,15,0,0"/> -->
 
@@ -187,8 +188,7 @@
             <mp:DotsRingSpinner x:Name="LoadingSpinner" Width="64" Height="63" Color="#8A1178" Duration="0:0:2.0" Visibility="Hidden"/>
 
         </StackPanel>
-        <StackPanel x:Name="RegisterPanel" AutomationProperties.Name="RegisterPanel" Margin="324,137,339,-35">
-
+        <StackPanel x:Name="RegisterPanel" AutomationProperties.Name="RegisterPanel" Margin="50" VerticalAlignment="Center" HorizontalAlignment="Center">
             <!-- Register textblock -->
 
             <!-- Text Boxes -->
@@ -247,8 +247,7 @@
         </StackPanel>
 
         <!-- CLose button -->
-
-        <Button HorizontalAlignment="Left" Margin="926,-7,0,0" VerticalAlignment="Top" Height="43" Width="31" AutomationProperties.Name="CloseButton" Background="Transparent" BorderThickness="0" FocusVisualStyle="{x:Null}" Click="CloseWindowButton_Click">
+        <Button HorizontalAlignment="Right" VerticalAlignment="Top" Height="43" Width="31" AutomationProperties.Name="CloseButton" Background="Transparent" BorderThickness="0" FocusVisualStyle="{x:Null}" Click="CloseWindowButton_Click">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border Background="Transparent" CornerRadius="15">
@@ -263,11 +262,11 @@
             </Button.Template>
         </Button>
 
-        <Button HorizontalAlignment="Left" Margin="894,-7,0,0" VerticalAlignment="Top" Height="43" Width="31" AutomationProperties.Name="MinimizeButton" Background="Transparent" BorderThickness="0" FocusVisualStyle="{x:Null}" Click="MinimizeWindowButton_Click">
+        <Button HorizontalAlignment="Right" VerticalAlignment="Top" Height="43" Width="31" AutomationProperties.Name="MinimizeButton" Background="Transparent" BorderThickness="0" FocusVisualStyle="{x:Null}" Click="MinimizeWindowButton_Click" Margin="0,0,45,0">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border Background="Transparent" CornerRadius="15">
-                        <Image x:Name="AvatarImage" Source="Resources\StartScreen\minimizeIcon.png" Height="40" Width="30" Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <Image x:Name="AvatarImage" Source="Resources/StartScreen/minimizeIcon.png" Height="40" Width="30" Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
