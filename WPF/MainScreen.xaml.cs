@@ -43,6 +43,8 @@ namespace WPF
             private Item SelectedItem { get; set; } = new Item();
             public MainScreen()
             {
+                
+                
                 _avatarService = new UserService();
                 InitializeComponent();
                 Loaded += MainScreen_Loaded;
@@ -51,8 +53,13 @@ namespace WPF
             //Loading screen function
             private async void MainScreen_Loaded(object sender, RoutedEventArgs e)
             {
+                AzureBlobAPI azureBlobAPI = new AzureBlobAPI();
+                azureBlobAPI.DownloadAndExtractBlobsAsync("data");
+
                 LoadAllQuizzes();
 
+                
+                
                 var groupedItems = (CollectionViewSource)FindResource("GroupedItems");
                 groupedItems.Source = null;
                 groupedItems.Source = Items;
@@ -252,6 +259,8 @@ namespace WPF
             //exit application
             private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
             {
+                AzureBlobAPI azureblobapi = new AzureBlobAPI();
+                azureblobapi.UploadAndSyncLocalFilesAsync("data");
                 Application.Current.Shutdown();
             }
 
@@ -422,8 +431,7 @@ namespace WPF
 
 
             // Odświeżenie CollectionViewSource (opcjonalnie można przenieść do BackToHome)
-            var groupedItems = (CollectionViewSource)FindResource("GroupedItems");
-                MessageBox.Show($"Liczba quizów w Items: {Items.Count}");
+            var groupedItems = (CollectionViewSource)FindResource("GroupedItems");  
                 groupedItems.Source = null;
                 groupedItems.Source = Items;
             }

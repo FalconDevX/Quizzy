@@ -971,7 +971,7 @@
                 <StackPanel x:Name="AddNewQuizPanel" Margin="300,0,300,0">
                     <TextBlock Text="Create new quiz" HorizontalAlignment="Center" Margin="0,20,0,0" Foreground="White" FontSize="60" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" />
 
-                    <Image x:Name="ImageQuiz" Margin="0,30,0,0" Source="/Resources/MainScreen/Quiz/DefaultQuizLogo.png" Width="150" Height="150"/>
+                    <Image x:Name="ImageQuiz" Margin="0,30,0,0" Source="/Resources/Quizes/DefaultQuizLogo.png" Width="150" Height="150"/>
 
                     <Button x:Name="AddImageQuizButton" Margin="280,0,0,0" Content="+" HorizontalAlignment="Center" Background="#8A1178" Width="60" Height="60" VerticalAlignment="Top"  FontSize="40" FontWeight="Bold" Foreground="White" Cursor="Hand" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Click="AddImageQuizButton_Click">
                         <Button.Template>

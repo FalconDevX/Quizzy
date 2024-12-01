@@ -13,6 +13,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Windows.Media;
+using static System.Net.WebRequestMethods;
+using System.IO.Compression;
 
 namespace WPF
 {
@@ -57,7 +59,7 @@ namespace WPF
         public UserService()
         {
             _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri("https://quizapi-dccjbsaedqcthte3.polandcentral-01.azurewebsites.net/api/"); 
+            _httpClient.BaseAddress = new Uri("https://quizapi-dccjbsaedqcthte3.polandcentral-01.azurewebsites.net/api/");
         }
 
         public async Task<bool> IsLoginTakenApi(string login)
@@ -134,9 +136,6 @@ namespace WPF
                 return Convert.ToBase64String(hashBytes);
             }
         }
-
-
-
 
         //login user function
         public async Task<bool> LoginUser(string identifier, string password)
@@ -227,7 +226,7 @@ namespace WPF
                         int rowsAffected = cmd.ExecuteNonQuery();
                         if (rowsAffected > 0)
                         {
-                            CurrentUser.Login = newLogin; 
+                            CurrentUser.Login = newLogin;
                             MessageBox.Show("Login updated successfully.");
                         }
                         else
@@ -266,7 +265,7 @@ namespace WPF
         //Getting login using Id
         public async Task<string> GetLoginByIdApi(int userId)
         {
-            try  
+            try
             {
                 HttpResponseMessage response = await _httpClient.GetAsync($"GetUserInfo/GetLoginById?id={userId}");
                 response.EnsureSuccessStatusCode();
@@ -286,8 +285,8 @@ namespace WPF
         {
             try
             {
-                HttpResponseMessage response = await _httpClient.GetAsync($"GetUserId/GetUserIdByLogin?login={login}"
-);
+                HttpResponseMessage response = await _httpClient.GetAsync($"GetUserId/GetUserIdByLogin?login={login}");
+
                 response.EnsureSuccessStatusCode();
 
                 string userId = await response.Content.ReadAsStringAsync();
@@ -302,7 +301,7 @@ namespace WPF
 
         public async Task<int> GetUserIdByEmailApi(string email)
         {
-            try                                                       
+            try
             {
                 HttpResponseMessage response = await _httpClient.GetAsync($"GetUserId/GetUserIdByEmail?email={Uri.EscapeDataString(email)}");
                 response.EnsureSuccessStatusCode();
@@ -412,8 +411,6 @@ namespace WPF
         }
 
 
-
-
         //Convert byte table to image 
 
         public ImageSource ConvertBase64ToImage(string base64String)
@@ -457,11 +454,11 @@ namespace WPF
 
                 string filePath = Path.Combine(folderPath, quiz.Name + ".json");
 
-                File.WriteAllText(filePath, json);
+                System.IO.File.WriteAllText(filePath, json);
 
                 MessageBox.Show($"Quiz saved successfully to: {filePath}");
 
-                return true; 
+                return true;
             }
             catch (Exception ex)
             {
@@ -474,7 +471,7 @@ namespace WPF
         //Read quiz from json
         public Quiz LoadQuizFromJson(string filePath)
         {
-            if (!File.Exists(filePath))
+            if (!System.IO.File.Exists(filePath))
             {
                 MessageBox.Show("Plik nie istnieje.");
                 return null;
@@ -482,10 +479,10 @@ namespace WPF
 
             try
             {
-                string json = File.ReadAllText(filePath);
-                Quiz quiz = JsonSerializer.Deserialize<Quiz>(json); 
+                string json = System.IO.File.ReadAllText(filePath);
+                Quiz quiz = JsonSerializer.Deserialize<Quiz>(json);
                 return quiz;
-                
+
             }
             catch (Exception ex)
             {
@@ -510,7 +507,7 @@ namespace WPF
 
             quiz.QuestionCount = quiz.Questions.Count;
 
-            if (SaveQuizToJson(quiz,QuizesPath))
+            if (SaveQuizToJson(quiz, QuizesPath))
             {
                 return true;
             }
@@ -518,10 +515,190 @@ namespace WPF
             {
                 return false;
             }
-            
+
+        }
+    }
+
+    public class AzureBlobAPI
+    {
+        private readonly HttpClient _httpClient;
+
+        public AzureBlobAPI()
+        {
+            _httpClient = new HttpClient
+            {
+                BaseAddress = new Uri("https://quizzydatastorage-fthmhzfpgngphpb4.polandcentral-01.azurewebsites.net")
+            };
+        }
+
+        public async Task<string> CreateContainerAsync(string containerName)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(containerName))
+                {
+                    MessageBox.Show("Nazwa kontenera nie może być pusta!", "Błąd");
+                    return string.Empty;
+                }
+
+                string requestUrl = $"/api/Container/create-container?containerName={containerName}";
+
+                // Debug URL
+                MessageBox.Show($"Request URL: {_httpClient.BaseAddress}{requestUrl}", "Debug");
+
+                HttpResponseMessage response = await _httpClient.PostAsync(requestUrl, null);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string result = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Kontener '{containerName}' został utworzony pomyślnie.\n\n{result}", "Sukces");
+                    return result;
+                }
+                else if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
+                {
+                    string result = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Kontener '{containerName}' już istnieje.\n\n{result}", "Informacja");
+                    return string.Empty;
+                }
+                else
+                {
+                    string errorDetails = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Wystąpił błąd podczas tworzenia kontenera: {response.StatusCode}\n\n{errorDetails}", "Błąd");
+                    return string.Empty;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Wystąpił nieoczekiwany błąd: " + ex.Message, "Błąd");
+                return string.Empty;
+            }
+        }
+
+        public async Task DownloadAndExtractBlobsAsync(string containerName)
+        {
+            try
+            {
+                string QuizesPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Quizzy", "Quizes");
+                string DownloadsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Quizzy", "Downloads");
+
+                // Upewnij się, że ścieżki istnieją
+                if (!Directory.Exists(QuizesPath))
+                    Directory.CreateDirectory(QuizesPath);
+
+                if (!Directory.Exists(DownloadsPath))
+                    Directory.CreateDirectory(DownloadsPath);
+
+                string requestUrl = $"/api/Blob/download-all?containerName={containerName}";
+
+                // Pobieranie plików ZIP z API
+                HttpResponseMessage response = await _httpClient.GetAsync(requestUrl);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    // Zapisanie pliku ZIP w folderze Downloads
+                    string zipFilePath = Path.Combine(DownloadsPath, "all-blobs.zip");
+                    using (var fs = new FileStream(zipFilePath, FileMode.Create, FileAccess.Write))
+                    {
+                        await response.Content.CopyToAsync(fs);
+                    }
+
+                    // Rozpakowanie plików ZIP do QuizesPath
+                    ExtractAndOverwrite(zipFilePath, QuizesPath);
+
+                    MessageBox.Show("Pomyślnie pobrano i rozpakowano wszystkie bloby.", "Sukces");
+                }
+                else
+                {
+                    string errorDetails = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Wystąpił błąd podczas pobierania blobów: {response.StatusCode}\n\n{errorDetails}", "Błąd");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Wystąpił nieoczekiwany błąd: " + ex.Message, "Błąd");
+            }
+        }
+
+        private void ExtractAndOverwrite(string zipFilePath, string destinationPath)
+        {
+            try
+            {
+                if (!Directory.Exists(destinationPath))
+                {
+                    Directory.CreateDirectory(destinationPath);
+                }
+
+                // Usuwanie wszystkich istniejących plików w folderze docelowym
+                foreach (var file in Directory.GetFiles(destinationPath, "*", SearchOption.AllDirectories))
+                {
+                    System.IO.File.Delete(file);
+                }
+
+                // Rozpakowanie plików z ZIP
+                using (var archive = System.IO.Compression.ZipFile.OpenRead(zipFilePath))
+                {
+                    foreach (var entry in archive.Entries)
+                    {
+                        string destinationFilePath = Path.Combine(destinationPath, entry.FullName);
+
+                        // Upewnij się, że katalog docelowy istnieje
+                        string directoryPath = Path.GetDirectoryName(destinationFilePath);
+                        if (!string.IsNullOrEmpty(directoryPath) && !Directory.Exists(directoryPath))
+                        {
+                            Directory.CreateDirectory(directoryPath);
+                        }
+
+                        // Rozpakowanie i nadpisanie pliku
+                        if (!string.IsNullOrEmpty(entry.Name))
+                        {
+                            entry.ExtractToFile(destinationFilePath, overwrite: true);
+                        }
+                    }
+                }
+
+                MessageBox.Show("Pliki zostały pomyślnie rozpakowane i zastąpione.", "Sukces");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Wystąpił błąd podczas rozpakowywania plików: {ex.Message}", "Błąd");
+            }
+        }
+
+        public async Task UploadAndSyncLocalFilesAsync(string containerName)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(containerName))
+                {
+                    MessageBox.Show("Nazwa kontenera nie może być pusta!", "Błąd");
+                    return;
+                }
+
+                string requestUrl = $"/api/Blob/upload-and-sync?containerName={containerName}";
+
+                // Wywołanie API
+                HttpResponseMessage response = await _httpClient.PostAsync(requestUrl, null);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string result = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Synchronizacja zakończona sukcesem:\n\n{result}", "Sukces");
+                }
+                else
+                {
+                    string errorDetails = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Wystąpił błąd podczas synchronizacji: {response.StatusCode}\n\n{errorDetails}", "Błąd");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Wystąpił nieoczekiwany błąd: {ex.Message}", "Błąd");
+            }
         }
 
     }
+
+
 }
 
 
