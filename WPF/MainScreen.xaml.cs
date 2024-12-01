@@ -23,7 +23,6 @@
 
 namespace WPF
 {
-
         public class Item
         {
             public string? Name { get; set; }
@@ -49,12 +48,10 @@ namespace WPF
                 InitializeComponent();
                 Loaded += MainScreen_Loaded;
             }
-
+        
             //Loading screen function
             private async void MainScreen_Loaded(object sender, RoutedEventArgs e)
             {
-                AzureBlobAPI azureBlobAPI = new AzureBlobAPI();
-                azureBlobAPI.DownloadAndExtractBlobsAsync("data");
 
                 LoadAllQuizzes();
 
@@ -257,10 +254,12 @@ namespace WPF
             }
 
             //exit application
-            private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
+            private async void CloseWindowButton_Click(object sender, RoutedEventArgs e)
             {
+                string QuizesPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Quizzy", "Quizes");
+                MessageBox.Show($"Quizes path: {QuizesPath}" );
                 AzureBlobAPI azureblobapi = new AzureBlobAPI();
-                azureblobapi.UploadAndSyncLocalFilesAsync("data");
+                await azureblobapi.UploadAllBlobs("data");
                 Application.Current.Shutdown();
             }
 

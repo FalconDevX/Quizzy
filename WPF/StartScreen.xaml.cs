@@ -387,6 +387,8 @@ namespace WPF
                     LoadingSpinner.Visibility = Visibility.Hidden;
                     MessageBox.Show("Login successful.");
 
+                    AzureBlobAPI azureBlobAPI = new AzureBlobAPI();
+                    await azureBlobAPI.DownloadAndExtractBlobsAsync("data");
                     MainScreen mainScreen = new MainScreen();
                     mainScreen.Show();
                     this.Close();
