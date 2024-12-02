@@ -80,16 +80,12 @@ namespace WPF
             private void SideBarButton_Click(object sender, RoutedEventArgs e)
             {
                 SideBarClick(sender, e);
-                // Rzutowanie sender na ToggleButton
                 if (sender is ToggleButton clickedButton)
                 {
-                    // Jeśli kliknięty przycisk jest już zaznaczony, wyjdź (nie pozwól go odznaczyć)
                     if (clickedButton.IsChecked == true)
                     {
                         return;
                     }
-
-                    // Odznacz wszystkie przyciski w SideBarPanel
                     foreach (var child in SideBarPanel.Children)
                     {
                         if (child is ToggleButton button)
@@ -97,8 +93,6 @@ namespace WPF
                             button.IsChecked = false;
                         }
                     }
-
-                    // Zaznacz kliknięty przycisk
                     clickedButton.IsChecked = true;
                 }
             }
