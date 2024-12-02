@@ -282,33 +282,33 @@ namespace WPF
             //Change login button
             private void ChangeLoginButton_Click(object sender, RoutedEventArgs e)
             {
-                DialogBox dialogbox = new DialogBox();
-                dialogbox.DeleteButton.Visibility = Visibility.Collapsed;
-                dialogbox.ChangeButton.Visibility = Visibility.Visible;
-                dialogbox.DeleteTextBlock.Visibility = Visibility.Collapsed;
-                dialogbox.ChangeLoginTextBlock.Visibility = Visibility.Visible;
-                dialogbox.DialogBoxTextBox.Tag = "Type new login";
-                dialogbox.DialogBoxTextBlockInfo.Text = "Login taken";
-                dialogbox.ChangeButton.Content = "Change";
-                dialogbox.ShowDialog();
+                //DialogBox dialogbox = new DialogBox();
+                //dialogbox.DeleteButton.Visibility = Visibility.Collapsed;
+                //dialogbox.ChangeButton.Visibility = Visibility.Visible;
+                //dialogbox.DeleteTextBlock.Visibility = Visibility.Collapsed;
+                //dialogbox.ChangeLoginTextBlock.Visibility = Visibility.Visible;
+                //dialogbox.DialogBoxTextBox.Tag = "Type new login";
+                //dialogbox.DialogBoxTextBlockInfo.Text = "Login taken";
+                //dialogbox.ChangeButton.Content = "Change";
+                //dialogbox.ShowDialog();
 
-                SideBarNickTextBlock.Text = CurrentUser.Login;
-                UserLoginSettingsTextBlock.Text = CurrentUser.Login;
-                UserNameTextBlock.Text = $"Hi, {CurrentUser.Login}";
+                //SideBarNickTextBlock.Text = CurrentUser.Login;
+                //UserLoginSettingsTextBlock.Text = CurrentUser.Login;
+                //UserNameTextBlock.Text = $"Hi, {CurrentUser.Login}";
             }
 
             //Delete account button
 
             private void DeleteAccountButton_Click(object sender, RoutedEventArgs e)
             {
-                DialogBox dialogbox = new DialogBox();
-                dialogbox.ChangeButton.Visibility = Visibility.Collapsed;
-                dialogbox.DeleteButton.Visibility = Visibility.Visible;
-                dialogbox.ChangeLoginTextBlock.Visibility = Visibility.Collapsed;
-                dialogbox.DeleteTextBlock.Visibility = Visibility.Visible;
-                dialogbox.DialogBoxTextBox.Tag = "Retype your login";
-                dialogbox.DialogBoxTextBlockInfo.Text = "Login do not match";
-                dialogbox.ShowDialog();
+                //DialogBox dialogbox = new DialogBox();
+                //dialogbox.ChangeButton.Visibility = Visibility.Collapsed;
+                //dialogbox.DeleteButton.Visibility = Visibility.Visible;
+                //dialogbox.ChangeLoginTextBlock.Visibility = Visibility.Collapsed;
+                //dialogbox.DeleteTextBlock.Visibility = Visibility.Visible;
+                //dialogbox.DialogBoxTextBox.Tag = "Retype your login";
+                //dialogbox.DialogBoxTextBlockInfo.Text = "Login do not match";
+                //dialogbox.ShowDialog();
             }
 
             private async void LoadAvatar()
