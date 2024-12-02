@@ -45,13 +45,11 @@ C:\Quizzy\QuizzyAplication\WPF\bin\Debug\net8.0-windows\runtimes\unix\lib\netcor
 C:\Quizzy\QuizzyAplication\WPF\bin\Debug\net8.0-windows\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
 C:\Quizzy\QuizzyAplication\WPF\bin\Debug\net8.0-windows\runtimes\win\lib\net8.0\System.Runtime.Caching.dll
 C:\Quizzy\QuizzyAplication\WPF\obj\Debug\net8.0-windows\WPF.csproj.AssemblyReference.cache
-C:\Quizzy\QuizzyAplication\WPF\obj\Debug\net8.0-windows\DialogBox.g.cs
 C:\Quizzy\QuizzyAplication\WPF\obj\Debug\net8.0-windows\MainScreen.g.cs
 C:\Quizzy\QuizzyAplication\WPF\obj\Debug\net8.0-windows\StartScreen.g.cs
 C:\Quizzy\QuizzyAplication\WPF\obj\Debug\net8.0-windows\App.g.cs
 C:\Quizzy\QuizzyAplication\WPF\obj\Debug\net8.0-windows\WPF_MarkupCompile.cache
 C:\Quizzy\QuizzyAplication\WPF\obj\Debug\net8.0-windows\WPF_MarkupCompile.lref
-C:\Quizzy\QuizzyAplication\WPF\obj\Debug\net8.0-windows\DialogBox.baml
 C:\Quizzy\QuizzyAplication\WPF\obj\Debug\net8.0-windows\MainScreen.baml
 C:\Quizzy\QuizzyAplication\WPF\obj\Debug\net8.0-windows\StartScreen.baml
 C:\Quizzy\QuizzyAplication\WPF\obj\Debug\net8.0-windows\WPF.g.resources
@@ -66,8 +64,6 @@ C:\Quizzy\QuizzyAplication\WPF\obj\Debug\net8.0-windows\refint\WPF.dll
 C:\Quizzy\QuizzyAplication\WPF\obj\Debug\net8.0-windows\WPF.pdb
 C:\Quizzy\QuizzyAplication\WPF\obj\Debug\net8.0-windows\WPF.genruntimeconfig.cache
 C:\Quizzy\QuizzyAplication\WPF\obj\Debug\net8.0-windows\ref\WPF.dll
-C:\Quizzy\QuizzyAplication\WPF\obj\Debug\net8.0-windows\DeleteAccount.g.cs
-C:\Quizzy\QuizzyAplication\WPF\obj\Debug\net8.0-windows\DeleteAccount.baml
 C:\Quizzy\QuizzyAplication\WPF\bin\Debug\net8.0-windows\MpCoding.WPF.LoadingAnimations.dll
 C:\Quizzy\QuizzyAplication\WPF\obj\Debug\net8.0-windows\WPF_Content.g.cs
 C:\Quizzy\QuizzyAplication\WPF\bin\Debug\net8.0-windows\Resources\MainScreen\Avatars\Avatar1.png

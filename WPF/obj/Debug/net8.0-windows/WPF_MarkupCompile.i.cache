@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\Admin\Source\Repos\QuizzyWPF\WPF\obj\Debug\net8.0-windows\
+C:\Users\Admin\source\repos\QuizzyWPF\WPF\obj\Debug\net8.0-windows\
 WPF
 none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
-C:\Users\Admin\Source\Repos\QuizzyWPF\WPF\App.xaml
-4-1312682911
+C:\Users\Admin\source\repos\QuizzyWPF\WPF\App.xaml
+2336314298
 14-1827876910
-9-1861319512
+71856141810
 2222066663459
-DeleteAccount.xaml;DialogBox.xaml;MainScreen.xaml;StartScreen.xaml;
+MainScreen.xaml;StartScreen.xaml;
 
-True
+False
 

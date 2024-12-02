@@ -79,16 +79,12 @@ namespace WPF
             private void SideBarButton_Click(object sender, RoutedEventArgs e)
             {
                 SideBarClick(sender, e);
-                // Rzutowanie sender na ToggleButton
                 if (sender is ToggleButton clickedButton)
                 {
-                    // Jeśli kliknięty przycisk jest już zaznaczony, wyjdź (nie pozwól go odznaczyć)
                     if (clickedButton.IsChecked == true)
                     {
                         return;
                     }
-
-                    // Odznacz wszystkie przyciski w SideBarPanel
                     foreach (var child in SideBarPanel.Children)
                     {
                         if (child is ToggleButton button)
@@ -96,8 +92,6 @@ namespace WPF
                             button.IsChecked = false;
                         }
                     }
-
-                    // Zaznacz kliknięty przycisk
                     clickedButton.IsChecked = true;
                 }
             }
@@ -296,33 +290,33 @@ namespace WPF
             //Change login button
             private void ChangeLoginButton_Click(object sender, RoutedEventArgs e)
             {
-                DialogBox dialogbox = new DialogBox();
-                dialogbox.DeleteButton.Visibility = Visibility.Collapsed;
-                dialogbox.ChangeButton.Visibility = Visibility.Visible;
-                dialogbox.DeleteTextBlock.Visibility = Visibility.Collapsed;
-                dialogbox.ChangeLoginTextBlock.Visibility = Visibility.Visible;
-                dialogbox.DialogBoxTextBox.Tag = "Type new login";
-                dialogbox.DialogBoxTextBlockInfo.Text = "Login taken";
-                dialogbox.ChangeButton.Content = "Change";
-                dialogbox.ShowDialog();
+                //DialogBox dialogbox = new DialogBox();
+                //dialogbox.DeleteButton.Visibility = Visibility.Collapsed;
+                //dialogbox.ChangeButton.Visibility = Visibility.Visible;
+                //dialogbox.DeleteTextBlock.Visibility = Visibility.Collapsed;
+                //dialogbox.ChangeLoginTextBlock.Visibility = Visibility.Visible;
+                //dialogbox.DialogBoxTextBox.Tag = "Type new login";
+                //dialogbox.DialogBoxTextBlockInfo.Text = "Login taken";
+                //dialogbox.ChangeButton.Content = "Change";
+                //dialogbox.ShowDialog();
 
-                SideBarNickTextBlock.Text = CurrentUser.Login;
-                UserLoginSettingsTextBlock.Text = CurrentUser.Login;
-                UserNameTextBlock.Text = $"Hi, {CurrentUser.Login}";
+                //SideBarNickTextBlock.Text = CurrentUser.Login;
+                //UserLoginSettingsTextBlock.Text = CurrentUser.Login;
+                //UserNameTextBlock.Text = $"Hi, {CurrentUser.Login}";
             }
 
             //Delete account button
 
             private void DeleteAccountButton_Click(object sender, RoutedEventArgs e)
             {
-                DialogBox dialogbox = new DialogBox();
-                dialogbox.ChangeButton.Visibility = Visibility.Collapsed;
-                dialogbox.DeleteButton.Visibility = Visibility.Visible;
-                dialogbox.ChangeLoginTextBlock.Visibility = Visibility.Collapsed;
-                dialogbox.DeleteTextBlock.Visibility = Visibility.Visible;
-                dialogbox.DialogBoxTextBox.Tag = "Retype your login";
-                dialogbox.DialogBoxTextBlockInfo.Text = "Login do not match";
-                dialogbox.ShowDialog();
+                //DialogBox dialogbox = new DialogBox();
+                //dialogbox.ChangeButton.Visibility = Visibility.Collapsed;
+                //dialogbox.DeleteButton.Visibility = Visibility.Visible;
+                //dialogbox.ChangeLoginTextBlock.Visibility = Visibility.Collapsed;
+                //dialogbox.DeleteTextBlock.Visibility = Visibility.Visible;
+                //dialogbox.DialogBoxTextBox.Tag = "Retype your login";
+                //dialogbox.DialogBoxTextBlockInfo.Text = "Login do not match";
+                //dialogbox.ShowDialog();
             }
 
             private async void LoadAvatar()

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "URrczM7ZyB2O2VgR826tPT8YhW9I3uTOxEFabOazqtNqLOpBi+Bw2s0rfxwnIWzDGWnfPXhCsSV1Vog+4j6tyw==",
+  "dgSpecHash": "eHEU5KPHM57b49sw/XVxbZcam2QCwtusYpwMi8tTYeJtJqfNssvIOvOnz9wbxO8+4qJ9EDk39UwWPoQqWcH2cA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Admin\\Source\\Repos\\QuizzyWPF\\WPF\\WPF.csproj",
+  "projectFilePath": "C:\\Users\\Admin\\source\\repos\\QuizzyWPF\\WPF\\WPF.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Admin\\.nuget\\packages\\azure.core\\1.44.1\\azure.core.1.44.1.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\azure.identity\\1.13.1\\azure.identity.1.13.1.nupkg.sha512",

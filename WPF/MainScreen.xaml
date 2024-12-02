@@ -320,9 +320,26 @@
                     </StackPanel>
                 </Border>
 
-
-
-                <Button x:Name="ChangeLoginButton" Content="Change Login" Background="#675A9D" FontSize="30" FontWeight="Bold" Foreground="#0B013D" Cursor="Hand" Margin="183,756,820,175" Height="60" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Click="ChangeLoginButton_Click">
+                <Button x:Name="ChangePasswordButton" Content="Change Password" Background="#675A9D" FontSize="30" FontWeight="Bold" Foreground="#0B013D" Cursor="Hand" Margin="183,706,820,225" Height="60" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed">
+                    <Button.Template>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border x:Name="ChangePasswordBorder" Background="{TemplateBinding Background}" CornerRadius="5">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="ChangePasswordBorder" Property="Background" Value="#816BA9"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="ChangePasswordBorder" Property="Background" Value="#574583"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                
+                
+                <Button x:Name="ChangeLoginButton" Content="Change Login" Background="#675A9D" FontSize="30" FontWeight="Bold" Foreground="#0B013D" Cursor="Hand" Margin="183,788,820,143" Height="60" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Click="ChangeLoginButton_Click">
                     <Button.Template>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Border x:Name="ChangeLoginBorder" Background="{TemplateBinding Background}" CornerRadius="5">
@@ -340,7 +357,7 @@
                     </Button.Template>
                 </Button>
 
-                <Button Content="Delete Account" Background="#811574" FontSize="30" FontWeight="Bold" Foreground="White" Cursor="Hand" Margin="183,838,819,93" Height="60" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Click="DeleteAccountButton_Click">
+                <Button Content="Delete Account" Background="#811574" FontSize="30" FontWeight="Bold" Foreground="White" Cursor="Hand" Margin="185,871,817,60" Height="60" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Click="DeleteAccountButton_Click">
                     <Button.Template>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Border x:Name="DeleteAccountBorder" Background="{TemplateBinding Background}" CornerRadius="5">
