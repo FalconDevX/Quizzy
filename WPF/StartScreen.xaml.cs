@@ -524,5 +524,29 @@ namespace WPF
             }
         }
 
+        // Dragging window when the left mouse button is pressed
+        private void MainGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ButtonState == MouseButtonState.Pressed)
+            {
+                // Zmieniamy kursor na "Hand"
+                StartScreenMainGrid.Cursor = Cursors.Hand;
+
+                // Upewniamy się, że okno nie jest zmaksymalizowane
+                if (this.WindowState != WindowState.Maximized)
+                {
+                    this.DragMove();
+                }
+            }
+        }
+
+        // Reset cursor when the left mouse button is released
+        private void MainGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            // Przywracamy domyślny kursor
+            StartScreenMainGrid.Cursor = Cursors.Arrow;
+        }
+
+
     }
 }

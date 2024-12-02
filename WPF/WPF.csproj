@@ -45,6 +45,7 @@
     <None Remove="Resources\StartScreen\minimizeIcon.png" />
     <None Remove="Resources\StartScreen\minimizeIcon_Hover.png" />
     <None Remove="Resources\StartScreen\Untitled52.png" />
+    <None Remove="StartScreenLogo.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -114,9 +115,7 @@
     <Resource Include="Resources\MainScreen\SideBar\SettingsIcon.png" />
     <Resource Include="Resources\MainScreen\SideBar\StatisticsIcon.png" />
     <Resource Include="Resources\RobotoCondensed-Regular.ttf" />
-    <Resource Include="Resources\StartScreen\Background.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
+    <Resource Include="Resources\StartScreen\Background.png" />
     <Resource Include="Resources\StartScreen\CloseIcon.png" />
     <Resource Include="Resources\StartScreen\CloseIcon_Hover.png" />
     <Resource Include="Resources\StartScreen\Icon.ico" />
@@ -124,6 +123,7 @@
     <Resource Include="Resources\StartScreen\LogoReadMe.png" />
     <Resource Include="Resources\StartScreen\minimizeIcon.png" />
     <Resource Include="Resources\StartScreen\minimizeIcon_Hover.png" />
+    <Resource Include="StartScreenLogo.png" />
   </ItemGroup>
   
   <ItemGroup>
