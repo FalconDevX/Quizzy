@@ -195,10 +195,8 @@
                     <mp:DotsRingSpinner x:Name="LoadingSpinner" Width="64" Height="63" Color="#8A1178" Duration="0:0:2.0" Visibility="Hidden"/>
 
                 </StackPanel>
-                <StackPanel x:Name="RegisterPanel" AutomationProperties.Name="RegisterPanel" HorizontalAlignment="Center" Margin="0,140,0,0" VerticalAlignment="Top">
-                    <!-- Register textblock -->
-
-                    <!-- Text Boxes -->
+        <StackPanel x:Name="RegisterPanel" AutomationProperties.Name="RegisterPanel" HorizontalAlignment="Center" Margin="0,140,0,0" VerticalAlignment="Top">
+            <!-- Text Boxes -->
 
                     <Border HorizontalAlignment="Left" Width="250" Height="40" BorderBrush="#191D67" BorderThickness="1" CornerRadius="10" Background="#191D67" Margin="23,6,0,0">
                         <TextBox x:Name ="EmailTextBoxRegister" Tag="Type e-mail" VerticalContentAlignment="Center" AutomationProperties.Name="EmailTextBoxRegister" Height="40" CaretBrush="#8FAFE6" Background="Transparent" Foreground="#8FAFE6" BorderThickness="0" FontSize="16" Cursor="IBeam" LostFocus="EmailTextBoxRegister_LostFocus" GotFocus="EmailTextBoxRegister_GotFocus" Margin="9,-1,9,-1" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed"/>

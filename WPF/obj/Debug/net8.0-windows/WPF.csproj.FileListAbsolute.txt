@@ -176,3 +176,9 @@ C:\Users\Admin\Source\Repos\QuizzyWPF\WPF\obj\Debug\net8.0-windows\WPF.csproj.Co
 C:\Users\Admin\Source\Repos\QuizzyWPF\WPF\obj\Debug\net8.0-windows\WPF.dll
 C:\Users\Admin\Source\Repos\QuizzyWPF\WPF\obj\Debug\net8.0-windows\WPF.genruntimeconfig.cache
 C:\Users\Admin\Source\Repos\QuizzyWPF\WPF\obj\Debug\net8.0-windows\ref\WPF.dll
+C:\Quizzy\QuizzyAplication\WPF\obj\Debug\net8.0-windows\DeleteWindow.baml
+C:\Quizzy\QuizzyAplication\WPF\obj\Debug\net8.0-windows\DeleteWindow.g.cs
+C:\Quizzy\QuizzyAplication\WPF\obj\Debug\net8.0-windows\ChangeLoginWindow.baml
+C:\Quizzy\QuizzyAplication\WPF\obj\Debug\net8.0-windows\ChangeLoginWindow.g.cs
+C:\Quizzy\QuizzyAplication\WPF\obj\Debug\net8.0-windows\ChangePasswordWindow.baml
+C:\Quizzy\QuizzyAplication\WPF\obj\Debug\net8.0-windows\ChangePasswordWindow.g.cs

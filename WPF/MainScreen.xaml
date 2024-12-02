@@ -125,7 +125,7 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
-                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="20"/>
                 </Grid.ColumnDefinitions>
                 <Border Grid.ColumnSpan="2" Name="Border"
               BorderBrush="{StaticResource ComboBoxNormalBorderBrush}" 
@@ -320,7 +320,7 @@
                     </StackPanel>
                 </Border>
 
-                <Button x:Name="ChangePasswordButton" Content="Change Password" Background="#675A9D" FontSize="30" FontWeight="Bold" Foreground="#0B013D" Cursor="Hand" Margin="183,706,820,225" Height="60" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed">
+                <Button x:Name="ChangePasswordButton" Content="Change Password" Background="#675A9D" FontSize="30" FontWeight="Bold" Foreground="#0B013D" Cursor="Hand" Margin="183,706,820,225" Height="60" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Click="ChangePasswordButton_Click">
                     <Button.Template>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Border x:Name="ChangePasswordBorder" Background="{TemplateBinding Background}" CornerRadius="5">
@@ -337,7 +337,6 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
-                
                 
                 <Button x:Name="ChangeLoginButton" Content="Change Login" Background="#675A9D" FontSize="30" FontWeight="Bold" Foreground="#0B013D" Cursor="Hand" Margin="183,788,820,143" Height="60" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Click="ChangeLoginButton_Click">
                     <Button.Template>

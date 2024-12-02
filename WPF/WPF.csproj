@@ -131,6 +131,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  
+  <ItemGroup>
+    <Content Remove="C:\Users\mateu\.nuget\packages\mpcoding.wpf.loadinganimations\1.0.2\contentFiles\any\netcoreapp3.1\MpCodingDP.ico" />
+  </ItemGroup>
 
 
 </Project>
