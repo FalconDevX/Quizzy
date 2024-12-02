@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Quizzy\\QuizzyAplication\\WPF\\WPF.csproj": {}
+    "C:\\Users\\Admin\\source\\repos\\QuizzyWPF\\WPF\\WPF.csproj": {}
   },
   "projects": {
-    "C:\\Quizzy\\QuizzyAplication\\WPF\\WPF.csproj": {
+    "C:\\Users\\Admin\\source\\repos\\QuizzyWPF\\WPF\\WPF.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Quizzy\\QuizzyAplication\\WPF\\WPF.csproj",
+        "projectUniqueName": "C:\\Users\\Admin\\source\\repos\\QuizzyWPF\\WPF\\WPF.csproj",
         "projectName": "WPF",
-        "projectPath": "C:\\Quizzy\\QuizzyAplication\\WPF\\WPF.csproj",
-        "packagesPath": "C:\\Users\\mateu\\.nuget\\packages\\",
-        "outputPath": "C:\\Quizzy\\QuizzyAplication\\WPF\\obj\\",
+        "projectPath": "C:\\Users\\Admin\\source\\repos\\QuizzyWPF\\WPF\\WPF.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Admin\\source\\repos\\QuizzyWPF\\WPF\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\mateu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -38,13 +38,7 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "all"
-        },
-        "SdkAnalysisLevel": "9.0.100"
+        }
       },
       "frameworks": {
         "net8.0-windows7.0": {
@@ -98,7 +92,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

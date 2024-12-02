@@ -386,9 +386,19 @@ namespace WPF
                 {
                     LoadingSpinner.Visibility = Visibility.Hidden;
                     MessageBox.Show("Login successful.");
+                    //UserService userservice = new UserService();
 
+                    CurrentUser.UserId = await userService.GetUserIdByLoginApi(CurrentUser.Login);
                     AzureBlobAPI azureBlobAPI = new AzureBlobAPI();
-                    await azureBlobAPI.DownloadAndExtractBlobsAsync("data");
+                    if (await azureBlobAPI.CheckContainerExistsByUserID(CurrentUser.UserId))
+                    {
+                        await azureBlobAPI.DownloadAndExtractBlobsAsync($"ident{CurrentUser.UserId}");
+                    }
+                    else
+                    {
+                        await azureBlobAPI.CreateContainerAsync($"ident{CurrentUser.UserId}");
+                        await azureBlobAPI.DownloadAndExtractBlobsAsync($"ident{CurrentUser.UserId}");
+                    }
                     MainScreen mainScreen = new MainScreen();
                     mainScreen.Show();
                     this.Close();
@@ -464,8 +474,12 @@ namespace WPF
 
                 if (IsRegistrationSuccess)
                 {
+
                     MessageBox.Show("Register successful!");
                     CurrentUser.Login = login;
+                    CurrentUser.UserId = await userService.GetUserIdByLoginApi(login);
+                    AzureBlobAPI azureBlobAPI = new AzureBlobAPI();
+                    await azureBlobAPI.CreateContainerAsync($"ident{CurrentUser.UserId}");
                     mainScreen.UserNameTextBlock.Text = $"Hi, {displayName}";
                     mainScreen.Show();
                     this.Close();
