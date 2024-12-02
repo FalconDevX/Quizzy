@@ -12,6 +12,7 @@
         Width="1700" Height="1080"
         Icon="Resources/StartScreen/Icon.ico">
 
+
     <Window.Resources>
         <!-- Definicja kolorów jako zasobów -->
         <SolidColorBrush x:Key="ButtonMouseOverColor" Color="#332EB7"/>

@@ -79,20 +79,36 @@ namespace WPF
 
             private void SideBarButton_Click(object sender, RoutedEventArgs e)
             {
-                // Odznacz wszystkie przyciski w SideBarPanel
-                foreach (var child in SideBarPanel.Children)
+                SideBarClick(sender, e);
+                // Rzutowanie sender na ToggleButton
+                if (sender is ToggleButton clickedButton)
                 {
-                    if (child is ToggleButton button && button != sender)
+                    // Jeśli kliknięty przycisk jest już zaznaczony, wyjdź (nie pozwól go odznaczyć)
+                    if (clickedButton.IsChecked == true)
                     {
-                        button.IsChecked = false;
+                        return;
                     }
+
+                    // Odznacz wszystkie przyciski w SideBarPanel
+                    foreach (var child in SideBarPanel.Children)
+                    {
+                        if (child is ToggleButton button)
+                        {
+                            button.IsChecked = false;
+                        }
+                    }
+
+                    // Zaznacz kliknięty przycisk
+                    clickedButton.IsChecked = true;
                 }
             }
+
 
 
             //Home button clicked
             private void HomeButton_Click(object sender, RoutedEventArgs e)
             {
+                SideBarClick(sender, e);
                 SideBarButton_Click(sender, new RoutedEventArgs());
                 ShowOnlySelectedBorder("HomeBorder");
             }
@@ -100,6 +116,7 @@ namespace WPF
             //Settings button clicked
             private void SettingsButton_Click(object sender, RoutedEventArgs e)
             {
+                SideBarClick(sender, e);
                 SideBarButton_Click(sender, new RoutedEventArgs());
                 ShowOnlySelectedBorder("SettingsBorder");
             }
@@ -257,7 +274,6 @@ namespace WPF
             private async void CloseWindowButton_Click(object sender, RoutedEventArgs e)
             {
                 string QuizesPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Quizzy", "Quizes");
-                MessageBox.Show($"Quizes path: {QuizesPath}" );
                 AzureBlobAPI azureblobapi = new AzureBlobAPI();
                 await azureblobapi.UploadAllBlobs("data");
                 Application.Current.Shutdown();
@@ -650,5 +666,29 @@ namespace WPF
                 }
             }
 
-        }
+            private ToggleButton _activeButton; // Przechowuje aktualnie zaznaczony przycisk
+
+            private void SideBarClick(object sender, RoutedEventArgs e)
+            {
+                var clickedButton = sender as ToggleButton;
+
+                // Jeśli kliknięty przycisk jest już aktywny, przywróć zaznaczenie
+                if (_activeButton == clickedButton)
+                {
+                    clickedButton.IsChecked = true; // Nie pozwól na odznaczenie
+                    return;
+                }
+
+                // Odznacz poprzedni aktywny przycisk (jeśli istnieje)
+                if (_activeButton != null)
+                {
+                    _activeButton.IsChecked = false;
+                }
+
+                // Ustaw nowy aktywny przycisk
+                _activeButton = clickedButton;
+                clickedButton.IsChecked = true;
+            }
+
+    }
 }

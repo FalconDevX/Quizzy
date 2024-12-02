@@ -523,11 +523,9 @@ namespace WPF
     public class AzureBlobAPI
     {
         private readonly HttpClient _httpClient;
-        private readonly string _sasUrl;
 
         public AzureBlobAPI()
         {
-
             _httpClient = new HttpClient
             {
                 BaseAddress = new Uri("https://quizzydatastorage-fthmhzfpgngphpb4.polandcentral-01.azurewebsites.net")
@@ -594,8 +592,6 @@ namespace WPF
                     }
 
                     ExtractAndOverwrite(zipFilePath, QuizesPath);
-
-                    MessageBox.Show("Pomyślnie pobrano i rozpakowano wszystkie bloby.", "Sukces");
                 }
                 else
                 {
@@ -641,8 +637,6 @@ namespace WPF
                         }
                     }
                 }
-
-                MessageBox.Show("Pliki zostały pomyślnie rozpakowane i zastąpione.", "Sukces");
             }
             catch (Exception ex)
             {
@@ -670,22 +664,18 @@ namespace WPF
                     return;
                 }
 
-                MessageBox.Show($"Rozpoczynanie przesyłania {jsonFiles.Length} plików JSON do kontenera '{containerName}'.", "Informacja", MessageBoxButton.OK, MessageBoxImage.Information);
-
                 foreach (string filePath in jsonFiles)
                 {
                     try
                     {
                         await UploadBlobToApi(filePath, containerName);
-                        MessageBox.Show($"Plik '{Path.GetFileName(filePath)}' przesłany pomyślnie.", "Sukces", MessageBoxButton.OK, MessageBoxImage.Information);
+                        //MessageBox.Show($"Plik '{Path.GetFileName(filePath)}' przesłany pomyślnie.", "Sukces", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                     catch (Exception ex)
                     {
                         MessageBox.Show($"Błąd przesyłania pliku '{Path.GetFileName(filePath)}': {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
-
-                MessageBox.Show("Wszystkie pliki JSON zostały przesłane pomyślnie.", "Sukces", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
@@ -720,11 +710,7 @@ namespace WPF
             }
         }
 
-
-
     }
-
-
 
 }
 
