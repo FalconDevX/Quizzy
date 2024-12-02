@@ -710,6 +710,25 @@ namespace WPF
             }
         }
 
+        public async Task<bool> CheckContainerExistsByUserID(int UserID)
+        {
+            try
+            {
+                string requestUrl = $"/api/Container/CheckContainerExists?containerName=ident{CurrentUser.UserId}";
+                HttpResponseMessage response = await _httpClient.GetAsync(requestUrl);
+                
+                if(response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+            }
+            catch(Exception ex)
+            {
+                throw new Exception($"Wystąpił nieoczekiwany błąd {ex.Message}");
+            }
+            return false;
+        }
+
     }
 
 }

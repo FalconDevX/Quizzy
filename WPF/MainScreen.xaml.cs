@@ -63,7 +63,6 @@ namespace WPF
 
                 UserService userservice = new UserService();
 
-                CurrentUser.UserId = await userservice.GetUserIdByLoginApi(CurrentUser.Login);
                 CurrentUser.Email = await userservice.GetEmailByIdApi(CurrentUser.UserId);
 
                 LoadAvatar();
@@ -275,7 +274,16 @@ namespace WPF
             {
                 string QuizesPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Quizzy", "Quizes");
                 AzureBlobAPI azureblobapi = new AzureBlobAPI();
-                await azureblobapi.UploadAllBlobs("data");
+            if (await azureblobapi.CheckContainerExistsByUserID(CurrentUser.UserId))
+            {
+                await azureblobapi.UploadAllBlobs($"ident{CurrentUser.UserId}");
+            }
+            else
+            {
+                await azureblobapi.CreateContainerAsync($"ident{CurrentUser.UserId}");
+                await azureblobapi.UploadAllBlobs($"ident{CurrentUser.UserId}");
+            }
+                
                 Application.Current.Shutdown();
             }
 
