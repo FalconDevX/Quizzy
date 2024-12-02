@@ -22,7 +22,7 @@ namespace AzureBlobAPI.Controllers
         {
             try
             {
-                string connectionString = _configuration["AzureBlob:ConnectionString"];
+                string connectionString = _configuration["AzureBlob:ConnectionString"]!;
                 string containerName = ContainerName;
 
                 if (string.IsNullOrEmpty(connectionString) || string.IsNullOrEmpty(containerName))
@@ -79,7 +79,7 @@ namespace AzureBlobAPI.Controllers
         {
             try
             {
-                string connectionString = _configuration["AzureBlob:ConnectionString"];
+                string connectionString = _configuration["AzureBlob:ConnectionString"]!;
                 BlobContainerClient containerClient = new BlobContainerClient(connectionString, containerName);
 
                 BlobClient blobClient = containerClient.GetBlobClient(blobName);
@@ -111,7 +111,7 @@ namespace AzureBlobAPI.Controllers
                     return BadRequest(new { Message = "No file was uploaded or file is empty." });
                 }
 
-                string connectionString = _configuration["AzureBlob:ConnectionString"];
+                string connectionString = _configuration["AzureBlob:ConnectionString"]!;
                 BlobContainerClient containerClient = new BlobContainerClient(connectionString, containerName);
 
                 // Ensure the container exists

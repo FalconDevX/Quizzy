@@ -22,7 +22,7 @@ namespace AzureBlobAPI.Controllers
         {
             try
             {
-                string connectionString = _configuration["AzureBlob:ConnectionString"];
+                string connectionString = _configuration["AzureBlob:ConnectionString"]!;
 
                 if (string.IsNullOrEmpty(containerName))
                 {
@@ -50,7 +50,7 @@ namespace AzureBlobAPI.Controllers
         {
             try
             {
-                string connectionString = _configuration["AzureBlob:ConnectionString"];
+                string connectionString = _configuration["AzureBlob:ConnectionString"]!;
 
                 if (string.IsNullOrEmpty(containerName))
                 {
