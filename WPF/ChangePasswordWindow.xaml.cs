@@ -15,7 +15,6 @@ namespace WPF
             var passwordBox = sender as PasswordBox;
             if (passwordBox != null)
             {
-                // Ukryj placeholder, gdy użytkownik zaczyna pisać lub klika w pole
                 var placeholder = passwordBox.Template.FindName("PART_TempText", passwordBox) as TextBlock;
                 if (placeholder != null)
                 {
@@ -29,7 +28,6 @@ namespace WPF
             var passwordBox = sender as PasswordBox;
             if (passwordBox != null && string.IsNullOrEmpty(passwordBox.Password))
             {
-                // Pokaż placeholder, gdy pole jest puste i straci focus
                 var placeholder = passwordBox.Template.FindName("PART_TempText", passwordBox) as TextBlock;
                 if (placeholder != null)
                 {
@@ -43,7 +41,6 @@ namespace WPF
             var passwordBox = sender as PasswordBox;
             if (passwordBox != null)
             {
-                // Ukryj placeholder, gdy użytkownik zaczyna wpisywać tekst
                 var placeholder = passwordBox.Template.FindName("PART_TempText", passwordBox) as TextBlock;
                 if (placeholder != null)
                 {
