@@ -166,18 +166,22 @@ namespace WPF
         //function which check if two passwords match
         private void CheckPasswordsMatch()
         {
-            string password = PassBoxRegister.Password;
-            string repeatedPassword = RepPassBoxRegister.Password;
+            string password = ShowPasswordRegister.IsChecked == true ? PassTextBoxRegister.Text : PassBoxRegister.Password;
+            string repeatedPassword = ShowPasswordRegister.IsChecked == true ? RepPassTextBoxRegister.Text : RepPassBoxRegister.Password;
 
-            if (password != repeatedPassword && repeatedPassword != "" && password != "")
+            if (!string.IsNullOrEmpty(password) && !string.IsNullOrEmpty(repeatedPassword))
             {
-                PassNotMatchLabel.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                PassNotMatchLabel.Visibility = Visibility.Hidden;
+                if (password != repeatedPassword)
+                {
+                    PassNotMatchLabel.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    PassNotMatchLabel.Visibility = Visibility.Hidden;
+                }
             }
         }
+
 
         private void CheckPasswordsValid()
         {
