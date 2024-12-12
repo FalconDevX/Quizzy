@@ -258,6 +258,32 @@
             </Setter>
         </Style>
 
+
+        <Style TargetType="Button" x:Key="RoundedButtonStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                        BorderBrush="{TemplateBinding BorderBrush}" 
+                        BorderThickness="0" 
+                        CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background" Value="#4A46BB"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="20"/>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#6A5DFB"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+
     </Window.Resources>
 
     <!-- Main app grid -->
@@ -266,7 +292,7 @@
         <Image Margin="-108,-60,-185,0" Source="Resources\MainScreen\MainScreen\Background.png" Stretch="UniformToFill" Height="1148" VerticalAlignment="Top" />
 
         <!-- Side Bar Grid -->
-        <Grid Name="SideBarGrid" Width="280" HorizontalAlignment="Left">
+        <Grid Name="SideBarGrid" Width="280" HorizontalAlignment="Left" Visibility="Visible">
 
             <Grid.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
@@ -305,7 +331,7 @@
 
                 <Border CornerRadius="15" Background="#0B013D" Margin="44,162,689,303">
                     <StackPanel Margin="20">
-                        
+
                         <TextBlock Text="Account informations" FontSize="40" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Foreground="#DE94E7" Margin="10,0,0,0"/>
                         <TextBlock Text="e-mail" FontSize="30" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Foreground="White" Margin="10,25,0,20"/>
                         <Border CornerRadius="15" Background="#191D67" Height="70" Width="524">
@@ -337,7 +363,7 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
-                
+
                 <Button x:Name="ChangeLoginButton" Content="Change Login" Background="#675A9D" FontSize="30" FontWeight="Bold" Foreground="#0B013D" Cursor="Hand" Margin="183,788,820,143" Height="60" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Click="ChangeLoginButton_Click">
                     <Button.Template>
                         <ControlTemplate TargetType="{x:Type Button}">
@@ -817,7 +843,7 @@
                         </Button>
 
                         <!-- Lista quizów -->
-                        <ListBox x:Name="QuizListBox" ItemsSource="{Binding Source={StaticResource GroupedItems}}" Foreground="White" Background="Transparent" BorderThickness="0" FontSize="20" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Margin="0,70,0,0">
+                        <ListBox x:Name="QuizListBox" SelectionChanged="QuizListBox_SelectionChanged" ItemsSource="{Binding Source={StaticResource GroupedItems}}" Foreground="White" Background="Transparent" BorderThickness="0" FontSize="20" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Margin="0,70,0,0">
                             <ListBox.Resources>
                                 <!-- Styl dla ScrollBarThumb -->
                                 <Style x:Key="ScrollBarThumb" TargetType="{x:Type Thumb}">
@@ -1027,8 +1053,63 @@
 
                 </StackPanel>
             </StackPanel>
-            
+
         </Border>
 
+        <Grid x:Name="QuizView" Visibility="Hidden">
+            <!-- Przycisk "Back to Home" w lewym górnym rogu -->
+            <Button Content="Back to Home" FontSize="20" Style="{StaticResource RoundedButtonStyle}" Width="150" Height="50" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20" Click="BackToHomeButtonFromQuizView_Click"/>
+
+            <!-- Quiz View -->
+            <Border Margin="50,80,50,50" CornerRadius="20">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#FF0B013D" Offset="0.0"/>
+                        <GradientStop Color="#331B65" Offset="0.5"/>
+                        <GradientStop Color="#8A1178" Offset="1.0"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Grid>
+                    <!-- Definicja wierszy i kolumn -->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <!-- Główna zawartość -->
+                        <RowDefinition Height="Auto"/>
+                        <!-- Przyciski na dole -->
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <!-- Lewy obszar -->
+                        <ColumnDefinition Width="Auto"/>
+                        <!-- Przyciski z prawej -->
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Główna zawartość w środku -->
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Height="860" Grid.Row="0" Grid.ColumnSpan="2">
+                        <TextBlock x:Name="QuizQestion" 
+                           TextWrapping="Wrap" 
+                           Text="Jaka jest największa stolica która kiedykolwiek powstała na całym istniejącym świecie" 
+                           Margin="16,60,16,0" 
+                           HorizontalAlignment="Center" 
+                           Foreground="White" 
+                           FontSize="60" 
+                           FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" 
+                           Width="1521"/>
+                        <StackPanel Margin="0,20,0,0" Width="1479">
+                            <Button x:Name="QuizButton1" Content="Odpowiedź 1" FontSize="30" Style="{StaticResource RoundedButtonStyle}" Width="300" Height="80" Margin="0,10"/>
+                            <Button x:Name="QuizButton2" Content="Odpowiedź 2" FontSize="30" Style="{StaticResource RoundedButtonStyle}" Width="300" Height="80" Margin="0,10"/>
+                            <Button x:Name="QuizButton3" Content="Odpowiedź 3" FontSize="30" Style="{StaticResource RoundedButtonStyle}" Width="300" Height="80" Margin="0,10"/>
+                            <Button x:Name="QuizButton4" Content="Odpowiedź 4" FontSize="30" Style="{StaticResource RoundedButtonStyle}" Width="300" Height="80" Margin="0,10"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Przycisk "Next" w prawym dolnym rogu -->
+                    <Button Content="Next" FontSize="30" Style="{StaticResource RoundedButtonStyle}" Width="300" Height="80"
+                    HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Row="1" Grid.Column="1" Margin="40" Click="NextButton_Click"/>
+                </Grid>
+            </Border>
+        </Grid>
+
     </Grid>
+
 </Window>

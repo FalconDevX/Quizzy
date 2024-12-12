@@ -500,7 +500,6 @@ namespace WPF
             }
         }
 
-
         //Password in passwordbox changed for loginand register panel
         private void PasswordBoxLogin_PasswordChanged(object sender, RoutedEventArgs e)
         {

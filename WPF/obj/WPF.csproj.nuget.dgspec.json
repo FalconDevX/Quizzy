@@ -64,7 +64,7 @@
             },
             "MessagePack": {
               "target": "Package",
-              "version": "[2.5.192, )"
+              "version": "[3.0.300, )"
             },
             "Microsoft.Data.SqlClient": {
               "target": "Package",
@@ -74,9 +74,13 @@
               "target": "Package",
               "version": "[1.0.2, )"
             },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            },
             "System.Data.SqlClient": {
               "target": "Package",
-              "version": "[4.8.6, )"
+              "version": "[4.9.0, )"
             }
           },
           "imports": [

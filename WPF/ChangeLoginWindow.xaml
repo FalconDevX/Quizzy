@@ -172,7 +172,7 @@
                 </Border>
 
                 <Border HorizontalAlignment="Center" CornerRadius="10" Background="#191D67" Height="40" Width="236" Margin="0,20,0,0">
-                    <TextBlock x:Name="UserLoginSettingsTextBlock" Text="Your login" HorizontalAlignment="Left" FontSize="16" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Foreground="#8FAFE6" VerticalAlignment="Center" Margin="15,0,0,0"/>
+                    <TextBlock x:Name="NewLoginTextBox" Text="Your login" HorizontalAlignment="Left" FontSize="16" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Foreground="#8FAFE6" VerticalAlignment="Center" Margin="15,0,0,0"/>
                 </Border>
 
                 <Button x:Name="CreateNewLoginButton" HorizontalAlignment="Center" Content="Change login" Background="#675A9D" FontSize="16"  Margin="0,20,0,0" FontWeight="Bold" Foreground="#0B013D" Cursor="Hand"  Height="40"  Width="236" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Click="ChangeLoginButton_Click" >

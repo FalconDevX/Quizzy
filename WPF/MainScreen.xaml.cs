@@ -36,28 +36,32 @@ namespace WPF
     public partial class MainScreen : Window
     {
         private ObservableCollection<Item> Items = new ObservableCollection<Item>();
+        private bool _isLoadingQuizzes = true;
 
         public UserService userService;
         private readonly UserService _avatarService;
         private Item SelectedItem { get; set; } = new Item();
         public MainScreen()
         {
+            _isLoadingQuizzes = true;
             _avatarService = new UserService();
             InitializeComponent();
+            QuizListBox.SelectedItem = null;
+            QuizListBox.SelectedIndex = -1;
             Loaded += MainScreen_Loaded;
         }
-        
+
         //Loading screen function
         private async void MainScreen_Loaded(object sender, RoutedEventArgs e)
         {
+            _isLoadingQuizzes = true;
+
             LoadAllQuizzes();
-    
+
             var groupedItems = (CollectionViewSource)FindResource("GroupedItems");
-            groupedItems.Source = null;
             groupedItems.Source = Items;
 
             UserService userservice = new UserService();
-
             CurrentUser.Email = await userservice.GetEmailByIdApi(CurrentUser.UserId);
 
             LoadAvatar();
@@ -66,6 +70,10 @@ namespace WPF
             SideBarNickTextBlock.Text = CurrentUser.Login;
             UserEmailSettingsTextBlock.Text = CurrentUser.Email;
             UserLoginSettingsTextBlock.Text = CurrentUser.Login;
+
+            _isLoadingQuizzes = false;
+
+            QuizListBox.SelectedIndex = -1; 
         }
 
         ///SIDEBAR///
@@ -89,8 +97,6 @@ namespace WPF
                 clickedButton.IsChecked = true;
             }
         }
-
-
 
         //Home button clicked
         private void HomeButton_Click(object sender, RoutedEventArgs e)
@@ -428,6 +434,9 @@ namespace WPF
         //Loading all quizes
         public void LoadAllQuizzes()
         {
+            _isLoadingQuizzes = true;
+
+            // Ładowanie quizów...
             Items.Clear();
             string quizzesPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Quizzy", "Quizes");
 
@@ -450,12 +459,13 @@ namespace WPF
                 }
             }
 
-
-        // Odświeżenie CollectionViewSource (opcjonalnie można przenieść do BackToHome)
-        var groupedItems = (CollectionViewSource)FindResource("GroupedItems");  
+            var groupedItems = (CollectionViewSource)FindResource("GroupedItems");
             groupedItems.Source = null;
             groupedItems.Source = Items;
+
+            _isLoadingQuizzes = false;
         }
+
 
         private void AddQuizButton_Click(object sender, RoutedEventArgs e)
         {
@@ -672,29 +682,159 @@ namespace WPF
             }
         }
 
-        private ToggleButton _activeButton; // Przechowuje aktualnie zaznaczony przycisk
+        private ToggleButton _activeButton; 
 
         private void SideBarClick(object sender, RoutedEventArgs e)
         {
             var clickedButton = sender as ToggleButton;
 
-            // Jeśli kliknięty przycisk jest już aktywny, przywróć zaznaczenie
             if (_activeButton == clickedButton)
             {
-                clickedButton.IsChecked = true; // Nie pozwól na odznaczenie
+                clickedButton.IsChecked = true; 
                 return;
             }
 
-            // Odznacz poprzedni aktywny przycisk (jeśli istnieje)
             if (_activeButton != null)
             {
                 _activeButton.IsChecked = false;
             }
 
-            // Ustaw nowy aktywny przycisk
-            _activeButton = clickedButton;
-            clickedButton.IsChecked = true;
+            if (clickedButton != null)
+            {
+                _activeButton = clickedButton;
+                clickedButton.IsChecked = true;
+
+            }
         }
+
+        //Check if quiz from listbox clicked
+        private void QuizListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (_isLoadingQuizzes || QuizListBox.SelectedIndex == -1)
+            {
+                return;
+            }
+
+            if (QuizListBox.SelectedItem is Item selectedItem && selectedItem.Questions != null)
+            {
+                // Załaduj pytania do widoku quizu
+                LoadQuiz(selectedItem.Questions);
+
+                // Przejdź do widoku quizu
+                
+
+                QuizListBox.SelectedIndex = -1;
+            }
+        }
+        
+
+        private void BackToHomeButtonFromQuizView_Click(object sender, RoutedEventArgs e)
+        {
+            QuizView.Visibility = Visibility.Hidden;
+            HomeBorder.Visibility = Visibility.Visible;
+            SideBarGrid.Visibility = Visibility.Visible;
+        }
+
+        private List<Question> _currentQuizQuestions = new List<Question>();
+        private int _currentQuestionIndex = 0;
+
+        private void LoadQuiz(List<Question> questions)
+        {
+            _currentQuizQuestions = questions;
+            _currentQuestionIndex = 0;
+
+            if (_currentQuizQuestions.Count > 0)
+            {
+                DisplayQuestion();
+                SideBarGrid.Visibility = Visibility.Hidden;
+                HomeBorder.Visibility = Visibility.Hidden;
+                QuizView.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                MessageBox.Show("Wybrany quiz nie zawiera pytań.", "Błąd", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        private void DisplayQuestion()
+        {
+            if (_currentQuestionIndex < 0 || _currentQuestionIndex >= _currentQuizQuestions.Count)
+            {
+                MessageBox.Show("To było ostatnie pytanie w quizie.", "Koniec quizu", MessageBoxButton.OK, MessageBoxImage.Information);
+                QuizView.Visibility = Visibility.Hidden;
+                HomeBorder.Visibility = Visibility.Visible;
+                SideBarGrid.Visibility = Visibility.Visible;
+
+                return;
+            }
+
+            var currentQuestion = _currentQuizQuestions[_currentQuestionIndex];
+
+            // Ustaw tekst pytania
+            QuizQestion.Text = currentQuestion.QuestionText;
+
+            // Przypisz odpowiedzi do przycisków
+            if (currentQuestion.Answers != null && currentQuestion.Answers.Count >= 4)
+            {
+                QuizButton1.Content = currentQuestion.Answers[0];
+                QuizButton2.Content = currentQuestion.Answers[1];
+                QuizButton3.Content = currentQuestion.Answers[2];
+                QuizButton4.Content = currentQuestion.Answers[3];
+
+                // Dodaj obsługę kliknięcia dla przycisków
+                QuizButton1.Click -= AnswerButton_Click;
+                QuizButton2.Click -= AnswerButton_Click;
+                QuizButton3.Click -= AnswerButton_Click;
+                QuizButton4.Click -= AnswerButton_Click;
+
+                QuizButton1.Click += AnswerButton_Click;
+                QuizButton2.Click += AnswerButton_Click;
+                QuizButton3.Click += AnswerButton_Click;
+                QuizButton4.Click += AnswerButton_Click;
+            }
+            else
+            {
+                MessageBox.Show("Nieprawidłowa liczba odpowiedzi w pytaniu.", "Błąd", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+
+        private void AnswerButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button clickedButton)
+            {
+                var currentQuestion = _currentQuizQuestions[_currentQuestionIndex];
+
+                int clickedIndex = -1;
+
+                if (clickedButton == QuizButton1) clickedIndex = 0;
+                else if (clickedButton == QuizButton2) clickedIndex = 1;
+                else if (clickedButton == QuizButton3) clickedIndex = 2;
+                else if (clickedButton == QuizButton4) clickedIndex = 3;
+
+                if (clickedIndex == currentQuestion.CorrectAnswerIndex)
+                {
+                    MessageBox.Show("Poprawna odpowiedź!", "Gratulacje", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show($"Niepoprawna odpowiedź. Poprawna odpowiedź to: {currentQuestion.Answers[currentQuestion.CorrectAnswerIndex]}", "Spróbuj ponownie", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            }
+        }
+
+
+        private void NextButton_Click(object sender, RoutedEventArgs e)
+        {
+            _currentQuestionIndex++;
+            DisplayQuestion();
+        }
+
+
+
+
+
+
 
     }
 }
