@@ -20,6 +20,7 @@
     using System.Windows.Controls.Primitives;
     using System.Text.Json;
     using System.Collections.ObjectModel;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace WPF
 {
@@ -770,10 +771,8 @@ namespace WPF
 
             var currentQuestion = _currentQuizQuestions[_currentQuestionIndex];
 
-            // Ustaw tekst pytania
             QuizQestion.Text = currentQuestion.QuestionText;
 
-            // Przypisz odpowiedzi do przycisków
             if (currentQuestion.Answers != null && currentQuestion.Answers.Count >= 4)
             {
                 QuizButton1.Content = currentQuestion.Answers[0];
@@ -781,7 +780,6 @@ namespace WPF
                 QuizButton3.Content = currentQuestion.Answers[2];
                 QuizButton4.Content = currentQuestion.Answers[3];
 
-                // Dodaj obsługę kliknięcia dla przycisków
                 QuizButton1.Click -= AnswerButton_Click;
                 QuizButton2.Click -= AnswerButton_Click;
                 QuizButton3.Click -= AnswerButton_Click;
@@ -798,7 +796,7 @@ namespace WPF
             }
         }
 
-
+        private int _score = 0;
         private void AnswerButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button clickedButton)
@@ -814,21 +812,66 @@ namespace WPF
 
                 if (clickedIndex == currentQuestion.CorrectAnswerIndex)
                 {
-                    MessageBox.Show("Poprawna odpowiedź!", "Gratulacje", MessageBoxButton.OK, MessageBoxImage.Information);
+                    //MessageBox.Show("Poprawna odpowiedź!", "Gratulacje", MessageBoxButton.OK, MessageBoxImage.Information);
+                    _score++; 
                 }
                 else
                 {
-                    MessageBox.Show($"Niepoprawna odpowiedź. Poprawna odpowiedź to: {currentQuestion.Answers[currentQuestion.CorrectAnswerIndex]}", "Spróbuj ponownie", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    //MessageBox.Show($"Niepoprawna odpowiedź. Poprawna odpowiedź to: {currentQuestion.Answers[currentQuestion.CorrectAnswerIndex]}", "Spróbuj ponownie", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+
+                _currentQuestionIndex++;
+                if (_currentQuestionIndex < _currentQuizQuestions.Count)
+                {
+                    DisplayQuestion();
+                }
+                else
+                {
+                    MessageBox.Show($"To było ostatnie pytanie w quizie. Twój wynik: {_score}/{_currentQuizQuestions.Count}.",
+                        "Koniec quizu",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Information);
+
+                    QuizView.Visibility = Visibility.Hidden;
+                    HomeBorder.Visibility = Visibility.Visible;
+                    SideBarGrid.Visibility = Visibility.Visible;
                 }
             }
         }
 
 
+
         private void NextButton_Click(object sender, RoutedEventArgs e)
         {
-            _currentQuestionIndex++;
-            DisplayQuestion();
+            var result = MessageBox.Show(
+                "Czy na pewno chcesz pominąć to pytanie? Otrzymasz zero punktów za pytanie.",
+                "Potwierdzenie",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                _currentQuestionIndex++;
+
+                if (_currentQuestionIndex < _currentQuizQuestions.Count)
+                {
+                    DisplayQuestion(); 
+                }
+                else
+                {
+                    MessageBox.Show($"To było ostatnie pytanie w quizie. Twój wynik: {_score}/{_currentQuizQuestions.Count}.",
+                        "Koniec quizu",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Information);
+
+                    QuizView.Visibility = Visibility.Hidden;
+                    HomeBorder.Visibility = Visibility.Visible;
+                    SideBarGrid.Visibility = Visibility.Visible;
+                }
+            }
+
         }
+
 
 
 
