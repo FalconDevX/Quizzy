@@ -384,13 +384,18 @@ namespace WPF
 
                 LoadingSpinner.Visibility = Visibility.Visible;
 
-                bool isAuthenticated = await userService.LoginUser(identifier, password);
+                TimeSpan timeout = TimeSpan.FromSeconds(5);
+                var loginTask = userService.LoginUser(identifier, password);
+                var delayTask = Task.Delay(timeout);
 
-                if (isAuthenticated)
+                var completedTask = await Task.WhenAny(loginTask, delayTask);
+
+
+
+                if (completedTask == loginTask)
                 {
                     LoadingSpinner.Visibility = Visibility.Hidden;
                     MessageBox.Show("Login successful.");
-                    //UserService userservice = new UserService();
 
                     CurrentUser.UserId = await userService.GetUserIdByLoginApi(CurrentUser.Login);
                     AzureBlobAPI azureBlobAPI = new AzureBlobAPI();
@@ -409,7 +414,12 @@ namespace WPF
                 }
                 else
                 {
+                    await Task.Delay(5000);
+
+
                     LoadingSpinner.Visibility = Visibility.Hidden;
+                 
+                    
                     MessageBox.Show("Invalid credentials. Please try again.");
                 }
             }
