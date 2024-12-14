@@ -560,7 +560,6 @@ namespace WPF
                 return;
             }
 
-            // Pobranie nazwy quizu
             if (!string.IsNullOrWhiteSpace(NewQuizNameTextBox.Text))
             {
                 item.Name = NewQuizNameTextBox.Text;
@@ -571,7 +570,6 @@ namespace WPF
                 return;
             }
 
-            // Tworzenie i zapis quizu
             if (quizFile.CreateAndSaveQuiz(item.Name, item.Name, item.Category, SelectedItem.Image))
             {
                 MessageBox.Show("Quiz został pomyślnie dodany!");
@@ -581,21 +579,17 @@ namespace WPF
 
         private void BackToHome()
         {
-            // Załaduj wszystkie quizy (w tym nowo dodane)
             LoadAllQuizzes();
 
-            // Resetowanie formularza
             CategoryQuizComboBox.SelectedItem = null;
             NewQuizNameTextBox.Text = "";
             DescriptionTextBox.Text = "";
             NewQuizNameTextBox.Tag = "Type new quiz name";
             DescriptionTextBox.Tag = "Add short description";
 
-            // Przełącz widoczność ekranów
             HomeBorder.Visibility = Visibility.Visible;
             NewQuizBorder.Visibility = Visibility.Hidden;
 
-            // Odświeżenie CollectionViewSource, aby widok się zaktualizował
             var groupedItems = (CollectionViewSource)FindResource("GroupedItems");
             if (groupedItems != null)
             {
@@ -718,10 +712,7 @@ namespace WPF
 
             if (QuizListBox.SelectedItem is Item selectedItem && selectedItem.Questions != null)
             {
-                // Załaduj pytania do widoku quizu
                 LoadQuiz(selectedItem.Questions);
-
-                // Przejdź do widoku quizu
                 
 
                 QuizListBox.SelectedIndex = -1;
