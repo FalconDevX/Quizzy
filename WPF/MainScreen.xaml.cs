@@ -1,25 +1,25 @@
-﻿    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Data;
-    using System.Windows.Documents;
-    using System.Windows.Input;
-    using System.Windows.Media;
-    using System.Windows.Media.Imaging;
-    using System.Windows.Shapes;
-    using System.Runtime.InteropServices;
-    using Microsoft.Win32;
-    using System.Data.SqlClient;
-    using System.IO;
-    using System.Configuration;
-    using System.Windows.Resources;
-    using System.Windows.Controls.Primitives;
-    using System.Text.Json;
-    using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using System.Runtime.InteropServices;
+using Microsoft.Win32;
+using System.Data.SqlClient;
+using System.IO;
+using System.Configuration;
+using System.Windows.Resources;
+using System.Windows.Controls.Primitives;
+using System.Text.Json;
+using System.Collections.ObjectModel;
 using static System.Formats.Asn1.AsnWriter;
 
 namespace WPF
@@ -32,7 +32,9 @@ namespace WPF
         public int QuestionCount { get; set; }
         public ImageSource? Image { get; set; }
         public List<Question>? Questions { get; set; }
+        public string? Description { get; set; } 
     }
+
 
     public partial class MainScreen : Window
     {
@@ -542,10 +544,8 @@ namespace WPF
         //function for creating quiz
         private void CreateQuizButton_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-
-            Item item = new Item();
             QuizFile quizFile = new QuizFile();
+            Item item = new Item();
 
             // Pobranie kategorii
             var selectedItem = (ComboBoxItem)CategoryQuizComboBox.SelectedItem;
@@ -570,12 +570,23 @@ namespace WPF
                 return;
             }
 
-            if (quizFile.CreateAndSaveQuiz(item.Name, item.Name, item.Category, SelectedItem.Image))
+            if(!string.IsNullOrEmpty(DescriptionTextBox.Text))
+            {
+                item.Description = DescriptionTextBox.Text;
+            }
+            else
+            {
+                MessageBox.Show("Opis nie może być pusty");
+                return;
+            }
+
+            if (quizFile.CreateAndSaveQuiz(item.Name, item.Description, item.Name, item.Category, SelectedItem.Image))
             {
                 MessageBox.Show("Quiz został pomyślnie dodany!");
                 BackToHome();
             }
         }
+
 
         private void BackToHome()
         {
@@ -698,7 +709,6 @@ namespace WPF
             {
                 _activeButton = clickedButton;
                 clickedButton.IsChecked = true;
-
             }
         }
 
@@ -823,6 +833,8 @@ namespace WPF
                         MessageBoxButton.OK,
                         MessageBoxImage.Information);
 
+                    _score = 0;
+
                     QuizView.Visibility = Visibility.Hidden;
                     HomeBorder.Visibility = Visibility.Visible;
                     SideBarGrid.Visibility = Visibility.Visible;
@@ -862,13 +874,6 @@ namespace WPF
             }
 
         }
-
-
-
-
-
-
-
 
     }
 }

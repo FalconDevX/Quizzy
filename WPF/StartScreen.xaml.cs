@@ -383,16 +383,11 @@ namespace WPF
                 UserService userService = new UserService();
 
                 LoadingSpinner.Visibility = Visibility.Visible;
-
+                
                 TimeSpan timeout = TimeSpan.FromSeconds(5);
-                var loginTask = userService.LoginUser(identifier, password);
-                var delayTask = Task.Delay(timeout);
-
-                var completedTask = await Task.WhenAny(loginTask, delayTask);
-
-
-
-                if (completedTask == loginTask)
+                bool isAuthenticated = await userService.LoginUser(identifier, password);
+                
+                if (isAuthenticated)
                 {
                     LoadingSpinner.Visibility = Visibility.Hidden;
                     MessageBox.Show("Login successful.");
@@ -408,6 +403,7 @@ namespace WPF
                         await azureBlobAPI.CreateContainerAsync($"ident{CurrentUser.UserId}");
                         await azureBlobAPI.DownloadAndExtractBlobsAsync($"ident{CurrentUser.UserId}");
                     }
+
                     MainScreen mainScreen = new MainScreen();
                     mainScreen.Show();
                     this.Close();

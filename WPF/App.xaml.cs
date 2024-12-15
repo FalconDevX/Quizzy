@@ -28,6 +28,7 @@ namespace WPF
     {
         public string? Name { get; set; }
         public string? Category { get; set; }
+        public string? Description { get; set; }
         public DateTime LastModified { get; set; }
         public int QuestionCount { get; set; }
 
@@ -493,7 +494,7 @@ namespace WPF
         }
 
         //Debug create custom quiz
-        public bool CreateAndSaveQuiz(string QuizName, string JsonName, string Category, ImageSource image)
+        public bool CreateAndSaveQuiz(string QuizName, string description, string JsonName, string Category, ImageSource image)
         {
             string QuizesPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Quizzy", "Quizes");
 
@@ -501,6 +502,7 @@ namespace WPF
             {
                 Name = QuizName,
                 Category = Category,
+                Description = description,
                 LastModified = DateTime.Now,
                 Image = ConvertImageToBase64(image),
                 Questions = new List<Question> { }
@@ -568,6 +570,7 @@ namespace WPF
 
         public async Task DownloadAndExtractBlobsAsync(string containerName)
         {
+            MessageBox.Show($"Container name{containerName}");
             try
             {
                 string QuizesPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Quizzy", "Quizes");
@@ -614,10 +617,7 @@ namespace WPF
                     Directory.CreateDirectory(destinationPath);
                 }
 
-                foreach (var file in Directory.GetFiles(destinationPath, "*", SearchOption.AllDirectories))
-                {
-                    System.IO.File.Delete(file);
-                }
+                var downloadedFiles = new HashSet<string>();
 
                 using (var archive = System.IO.Compression.ZipFile.OpenRead(zipFilePath))
                 {
@@ -631,10 +631,21 @@ namespace WPF
                             Directory.CreateDirectory(directoryPath);
                         }
 
-                        if (!string.IsNullOrEmpty(entry.Name))
+                        if (!string.IsNullOrEmpty(entry.Name)) 
                         {
                             entry.ExtractToFile(destinationFilePath, overwrite: true);
+                            downloadedFiles.Add(destinationFilePath);
                         }
+                    }
+                }
+
+                var existingFiles = Directory.GetFiles(destinationPath, "*", SearchOption.AllDirectories);
+
+                foreach (var file in existingFiles)
+                {
+                    if (!downloadedFiles.Contains(file))
+                    {
+                        System.IO.File.Delete(file);
                     }
                 }
             }
@@ -669,7 +680,6 @@ namespace WPF
                     try
                     {
                         await UploadBlobToApi(filePath, containerName);
-                        //MessageBox.Show($"Plik '{Path.GetFileName(filePath)}' przesłany pomyślnie.", "Sukces", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                     catch (Exception ex)
                     {
