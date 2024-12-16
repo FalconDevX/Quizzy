@@ -71,7 +71,7 @@ namespace WPF
         {
             try
             {
-                int userId = 123; // Przykładowe ID użytkownika - zamień na dynamiczne.
+                int userId = CurrentUser.UserId; // Przykładowe ID użytkownika - zamień na dynamiczne.
                 string newLogin = NewLoginTextBox.Text;
 
                 if (string.IsNullOrWhiteSpace(newLogin))

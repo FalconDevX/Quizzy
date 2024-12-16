@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-C:\Quizzy\QuizzyAplication\WPF\obj\Debug\net8.0-windows\
+C:\Users\Admin\source\repos\QuizzyWPF\WPF\obj\Debug\net8.0-windows\
 WPF
 none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
-C:\Quizzy\QuizzyAplication\WPF\App.xaml
+C:\Users\Admin\source\repos\QuizzyWPF\WPF\App.xaml
 5-1712344775
-13287575199
+14-1827876910
 81484705246
-2231129643313
+223-1088288979
 ChangeLoginWindow.xaml;ChangePasswordWindow.xaml;DeleteWindow.xaml;MainScreen.xaml;StartScreen.xaml;
 
 False
