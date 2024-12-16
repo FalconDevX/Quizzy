@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Microsoft.Extensions.Azure;
 using Newtonsoft.Json;
 
 namespace WPF
@@ -71,42 +72,37 @@ namespace WPF
         {
             try
             {
-                int userId = 123; // Przykładowe ID użytkownika - zamień na dynamiczne.
+                UserService userService = new UserService();
+                int userId = CurrentUser.UserId; // Przykładowe ID użytkownika - zamień na dynamiczne.
                 string newLogin = NewLoginTextBox.Text;
-
-                if (string.IsNullOrWhiteSpace(newLogin))
+                if(await userService.IsLoginTakenApi(newLogin))
                 {
-                    MessageBox.Show("Login cannot be empty.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("new login invalid");
                     return;
                 }
-
-                var client = new HttpClient();
-                var requestData = new
+                string currentLogin = PasswordBoxChangeLogin.Password;
+                string passwd = PasswordBoxPass.Password;
+                if(await userService.IsPasswordRight(passwd, userId) && currentLogin == CurrentUser.Login) 
                 {
-                    id = userId,
-                    login = newLogin
-                };
-
-                string json = JsonConvert.SerializeObject(requestData);
-                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                string apiUrl = "https://yourapiurl/api/ChangeLogin";
-                HttpResponseMessage response = await client.PostAsync(apiUrl, content);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    MessageBox.Show("Login changed successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    if(await userService.ChangeUserLogin(userId, newLogin))
+                    {
+                        CurrentUser.Login = newLogin;
+                        MessageBox.Show("Login changed succesfully");
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Unexpected DataBase Error");
+                        return;
+                    }
                 }
-                else
-                {
-                    string errorMessage = await response.Content.ReadAsStringAsync();
-                    MessageBox.Show($"Error: {errorMessage}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+            } 
+            catch (Exception ex) 
+            { 
+                MessageBox.Show(ex.Message);
+                return;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+
         }
 
 

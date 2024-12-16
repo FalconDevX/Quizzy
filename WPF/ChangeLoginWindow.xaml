@@ -152,7 +152,7 @@
                 </Border>
 
                 <Border HorizontalAlignment="Center" Width="236" Height="40" BorderBrush="#191D67" BorderThickness="1" CornerRadius="10" Background="#191D67" Margin="0,20,0,0">
-                    <PasswordBox x:Name="PsswordBoxPass" Style="{StaticResource PasswordStyle}" 
+                    <PasswordBox x:Name="PasswordBoxPass" Style="{StaticResource PasswordStyle}" 
                          Tag="Type current password" 
                          GotFocus="PasswordBox_GotFocus"
                          LostFocus="PasswordBox_LostFocus"
@@ -172,7 +172,20 @@
                 </Border>
 
                 <Border HorizontalAlignment="Center" CornerRadius="10" Background="#191D67" Height="40" Width="236" Margin="0,20,0,0">
-                    <TextBlock x:Name="NewLoginTextBox" Text="Your login" HorizontalAlignment="Left" FontSize="16" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Foreground="#8FAFE6" VerticalAlignment="Center" Margin="15,0,0,0"/>
+                    <TextBox x:Name="NewLoginTextBox" 
+                         Text="" 
+                         VerticalContentAlignment="Center" 
+                         HorizontalAlignment="Left" 
+                         Height="40" 
+                         Foreground="#8FAFE6" 
+                         CaretBrush="#8FAFE6" 
+                         Background="Transparent" 
+                         BorderThickness="0" 
+                         FontSize="16" 
+                         Cursor="IBeam" 
+                         Margin="7,0,0,0"
+                         Width="225" 
+                         FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" />
                 </Border>
 
                 <Button x:Name="CreateNewLoginButton" HorizontalAlignment="Center" Content="Change login" Background="#675A9D" FontSize="16"  Margin="0,20,0,0" FontWeight="Bold" Foreground="#0B013D" Cursor="Hand"  Height="40"  Width="236" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" Click="ChangeLoginButton_Click" >
