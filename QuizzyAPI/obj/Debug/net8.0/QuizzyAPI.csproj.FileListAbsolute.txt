@@ -1,6 +1,5 @@
 C:\Users\Admin\source\repos\QuizzyAPI\QuizzyAPI\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\Admin\source\repos\QuizzyAPI\QuizzyAPI\bin\Debug\net8.0\appsettings.json
-C:\Users\Admin\source\repos\QuizzyAPI\QuizzyAPI\bin\Debug\net8.0\QuizzyAPI.staticwebassets.endpoints.json
 C:\Users\Admin\source\repos\QuizzyAPI\QuizzyAPI\bin\Debug\net8.0\QuizzyAPI.exe
 C:\Users\Admin\source\repos\QuizzyAPI\QuizzyAPI\bin\Debug\net8.0\QuizzyAPI.deps.json
 C:\Users\Admin\source\repos\QuizzyAPI\QuizzyAPI\bin\Debug\net8.0\QuizzyAPI.runtimeconfig.json
@@ -20,15 +19,11 @@ C:\Users\Admin\source\repos\QuizzyAPI\QuizzyAPI\obj\Debug\net8.0\QuizzyAPI.MvcAp
 C:\Users\Admin\source\repos\QuizzyAPI\QuizzyAPI\obj\Debug\net8.0\scopedcss\bundle\QuizzyAPI.styles.css
 C:\Users\Admin\source\repos\QuizzyAPI\QuizzyAPI\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\Admin\source\repos\QuizzyAPI\QuizzyAPI\obj\Debug\net8.0\staticwebassets.development.json
-C:\Users\Admin\source\repos\QuizzyAPI\QuizzyAPI\obj\Debug\net8.0\staticwebassets.build.endpoints.json
 C:\Users\Admin\source\repos\QuizzyAPI\QuizzyAPI\obj\Debug\net8.0\staticwebassets\msbuild.QuizzyAPI.Microsoft.AspNetCore.StaticWebAssets.props
-C:\Users\Admin\source\repos\QuizzyAPI\QuizzyAPI\obj\Debug\net8.0\staticwebassets\msbuild.QuizzyAPI.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
 C:\Users\Admin\source\repos\QuizzyAPI\QuizzyAPI\obj\Debug\net8.0\staticwebassets\msbuild.build.QuizzyAPI.props
 C:\Users\Admin\source\repos\QuizzyAPI\QuizzyAPI\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.QuizzyAPI.props
 C:\Users\Admin\source\repos\QuizzyAPI\QuizzyAPI\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.QuizzyAPI.props
 C:\Users\Admin\source\repos\QuizzyAPI\QuizzyAPI\obj\Debug\net8.0\staticwebassets.pack.json
-C:\Users\Admin\source\repos\QuizzyAPI\QuizzyAPI\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
-C:\Users\Admin\source\repos\QuizzyAPI\QuizzyAPI\obj\Debug\net8.0\QuizzyAPI.csproj.Up2Date
 C:\Users\Admin\source\repos\QuizzyAPI\QuizzyAPI\obj\Debug\net8.0\QuizzyAPI.dll
 C:\Users\Admin\source\repos\QuizzyAPI\QuizzyAPI\obj\Debug\net8.0\refint\QuizzyAPI.dll
 C:\Users\Admin\source\repos\QuizzyAPI\QuizzyAPI\obj\Debug\net8.0\QuizzyAPI.pdb
@@ -281,3 +276,5 @@ C:\Quizzy\API_Quizzy\QuizzyAPI\obj\Debug\net8.0\refint\QuizzyAPI.dll
 C:\Quizzy\API_Quizzy\QuizzyAPI\obj\Debug\net8.0\QuizzyAPI.pdb
 C:\Quizzy\API_Quizzy\QuizzyAPI\obj\Debug\net8.0\QuizzyAPI.genruntimeconfig.cache
 C:\Quizzy\API_Quizzy\QuizzyAPI\obj\Debug\net8.0\ref\QuizzyAPI.dll
+C:\Users\Admin\source\repos\QuizzyAPI\QuizzyAPI\obj\Debug\net8.0\QuizzyAPI.sourcelink.json
+C:\Users\Admin\source\repos\QuizzyAPI\QuizzyAPI\obj\Debug\net8.0\QuizzyAPI.csproj.CopyComplete
