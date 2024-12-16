@@ -383,14 +383,14 @@ namespace WPF
                 UserService userService = new UserService();
 
                 LoadingSpinner.Visibility = Visibility.Visible;
-
+                
+                TimeSpan timeout = TimeSpan.FromSeconds(5);
                 bool isAuthenticated = await userService.LoginUser(identifier, password);
-
+                
                 if (isAuthenticated)
                 {
                     LoadingSpinner.Visibility = Visibility.Hidden;
                     MessageBox.Show("Login successful.");
-                    //UserService userservice = new UserService();
 
                     CurrentUser.UserId = await userService.GetUserIdByLoginApi(CurrentUser.Login);
                     AzureBlobAPI azureBlobAPI = new AzureBlobAPI();
@@ -403,13 +403,19 @@ namespace WPF
                         await azureBlobAPI.CreateContainerAsync($"ident{CurrentUser.UserId}");
                         await azureBlobAPI.DownloadAndExtractBlobsAsync($"ident{CurrentUser.UserId}");
                     }
+
                     MainScreen mainScreen = new MainScreen();
                     mainScreen.Show();
                     this.Close();
                 }
                 else
                 {
+                    await Task.Delay(5000);
+
+
                     LoadingSpinner.Visibility = Visibility.Hidden;
+                 
+                    
                     MessageBox.Show("Invalid credentials. Please try again.");
                 }
             }
