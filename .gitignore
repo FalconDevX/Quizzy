@@ -1,2 +1,4 @@
 ﻿.vs/
 App.config
+bin/
+obj/
