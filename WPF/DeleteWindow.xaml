@@ -133,7 +133,20 @@
                 <TextBlock Margin="0,-20,0,0" Text="Delete your account" VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="White" FontSize="35" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed"/>
 
                 <Border HorizontalAlignment="Center" Margin="0,30,0,0" Width="236" Height="40" BorderBrush="#191D67" BorderThickness="1" CornerRadius="10" Background="#191D67">
-                    <TextBox x:Name ="LoginDeleteTextBox" Margin="10,0,0,0" Tag="Type new quiz name" HorizontalAlignment="Left" VerticalAlignment="Center" Height="60" Foreground="#8FAFE6" CaretBrush="#8FAFE6" Background="Transparent" BorderThickness="0" FontSize="16" Cursor="IBeam" FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed" GotFocus="LoginDeleteTextBox_GotFocus" LostFocus="LoginDeleteTextBox_LostFocus"/>
+                    <TextBox x:Name ="LoginDeleteTextBox" 
+                             Margin="10,0,0,0" 
+                             Tag="Type your Login" 
+                             HorizontalAlignment="Left" 
+                             VerticalAlignment="Center" 
+                             Height="60" Foreground="#8FAFE6" 
+                             CaretBrush="#8FAFE6" 
+                             Background="Transparent" 
+                             BorderThickness="0" 
+                             FontSize="16"
+                             Cursor="IBeam"
+                             FontFamily="pack://application:,,,/Resources/RobotoCondensed-Regular.ttf#Roboto Condensed"
+                             GotFocus="LoginDeleteTextBox_GotFocus"
+                             LostFocus="LoginDeleteTextBox_LostFocus"/>
                 </Border>
 
                 <Border HorizontalAlignment="Center" Width="236" Height="40" BorderBrush="#191D67" BorderThickness="1" CornerRadius="10" Background="#191D67" Margin="0,20,0,0">

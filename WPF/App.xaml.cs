@@ -298,7 +298,21 @@ namespace WPF
                 return -1;
             }
         }
-
+        // DELETE USER //
+        public async Task<bool> DeleteUser(int UserId)
+        {
+            try
+            {
+                var response = await _httpClient.DeleteAsync($"DeleteInfo/DeleteUser?id={UserId}");
+                response.EnsureSuccessStatusCode();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return false;
+            }
+        }
         ///AVATAR///
 
         public async Task<BitmapImage?> GetAvatarAsync(int userId)

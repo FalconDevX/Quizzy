@@ -96,6 +96,11 @@ namespace WPF
                         return;
                     }
                 }
+                else
+                {
+                    MessageBox.Show("Invalid Credentials");
+                    return;
+                }
             } 
             catch (Exception ex) 
             { 
