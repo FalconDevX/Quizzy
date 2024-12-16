@@ -244,7 +244,20 @@ namespace WPF
             }
         }
 
-
+        public async Task<bool> ChangeUserPassword(int userId, string newPassword)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsync($"ChangeUserInfo/ChangePasswd?id={userId}&passwd={newPassword}", new StringContent(""));
+                response.EnsureSuccessStatusCode();
+                return true;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return false;
+            }
+        }
         //Getting email using Id
         public async Task<string> GetEmailByIdApi(int userId)
         {
@@ -388,7 +401,21 @@ namespace WPF
                 return false;
             }
         }
-
+        public async Task<bool> IsPasswordRight(string password, int userID)
+        {
+            try
+            {
+                string login = await GetLoginByIdApi(userID);
+                string hashedPasswd = HashPassword(password);
+                var response = await _httpClient.GetAsync($"RightPasswd/UsingLogin?login={login}&passwd={hashedPasswd}");
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+                return false;
+            }
+        }
     }
 
     ///JSON file///

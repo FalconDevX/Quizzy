@@ -8,6 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("mpcodingdp.ico")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/mainscreen/avatars/avatar1.png")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/mainscreen/avatars/avatar10.png")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/mainscreen/avatars/avatar11.png")]
