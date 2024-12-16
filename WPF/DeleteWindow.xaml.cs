@@ -64,11 +64,6 @@ namespace WPF
                 }
             }
         }
-
-        private void DeleteAccountButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
         private void LoginDeleteTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
 
@@ -76,6 +71,33 @@ namespace WPF
         private void LoginDeleteTextBox_LostFocus (object sender, RoutedEventArgs e)
         {
 
+        }
+        private async void DeleteAccountButton_Click(object sender, RoutedEventArgs e)
+        {
+            UserService userService = new UserService();
+            string login = LoginDeleteTextBox.Text;
+            string passwd = PsswordBoxPass.Password;
+            try
+            {
+                if(login == CurrentUser.Login && await userService.IsPasswordRight(passwd, CurrentUser.UserId))
+                {
+                    if (await userService.DeleteUser(CurrentUser.UserId))
+                    {
+                        MessageBox.Show("User Deleted successfully\n Bye.");
+                        Application.Current.Shutdown();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Invalid Credentials");
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unexpected Error" + ex.Message);
+                return;
+            }
         }
     }
 }

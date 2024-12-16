@@ -197,54 +197,35 @@ namespace WPF
 
 
         // Change user login function
-        public void ChangeUserLogin(int userId, string newLogin)
+        public async Task<bool> ChangeUserLogin(int userId, string newLogin)
         {
-            string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
-
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            try
             {
-                conn.Open();
-
-                string checkQuery = "SELECT COUNT(1) FROM Users WHERE Login COLLATE Latin1_General_BIN = @NewLogin";
-                using (SqlCommand checkCmd = new SqlCommand(checkQuery, conn))
-                {
-                    checkCmd.Parameters.AddWithValue("@NewLogin", newLogin);
-                    int count = Convert.ToInt32(checkCmd.ExecuteScalar());
-
-                    if (count > 0)
-                    {
-                        MessageBox.Show("Login is already taken. Please choose another one.");
-                        return;
-                    }
-                }
-                string query = "UPDATE Users SET Login = @NewLogin WHERE UserId = @UserId";
-                using (SqlCommand cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@NewLogin", newLogin);
-                    cmd.Parameters.AddWithValue("@UserId", userId);
-
-                    try
-                    {
-                        int rowsAffected = cmd.ExecuteNonQuery();
-                        if (rowsAffected > 0)
-                        {
-                            CurrentUser.Login = newLogin;
-                            MessageBox.Show("Login updated successfully.");
-                        }
-                        else
-                        {
-                            MessageBox.Show("User not found or update failed.");
-                        }
-                    }
-                    catch (SqlException ex)
-                    {
-                        MessageBox.Show("Error: " + ex.Message);
-                    }
-                }
+                var response = await _httpClient.PostAsync($"ChangeUserInfo/ChangeLogin?id={userId}&login={newLogin}", new StringContent(""));
+                response.EnsureSuccessStatusCode();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return false;
             }
         }
 
-
+        public async Task<bool> ChangeUserPassword(int userId, string newPassword)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsync($"ChangeUserInfo/ChangePasswd?id={userId}&passwd={newPassword}", new StringContent(""));
+                response.EnsureSuccessStatusCode();
+                return true;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return false;
+            }
+        }
         //Getting email using Id
         public async Task<string> GetEmailByIdApi(int userId)
         {
@@ -317,7 +298,21 @@ namespace WPF
                 return -1;
             }
         }
-
+        // DELETE USER //
+        public async Task<bool> DeleteUser(int UserId)
+        {
+            try
+            {
+                var response = await _httpClient.DeleteAsync($"DeleteInfo/DeleteUser?id={UserId}");
+                response.EnsureSuccessStatusCode();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return false;
+            }
+        }
         ///AVATAR///
 
         public async Task<BitmapImage?> GetAvatarAsync(int userId)
@@ -388,7 +383,21 @@ namespace WPF
                 return false;
             }
         }
-
+        public async Task<bool> IsPasswordRight(string password, int userID)
+        {
+            try
+            {
+                string login = await GetLoginByIdApi(userID);
+                string hashedPasswd = HashPassword(password);
+                var response = await _httpClient.GetAsync($"RightPasswd/UsingLogin?login={login}&passwd={hashedPasswd}");
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+                return false;
+            }
+        }
     }
 
     ///JSON file///
