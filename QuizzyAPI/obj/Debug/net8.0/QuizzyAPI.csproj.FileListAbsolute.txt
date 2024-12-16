@@ -281,3 +281,7 @@ C:\Quizzy\API_Quizzy\QuizzyAPI\obj\Debug\net8.0\refint\QuizzyAPI.dll
 C:\Quizzy\API_Quizzy\QuizzyAPI\obj\Debug\net8.0\QuizzyAPI.pdb
 C:\Quizzy\API_Quizzy\QuizzyAPI\obj\Debug\net8.0\QuizzyAPI.genruntimeconfig.cache
 C:\Quizzy\API_Quizzy\QuizzyAPI\obj\Debug\net8.0\ref\QuizzyAPI.dll
+C:\Quizzy\API_Quizzy\QuizzyAPI\bin\Debug\net8.0\QuizzyAPI.staticwebassets.endpoints.json
+C:\Quizzy\API_Quizzy\QuizzyAPI\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Quizzy\API_Quizzy\QuizzyAPI\obj\Debug\net8.0\staticwebassets\msbuild.QuizzyAPI.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+C:\Quizzy\API_Quizzy\QuizzyAPI\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

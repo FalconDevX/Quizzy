@@ -74,7 +74,7 @@ namespace QuizzyAPI.Controllers
             {
                 try
                 {
-                    await con.OpenAsync(); 
+                    await con.OpenAsync();
 
                     using (SqlDataAdapter adapter = new SqlDataAdapter("SELECT Avatar FROM [dbo].[Users] WHERE UserID = @Id", con))
                     {
@@ -90,13 +90,13 @@ namespace QuizzyAPI.Controllers
                         }
                         else
                         {
-                            return NotFound(); 
+                            return NotFound();
                         }
                     }
                 }
                 catch (Exception)
                 {
-                    return StatusCode(500); 
+                    return StatusCode(500);
                 }
             }
         }

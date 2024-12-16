@@ -14,8 +14,8 @@
       },
       {
         "Name": "avatar",
-        "Type": "System.Byte[]",
-        "IsRequired": true
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

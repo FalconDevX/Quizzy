@@ -1,11 +1,12 @@
 {
   "Version": 1,
-  "Hash": "w1wQcJ7HoqVHHOgOs3pZGHP9THP6cLGxMipMp1oN2kI=",
+  "Hash": "zgtl4j8kUTmIR08Zsx9oK0ZDRi8+GlHxe+kgl195/V4=",
   "Source": "QuizzyAPI",
   "BasePath": "_content/QuizzyAPI",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [],
-  "Assets": []
+  "Assets": [],
+  "Endpoints": []
 }
