@@ -7,5 +7,8 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAngbt0c0Oa0eTyLrTd5rntQAAAAACAAAAAAAQZgAAAAEAACAAAAB3rBbI/j0ElAeOliIExcCx3G7lcK1/g6TgbeaD/r3UhgAAAAAOgAAAAAIAACAAAABekQt2mZS1yYL5NVS2Q+G1y2Z5Cj3lwimd3sMYdJefA4AAAADQVaZVzSYf/UhRm6qfHwLOEzVenCaJXhZjTFadSOCpPSBvDT0BA1+1mz8IBZyIbu+OpbRDap9Y3hHnN8gJ5xSk1Rh/RUCNQ6nsyUzbCLAg8qYxsb3FjjD7Gdbc2n2qWUcZ4qwSsldKpHudSZ/AgDBFtcBdhMDm0AmPjCq6hwKcZEAAAAArdO2WjXfwgFExOu5ME7NWc0WcCAuD/788EAGNiX5RAgUtdQCFLtnZxA3xemMTZ/lXN8l8HUgFn9hyra2neTVy</EncryptedPassword>
+    <_PublishTargetUrl>ftps://waws-prod-plc-001.ftp.azurewebsites.windows.net/site/wwwroot</_PublishTargetUrl>
+    <History>False|2024-12-16T23:07:11.4035550Z||;False|2024-12-16T22:54:20.3392559+01:00||;False|2024-12-16T22:54:07.1590256+01:00||;False|2024-12-16T22:51:05.6582184+01:00||;</History>
+    <LastFailureDetails />
   </PropertyGroup>
 </Project>

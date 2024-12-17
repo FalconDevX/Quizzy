@@ -133,6 +133,53 @@ namespace AzureBlobAPI.Controllers
             }
         }
 
+        [HttpGet("download-blob")]
+        public async Task<IActionResult> DownloadBlob(string containerName, string blobName)
+        {
+            try
+            {
+                // Pobierz łańcuch połączenia z konfiguracji
+                string connectionString = _configuration["AzureBlob:ConnectionString"]!;
+                BlobContainerClient containerClient = new BlobContainerClient(connectionString, containerName);
+
+                // Sprawdź, czy kontener istnieje
+                if (!await containerClient.ExistsAsync())
+                {
+                    return NotFound(new { Message = $"Container '{containerName}' does not exist." });
+                }
+
+                // Wyszukaj blob z nazwą odpowiadającą podanej (bez rozszerzenia)
+                BlobItem? matchingBlob = null;
+
+                await foreach (BlobItem blob in containerClient.GetBlobsAsync())
+                {
+                    string blobNameWithoutExtension = Path.GetFileNameWithoutExtension(blob.Name);
+                    if (string.Equals(blobNameWithoutExtension, blobName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        matchingBlob = blob;
+                        break;
+                    }
+                }
+
+                if (matchingBlob == null)
+                {
+                    return NotFound(new { Message = $"Blob with name '{blobName}' (any extension) in container '{containerName}' does not exist." });
+                }
+
+                BlobClient blobClient = containerClient.GetBlobClient(matchingBlob.Name);
+
+                var blobDownloadInfo = await blobClient.DownloadAsync();
+
+                // Zwróć plik jako odpowiedź
+                return File(blobDownloadInfo.Value.Content, blobDownloadInfo.Value.ContentType, matchingBlob.Name);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = "An error occurred while downloading the blob.", Details = ex.Message });
+            }
+        }
+
+
 
 
 
