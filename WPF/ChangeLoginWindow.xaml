@@ -173,7 +173,7 @@
 
                 <Border HorizontalAlignment="Center" CornerRadius="10" Background="#191D67" Height="40" Width="236" Margin="0,20,0,0">
                     <TextBox x:Name="NewLoginTextBox" 
-                         Text="" 
+                         Tag="Type new login"
                          VerticalContentAlignment="Center" 
                          HorizontalAlignment="Left" 
                          Height="40" 

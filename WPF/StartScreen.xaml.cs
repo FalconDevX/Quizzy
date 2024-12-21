@@ -384,7 +384,6 @@ namespace WPF
 
                 LoadingSpinner.Visibility = Visibility.Visible;
                 
-                TimeSpan timeout = TimeSpan.FromSeconds(5);
                 bool isAuthenticated = await userService.LoginUser(identifier, password);
                 
                 if (isAuthenticated)
@@ -393,14 +392,15 @@ namespace WPF
                     MessageBox.Show("Login successful.");
 
                     CurrentUser.UserId = await userService.GetUserIdByLoginApi(CurrentUser.Login);
-                    AzureBlobAPI azureBlobAPI = new AzureBlobAPI();
-                    if (await azureBlobAPI.CheckContainerExistsByUserID(CurrentUser.UserId))
+                    AzureBlobAPI azureBlobAPI = new AzureBlobAPI(); 
+                    if (await azureBlobAPI.CheckContainerExistsByUserID($"ident{CurrentUser.UserId}"))
                     {
                         await azureBlobAPI.DownloadAndExtractBlobsAsync($"ident{CurrentUser.UserId}");
                     }
                     else
                     {
                         await azureBlobAPI.CreateContainerAsync($"ident{CurrentUser.UserId}");
+                        await azureBlobAPI.CreateContainerAsync($"files{CurrentUser.UserId}");
                         await azureBlobAPI.DownloadAndExtractBlobsAsync($"ident{CurrentUser.UserId}");
                     }
 
@@ -490,6 +490,8 @@ namespace WPF
                     CurrentUser.UserId = await userService.GetUserIdByLoginApi(login);
                     AzureBlobAPI azureBlobAPI = new AzureBlobAPI();
                     await azureBlobAPI.CreateContainerAsync($"ident{CurrentUser.UserId}");
+                    var answer = await azureBlobAPI.CreateContainerAsync($"file{CurrentUser.UserId}");
+                    MessageBox.Show(answer);
                     mainScreen.UserNameTextBlock.Text = $"Hi, {displayName}";
                     mainScreen.Show();
                     this.Close();

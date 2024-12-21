@@ -109,6 +109,13 @@ namespace WPF
             ShowOnlySelectedBorder("HomeBorder");
         }
 
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            SideBarClick(sender, e);
+            SideBarButton_Click(sender, new RoutedEventArgs());
+            ShowOnlySelectedBorder("EditBorder");
+        }
+
         //Settings button clicked
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
@@ -271,15 +278,19 @@ namespace WPF
         {
             string QuizesPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Quizzy", "Quizes");
             AzureBlobAPI azureblobapi = new AzureBlobAPI();
-        if (await azureblobapi.CheckContainerExistsByUserID(CurrentUser.UserId))
-        {
-            await azureblobapi.UploadAllBlobs($"ident{CurrentUser.UserId}");
-        }
-        else
-        {
-            await azureblobapi.CreateContainerAsync($"ident{CurrentUser.UserId}");
-            await azureblobapi.UploadAllBlobs($"ident{CurrentUser.UserId}");
-        }
+            if (await azureblobapi.CheckContainerExistsByUserID($"ident{CurrentUser.UserId}"))
+            {
+                await azureblobapi.UploadAllBlobs($"ident{CurrentUser.UserId}");
+            }
+            else
+            {
+                await azureblobapi.CreateContainerAsync($"ident{CurrentUser.UserId}");
+                await azureblobapi.UploadAllBlobs($"ident{CurrentUser.UserId}");
+
+                var answer = await azureblobapi.CreateContainerAsync($"files{CurrentUser.UserId}");
+
+                //MessageBox.Show(answer);
+            }
                 
             Application.Current.Shutdown();
         }
@@ -547,7 +558,6 @@ namespace WPF
             QuizFile quizFile = new QuizFile();
             Item item = new Item();
 
-            // Pobranie kategorii
             var selectedItem = (ComboBoxItem)CategoryQuizComboBox.SelectedItem;
             if (selectedItem != null)
             {
@@ -616,7 +626,6 @@ namespace WPF
 
             try
             {
-                // Konwersja Base64 na obraz
                 byte[] imageBytes = Convert.FromBase64String(base64Image);
                 using (var stream = new MemoryStream(imageBytes))
                 {
@@ -626,7 +635,6 @@ namespace WPF
                     bitmap.StreamSource = stream;
                     bitmap.EndInit();
 
-                    // Ustawienie przycięcia w formie koła
                     var ellipseGeometry = new EllipseGeometry
                     {
                         Center = new Point(diameter / 2, diameter / 2),
@@ -634,7 +642,6 @@ namespace WPF
                         RadiusY = diameter / 2
                     };
 
-                    // Tworzenie ImageBrush z kołem
                     var brush = new ImageBrush(bitmap)
                     {
                         Stretch = Stretch.UniformToFill
@@ -674,10 +681,8 @@ namespace WPF
 
             try
             {
-                // Wczytanie obrazu jako tablicy bajtów
                 byte[] imageBytes = File.ReadAllBytes(imagePath);
 
-                // Konwersja na ciąg Base64
                 string base64String = Convert.ToBase64String(imageBytes);
 
                 return base64String;
@@ -712,6 +717,8 @@ namespace WPF
             }
         }
 
+        private string _currentQuizName;
+
         //Check if quiz from listbox clicked
         private void QuizListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -722,7 +729,10 @@ namespace WPF
 
             if (QuizListBox.SelectedItem is Item selectedItem && selectedItem.Questions != null)
             {
+                _currentQuizName = selectedItem.Name;
+
                 LoadQuiz(selectedItem.Questions);
+
                 
 
                 QuizListBox.SelectedIndex = -1;
@@ -758,7 +768,7 @@ namespace WPF
             }
         }
 
-        private void DisplayQuestion()
+        private async void DisplayQuestion()
         {
             if (_currentQuestionIndex < 0 || _currentQuestionIndex >= _currentQuizQuestions.Count)
             {
@@ -773,6 +783,26 @@ namespace WPF
             var currentQuestion = _currentQuizQuestions[_currentQuestionIndex];
 
             QuizQestion.Text = currentQuestion.QuestionText;
+
+
+            if (!string.IsNullOrEmpty(Convert.ToString(currentQuestion.Image)))
+            {
+                AzureBlobAPI azureBlobAPI = new AzureBlobAPI();
+                var imageSource = await azureBlobAPI.GetBlobImageAsync("files6", Convert.ToString($"{_currentQuizName}_{ _currentQuestionIndex}"));
+                if (imageSource != null)
+                {
+                    QuizQuestionImage.Source = imageSource;
+                    QuizQuestionImage.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    QuizQuestionImage.Visibility = Visibility.Hidden;
+                }
+            }
+            else
+            {
+                QuizQuestionImage.Visibility = Visibility.Hidden;
+            }
 
             if (currentQuestion.Answers != null && currentQuestion.Answers.Count >= 4)
             {
@@ -795,6 +825,7 @@ namespace WPF
             {
                 MessageBox.Show("Nieprawidłowa liczba odpowiedzi w pytaniu.", "Błąd", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
+
         }
 
         private int _score = 0;
@@ -874,6 +905,80 @@ namespace WPF
             }
 
         }
+
+        ///EDIT Quizes
+
+        private void EditQuizButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var quiz = button?.DataContext;
+
+            if (quiz != null)
+            {
+                var quizName = quiz.GetType().GetProperty("Name")?.GetValue(quiz, null)?.ToString();
+
+                if (!string.IsNullOrEmpty(quizName))
+                {
+                    QuizTitleTextBox.Text = quizName;
+
+                    EditBorder.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    MessageBox.Show("Quiz name is not available.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Unable to retrieve quiz data.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+
+
+        private void AddSection_Click(object sender, RoutedEventArgs e)
+        {
+            Border sectionBorder = new Border
+            {
+                Background = new SolidColorBrush(Color.FromRgb(20, 20, 40)),
+                CornerRadius = new CornerRadius(5),
+                Margin = new Thickness(5),
+                Padding = new Thickness(10)
+            };
+
+            StackPanel sectionContent = new StackPanel();
+            TextBlock sectionTitle = new TextBlock
+            {
+                Text = $"Sekcja {SectionsPanel.Children.Count + 1}",
+                FontSize = 18,
+                FontWeight = FontWeights.Bold,
+                Foreground = new SolidColorBrush(Colors.White),
+                Margin = new Thickness(0, 0, 0, 5)
+            };
+
+            Button removeButton = new Button
+            {
+                Content = "Usuń",
+                Width = 80,
+                Height = 30,
+                Margin = new Thickness(0, 5, 0, 0),
+                HorizontalAlignment = HorizontalAlignment.Left
+            };
+
+            removeButton.Click += (s, args) => SectionsPanel.Children.Remove(sectionBorder);
+
+            sectionContent.Children.Add(sectionTitle);
+            sectionContent.Children.Add(removeButton);
+            sectionBorder.Child = sectionContent;
+
+            SectionsPanel.Children.Add(sectionBorder);
+        }
+
+
+
+
+
+
 
     }
 }

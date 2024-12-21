@@ -312,11 +312,10 @@
                 <ToggleButton x:Name="HomeButton" Content="Home" Tag="Resources\MainScreen\SideBar\ListIcon.png" Style="{StaticResource SideBarToggleButtonStyle}" Height="90" Width="280" IsChecked="True" Click="HomeButton_Click"/>
                 <ToggleButton x:Name="StatisticsButton" Content="Statistics" Tag="Resources\MainScreen\SideBar\StatisticsIcon.png" Style="{StaticResource SideBarToggleButtonStyle}" Height="90" Width="280" Click="SideBarButton_Click"/>
                 <ToggleButton x:Name="FriendsButton" Content="Friends" Tag="Resources\MainScreen\SideBar\FriendsIcon.png" Style="{StaticResource SideBarToggleButtonStyle}" Height="90" Width="280" Click="SideBarButton_Click"/>
-                <ToggleButton x:Name="EditButton" Content="Edit" Tag="Resources\MainScreen\SideBar\EditIcon.png" Style="{StaticResource SideBarToggleButtonStyle}" Height="90" Width="280" Click="SideBarButton_Click"/>
+                <ToggleButton x:Name="EditButton" Content="Edit" Tag="Resources\MainScreen\SideBar\EditIcon.png" Style="{StaticResource SideBarToggleButtonStyle}" Height="90" Width="280" Click="EditButton_Click"/>
                 <ToggleButton x:Name="SettingsButton" Content="Settings" Tag="Resources\MainScreen\SideBar\SettingsIcon.png" Style="{StaticResource SideBarToggleButtonStyle}" Height="90" Width="280" Margin="0,450,0,0" Click="SettingsButton_Click"/>
 
             </StackPanel>
-
         </Grid>
 
         <!-- Settings Border -->
@@ -820,22 +819,18 @@
                     Margin="0,211,0,0">
                     <Grid>
                         <!-- Przycisk dodawania quizu -->
-                        <Button x:Name="AddQuizButton" Content="+" Width="50" Height="50" FontSize="30" Foreground="White" Background="#332EB7" BorderBrush="#4A46BB" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10" BorderThickness="0" ToolTip="Add new quiz" Click="AddQuizButton_Click">
+                        <Button x:Name="AddQuizButton" Content="+" Width="50" Height="50" FontSize="30" Foreground="White" Background="#332EB7" BorderBrush="#4A46BB" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10" BorderThickness="0" ToolTip="Add new quiz" Cursor="Hand" Click="AddQuizButton_Click">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
                                     <Border x:Name="ButtonBorder" Background="{TemplateBinding Background}" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Border>
                                     <ControlTemplate.Triggers>
-                                        <!-- Zmiana koloru po najechaniu -->
                                         <Trigger Property="IsMouseOver" Value="True">
                                             <Setter TargetName="ButtonBorder" Property="Background" Value="#4A46BB"/>
-                                            <!-- Kolor hover -->
                                         </Trigger>
-                                        <!-- Zmiana koloru po naciśnięciu -->
                                         <Trigger Property="IsPressed" Value="True">
                                             <Setter TargetName="ButtonBorder" Property="Background" Value="#2E4099"/>
-                                            <!-- Kolor kliknięcia -->
                                         </Trigger>
                                     </ControlTemplate.Triggers>
                                 </ControlTemplate>
@@ -930,41 +925,113 @@
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Border Margin="5,0,10,0" Background="#130C80" Padding="10" CornerRadius="5">
-                                        <!-- Margines od prawej -->
                                         <DockPanel>
-                                            <!-- Miniatura po lewej stronie -->
                                             <Border Background="#B431A1" Width="50" Height="50" CornerRadius="9" Margin="0,0,10,0">
-                                                <Image Source="{Binding Image}" 
-                                                   Width="50" 
-                                                   Height="50" 
-                                                   Stretch="UniformToFill" 
-                                                   VerticalAlignment="Center" 
-                                                   HorizontalAlignment="Center" 
-                                                   ClipToBounds="True"/>
+                                                <Image Source="{Binding Image}" Width="50" Height="50" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center" ClipToBounds="True"/>
                                             </Border>
 
-                                            <!-- Dane tekstowe -->
-                                            <StackPanel>
-                                                <!-- Nazwa -->
+                                            <StackPanel DockPanel.Dock="Left">
                                                 <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="25" Foreground="White"/>
-                                                <!-- Liczba pytań -->
                                                 <TextBlock Text="Questions: " FontWeight="Bold" FontSize="15" Foreground="Gray"/>
                                                 <TextBlock Text="{Binding QuestionCount}" FontSize="15" Foreground="LightGray"/>
-                                                <!-- Data ostatniej modyfikacji -->
                                                 <TextBlock Text="Last Modified: " FontWeight="Bold" FontSize="15" Foreground="Gray"/>
                                                 <TextBlock Text="{Binding LastModified}" FontSize="15" Foreground="LightGray"/>
                                             </StackPanel>
+
+                                            <!-- Przycisk "Edit" -->
+                                            <Button x:Name="EditButton"
+                                            Content="Edit" 
+                                            Background="#332EB7" 
+                                            Foreground="White" 
+                                            Width="80" 
+                                            Height="30" 
+                                            HorizontalAlignment="Right" 
+                                            VerticalAlignment="Center" 
+                                            DockPanel.Dock="Right" 
+                                            Margin="10,0,0,0" 
+                                            Command="{Binding EditCommand}"
+                                            ToolTip="Edit this quiz"
+                                            Visibility="Collapsed"
+                                            Click="EditQuizButton_Click">
+                                                <Button.Template>
+                                                    <ControlTemplate TargetType="{x:Type Button}">
+                                                        <Border x:Name="EditButtonBorder" Background="{TemplateBinding Background}" CornerRadius="5">
+                                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                        </Border>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter TargetName="EditButtonBorder" Property="Background" Value="#514FC7"/>
+                                                            </Trigger>
+                                                            <Trigger Property="IsMouseOver" Value="False">
+                                                                <Setter TargetName="EditButtonBorder" Property="Background" Value="#332EB7"/>
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+
+
                                         </DockPanel>
+
+                                        <Border.Triggers>
+                                            <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="EditButton" Storyboard.TargetProperty="Visibility">
+                                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}" />
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                            <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="EditButton" Storyboard.TargetProperty="Visibility">
+                                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Collapsed}" />
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                        </Border.Triggers>
                                     </Border>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
+
                         </ListBox>
 
                     </Grid>
                 </Border>
-
             </Grid>
         </Border>
+
+        <!-- Edit Border -->
+        <Border x:Name="EditBorder" Margin="328,60,65,49" Visibility="Hidden">
+            <Border Background="#0B013D" CornerRadius="10" Padding="10" Margin="0,40,0,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock x:Name="QuizTitleTextBox" Text="Tytuł Quizu" FontSize="24" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,20" />
+
+
+                    <Button Content="Dodaj sekcję" Width="150" Height="30" FontSize="14" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5" Grid.Row="1"
+            Click="AddSection_Click" />
+
+                    <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,0">
+                        <StackPanel x:Name="SectionsPanel" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,0,10,0">
+
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+        </Border> 
+
+
+
+
 
         <!-- Close Button -->
         <Button x:Name="CloseButton" HorizontalAlignment="Left" Margin="1634,-14,0,0" VerticalAlignment="Top" Height="82" Width="52" AutomationProperties.Name="CloseButton" Background="Transparent" BorderThickness="0" FocusVisualStyle="{x:Null}" Click="CloseWindowButton_Click">
@@ -1062,6 +1129,7 @@
 
             <!-- Quiz View -->
             <Border Margin="50,80,50,50" CornerRadius="20">
+
                 <Border.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                         <GradientStop Color="#FF0B013D" Offset="0.0"/>
@@ -1083,6 +1151,8 @@
                         <ColumnDefinition Width="Auto"/>
                         <!-- Przyciski z prawej -->
                     </Grid.ColumnDefinitions>
+
+                    <Image x:Name="QuizQuestionImage" Source="Resources/MainScreen/MainScreen/Background.png" Width="450" Height="450" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="60,140,0,0"/>
 
                     <!-- Główna zawartość w środku -->
                     <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Height="860" Grid.Row="0" Grid.ColumnSpan="2">

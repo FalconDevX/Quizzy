@@ -42,7 +42,7 @@ namespace WPF
         public string? QuestionText { get; set; }
         public List<string>? Answers { get; set; }
         public int CorrectAnswerIndex { get; set; }
-        public string? Image { get; set; }
+        public int? Image { get; set; }
     }
 
     //global variables for current login user
@@ -201,7 +201,7 @@ namespace WPF
         {
             try
             {
-                var response = await _httpClient.PostAsync($"ChangeUserInfo/ChangeLogin?id={userId}&login={newLogin}", new StringContent(""));
+                var response = await _httpClient.PostAsync($"ChangeUserInfo/ChangeLogin?id={userId}&login={Uri.EscapeDataString(newLogin)}", null);
                 response.EnsureSuccessStatusCode();
                 return true;
             }
@@ -216,7 +216,11 @@ namespace WPF
         {
             try
             {
-                var response = await _httpClient.PostAsync($"ChangeUserInfo/ChangePasswd?id={userId}&passwd={newPassword}", new StringContent(""));
+                string url = $"ChangeUserInfo/ChangePasswd?id={Uri.EscapeDataString(Convert.ToString(userId))}&passwd={Uri.EscapeDataString(newPassword)}";
+
+                HttpResponseMessage response = await _httpClient.PostAsync(url, null);
+
+
                 response.EnsureSuccessStatusCode();
                 return true;
             }
@@ -579,7 +583,6 @@ namespace WPF
 
         public async Task DownloadAndExtractBlobsAsync(string containerName)
         {
-            MessageBox.Show($"Container name{containerName}");
             try
             {
                 string QuizesPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Quizzy", "Quizes");
@@ -729,11 +732,11 @@ namespace WPF
             }
         }
 
-        public async Task<bool> CheckContainerExistsByUserID(int UserID)
+        public async Task<bool> CheckContainerExistsByUserID(string contName)
         {
             try
             {
-                string requestUrl = $"/api/Container/CheckContainerExists?containerName=ident{CurrentUser.UserId}";
+                string requestUrl = $"/api/Container/CheckContainerExists?containerName=contName";
                 HttpResponseMessage response = await _httpClient.GetAsync(requestUrl);
                 
                 if(response.IsSuccessStatusCode)
@@ -748,7 +751,75 @@ namespace WPF
             return false;
         }
 
+        public async Task<ImageSource> GetBlobImageAsync(string containerName, string blobName)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(containerName) || string.IsNullOrEmpty(blobName))
+                {
+                    throw new ArgumentException("Nazwa kontenera i bloba nie może być pusta.");
+                }
+
+                string requestUrl = $"/api/Blob/download-blob?containerName={Uri.EscapeDataString(containerName)}&blobName={Uri.EscapeDataString(blobName)}";
+
+                HttpResponseMessage response = await _httpClient.GetAsync(requestUrl);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    string errorDetails = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show(
+                        $"Błąd pobierania bloba:\n" +
+                        $"StatusCode: {response.StatusCode}\n" +
+                        $"Request URL: {response.RequestMessage?.RequestUri}\n" +
+                        $"Treść błędu: {errorDetails}",
+                        "Błąd pobierania obrazu", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                    return null;
+                }
+
+                var memoryStream = new MemoryStream();
+                await response.Content.CopyToAsync(memoryStream);
+                memoryStream.Position = 0;
+
+                var bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.StreamSource = memoryStream;
+                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                bitmapImage.EndInit();
+                bitmapImage.Freeze(); 
+
+                return bitmapImage;
+            }
+            catch (ArgumentException argEx)
+            {
+                MessageBox.Show(
+                    $"Nieprawidłowe dane wejściowe:\n{argEx.Message}",
+                    "Błąd danych wejściowych", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return null;
+            }
+            catch (HttpRequestException httpEx)
+            {
+                MessageBox.Show(
+                    $"Błąd podczas komunikacji z serwerem:\n{httpEx.Message}\n" +
+                    $"Sprawdź połączenie internetowe i konfigurację API.",
+                    "Błąd HTTP", MessageBoxButton.OK, MessageBoxImage.Error);
+                return null;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Nieoczekiwany błąd:\n{ex.Message}\n" +
+                    $"Szczegóły:\n{ex.StackTrace}",
+                    "Nieoczekiwany błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+                return null;
+            }
+        }
+
+
+
     }
+
+
 
 }
 
