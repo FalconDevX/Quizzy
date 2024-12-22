@@ -873,8 +873,6 @@ namespace WPF
             }
         }
 
-
-
         private void NextButton_Click(object sender, RoutedEventArgs e)
         {
             var result = MessageBox.Show(
@@ -908,6 +906,186 @@ namespace WPF
 
         ///EDIT Quizes
 
+        private void LoadQuizForEditing(string jsonPath)
+        {
+            SectionsPanel.Children.Clear();
+
+            QuizFile quizFile = new QuizFile();
+            Quiz quiz = quizFile.LoadQuizFromJson(jsonPath);
+
+            if (quiz != null && quiz.Questions != null)
+            {
+                foreach (var question in quiz.Questions)
+                {
+                    Border sectionBorder = new Border
+                    {
+                        Background = new SolidColorBrush(Color.FromRgb(20, 20, 40)),
+                        CornerRadius = new CornerRadius(5),
+                        Margin = new Thickness(5),
+                        Padding = new Thickness(10)
+                    };
+
+                    StackPanel sectionContent = new StackPanel();
+
+                    TextBox questionTextBox = new TextBox
+                    {
+                        Text = question.QuestionText,
+                        FontSize = 16,
+                        FontWeight = FontWeights.Bold,
+                        Foreground = new SolidColorBrush(Colors.White),
+                        Background = new SolidColorBrush(Color.FromRgb(30, 30, 50)),
+                        Margin = new Thickness(10, 0, 10, 5),
+                        TextWrapping = TextWrapping.Wrap,
+                        AcceptsReturn = true,
+                        MinWidth = 200
+                    };
+
+                    sectionContent.Children.Add(questionTextBox);
+
+                    List<TextBox> answerTextBoxes = new List<TextBox>();
+
+                    StackPanel answersPanel = new StackPanel();
+                    sectionContent.Children.Add(answersPanel);
+
+                    for (int i = 0; i < question.Answers.Count; i++)
+                    {
+                        DockPanel answerPanel = new DockPanel
+                        {
+                            Margin = new Thickness(0, 2, 0, 2)
+                        };
+
+                        TextBox answerTextBox = new TextBox
+                        {
+                            Text = question.Answers[i],
+                            FontSize = 14,
+                            Foreground = new SolidColorBrush(Colors.White),
+                            Background = i == question.CorrectAnswerIndex
+                                ? new SolidColorBrush(Colors.Green)
+                                : new SolidColorBrush(Color.FromRgb(40, 40, 60)),
+                            Margin = new Thickness(10, 0, 10, 0),
+                            TextWrapping = TextWrapping.Wrap,
+                            HorizontalAlignment = HorizontalAlignment.Stretch,
+                            MinWidth = 150
+                        };
+
+                        answerTextBox.PreviewMouseDown += (s, args) =>
+                        {
+                            foreach (var textBox in answerTextBoxes)
+                            {
+                                textBox.Background = new SolidColorBrush(Color.FromRgb(40, 40, 60));
+                            }
+                            answerTextBox.Background = new SolidColorBrush(Colors.Green);
+                        };
+
+                        answerTextBoxes.Add(answerTextBox);
+
+                        Button removeAnswerButton = new Button
+                        {
+                            Content = "X",
+                            Width = 20,
+                            Height = 20,
+                            Foreground = new SolidColorBrush(Colors.White),
+                            Background = new SolidColorBrush(Color.FromRgb(60, 20, 20)),
+                            HorizontalAlignment = HorizontalAlignment.Right,
+                            Margin = new Thickness(5, 0, 0, 0)
+                        };
+
+                        removeAnswerButton.Click += (s, args) =>
+                        {
+                            answersPanel.Children.Remove(answerPanel);
+                        };
+
+                        DockPanel.SetDock(answerTextBox, Dock.Left);
+                        DockPanel.SetDock(removeAnswerButton, Dock.Right);
+
+                        answerPanel.Children.Add(answerTextBox);
+                        answerPanel.Children.Add(removeAnswerButton);
+
+                        answersPanel.Children.Add(answerPanel);
+                    }
+
+                    // Dodaj przycisk dodawania odpowiedzi
+                    Button addAnswerButton = new Button
+                    {
+                        Content = "Dodaj odpowiedź",
+                        Width = 120,
+                        Height = 30,
+                        Margin = new Thickness(10, 5, 10, 10),
+                        HorizontalAlignment = HorizontalAlignment.Left
+                    };
+
+                    addAnswerButton.Click += (s, args) =>
+                    {
+                        if (answersPanel.Children.OfType<DockPanel>().Count() >= 4)
+                        {
+                            MessageBox.Show("Możesz dodać maksymalnie 4 odpowiedzi.", "Ograniczenie", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        }
+                        else
+                        {
+                            DockPanel newAnswerPanel = new DockPanel
+                            {
+                                Margin = new Thickness(0, 2, 0, 2)
+                            };
+
+                            TextBox newAnswerTextBox = new TextBox
+                            {
+                                FontSize = 14,
+                                Foreground = new SolidColorBrush(Colors.White),
+                                Background = new SolidColorBrush(Color.FromRgb(40, 40, 60)),
+                                Margin = new Thickness(10, 0, 10, 0),
+                                TextWrapping = TextWrapping.Wrap,
+                                HorizontalAlignment = HorizontalAlignment.Stretch,
+                                MinWidth = 150
+                            };
+
+                            Button newRemoveAnswerButton = new Button
+                            {
+                                Content = "X",
+                                Width = 20,
+                                Height = 20,
+                                Foreground = new SolidColorBrush(Colors.White),
+                                Background = new SolidColorBrush(Color.FromRgb(60, 20, 20)),
+                                HorizontalAlignment = HorizontalAlignment.Right,
+                                Margin = new Thickness(5, 0, 0, 0)
+                            };
+
+                            newRemoveAnswerButton.Click += (s2, args2) => answersPanel.Children.Remove(newAnswerPanel);
+
+                            DockPanel.SetDock(newAnswerTextBox, Dock.Left);
+                            DockPanel.SetDock(newRemoveAnswerButton, Dock.Right);
+
+                            newAnswerPanel.Children.Add(newAnswerTextBox);
+                            newAnswerPanel.Children.Add(newRemoveAnswerButton);
+
+                            answersPanel.Children.Add(newAnswerPanel);
+                        }
+                    };
+
+                    sectionContent.Children.Add(addAnswerButton);
+
+                    Button removeButton = new Button
+                    {
+                        Content = "Usuń pytanie",
+                        Width = 120,
+                        Height = 30,
+                        Margin = new Thickness(10, 10, 10, 0),
+                        HorizontalAlignment = HorizontalAlignment.Left
+                    };
+
+                    removeButton.Click += (s, args) => SectionsPanel.Children.Remove(sectionBorder);
+
+                    sectionContent.Children.Add(removeButton);
+                    sectionBorder.Child = sectionContent;
+
+                    SectionsPanel.Children.Add(sectionBorder);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Nie udało się załadować pytań z quizu.", "Błąd", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
         private void EditQuizButton_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
@@ -919,9 +1097,18 @@ namespace WPF
 
                 if (!string.IsNullOrEmpty(quizName))
                 {
-                    QuizTitleTextBox.Text = quizName;
+                    string quizzesPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Quizzy", "Quizes");
+                    string jsonPath = System.IO.Path.Combine(quizzesPath, $"{quizName}.json");
 
-                    EditBorder.Visibility = Visibility.Visible;
+                    if (File.Exists(jsonPath))
+                    {
+                        LoadQuizForEditing(jsonPath);
+                        EditBorder.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Plik quizu nie został znaleziony.", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
                 else
                 {
@@ -933,6 +1120,9 @@ namespace WPF
                 MessageBox.Show("Unable to retrieve quiz data.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+
+
 
 
 
@@ -973,12 +1163,6 @@ namespace WPF
 
             SectionsPanel.Children.Add(sectionBorder);
         }
-
-
-
-
-
-
 
     }
 }

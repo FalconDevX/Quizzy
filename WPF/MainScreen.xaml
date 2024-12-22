@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="Quizzy" 
         WindowState="Maximized"
-        WindowStyle="None"
+        WindowStyle="None"  
         Width="1700" Height="1080"
         Icon="Resources/StartScreen/Icon.ico">
 
@@ -1029,10 +1029,6 @@
             </Border>
         </Border> 
 
-
-
-
-
         <!-- Close Button -->
         <Button x:Name="CloseButton" HorizontalAlignment="Left" Margin="1634,-14,0,0" VerticalAlignment="Top" Height="82" Width="52" AutomationProperties.Name="CloseButton" Background="Transparent" BorderThickness="0" FocusVisualStyle="{x:Null}" Click="CloseWindowButton_Click">
             <Button.Template>
@@ -1124,7 +1120,6 @@
         </Border>
 
         <Grid x:Name="QuizView" Visibility="Hidden">
-            <!-- Przycisk "Back to Home" w lewym górnym rogu -->
             <Button Content="Back to Home" FontSize="20" Style="{StaticResource RoundedButtonStyle}" Width="150" Height="50" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20" Click="BackToHomeButtonFromQuizView_Click"/>
 
             <!-- Quiz View -->
@@ -1138,18 +1133,13 @@
                     </LinearGradientBrush>
                 </Border.Background>
                 <Grid>
-                    <!-- Definicja wierszy i kolumn -->
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
-                        <!-- Główna zawartość -->
                         <RowDefinition Height="Auto"/>
-                        <!-- Przyciski na dole -->
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
-                        <!-- Lewy obszar -->
                         <ColumnDefinition Width="Auto"/>
-                        <!-- Przyciski z prawej -->
                     </Grid.ColumnDefinitions>
 
                     <Image x:Name="QuizQuestionImage" Source="Resources/MainScreen/MainScreen/Background.png" Width="450" Height="450" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="60,140,0,0"/>
@@ -1173,7 +1163,6 @@
                         </StackPanel>
                     </StackPanel>
 
-                    <!-- Przycisk "Next" w prawym dolnym rogu -->
                     <Button Content="Next" FontSize="30" Style="{StaticResource RoundedButtonStyle}" Width="300" Height="80"
                     HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Row="1" Grid.Column="1" Margin="40" Click="NextButton_Click"/>
                 </Grid>
