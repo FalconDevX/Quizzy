@@ -34,7 +34,7 @@ namespace AzureBlobAPI.Controllers
 
                 BlobContainerClient containerClient = await blobServiceClient.CreateBlobContainerAsync(containerName);
 
-                return Ok(new { Message = $"Container '{containerName}' has been created successfully.", ContainerUri = containerClient.Uri.ToString() });
+                return Ok(new { Message = $"Container '{containerName}' has been created successfully." });
             }
             catch (Azure.RequestFailedException ex) when (ex.ErrorCode == "ContainerAlreadyExists")
             {
@@ -45,6 +45,8 @@ namespace AzureBlobAPI.Controllers
                 return StatusCode(500, new { Message = "An error occurred while creating the container.", Details = ex.Message });
             }
         }
+
+
 
         [HttpDelete("delete-container")]
         public async Task<IActionResult> DeleteContainer([FromQuery] string containerName)
@@ -82,7 +84,7 @@ namespace AzureBlobAPI.Controllers
         }
 
         [HttpGet("CheckContainerExists")]
-        public async Task<IActionResult> CheckContainerExists([FromQuery] string containerName)
+        public async Task<bool> CheckContainerExists([FromQuery] string containerName)
         {
             try
             {
@@ -90,28 +92,22 @@ namespace AzureBlobAPI.Controllers
 
                 if (string.IsNullOrEmpty(containerName))
                 {
-                    return BadRequest(new { Message = "Container name cannot be null or empty." });
+                    return false; // Zwracamy false, jeśli nazwa kontenera jest pusta
                 }
 
                 BlobServiceClient blobServiceClient = new BlobServiceClient(connectionString);
-
                 BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient(containerName);
 
+                // Sprawdzamy, czy kontener istnieje
                 bool exists = await containerClient.ExistsAsync();
 
-                if (exists)
-                {
-                    return Ok(new { Message = $"Container '{containerName}' exists.", Exists = true });
-                }
-                else
-                {
-                    return NotFound(new { Message = $"Container '{containerName}' does not exist.", Exists = false });
-                }
+                return exists; // Zwracamy wartość logiczną
             }
-            catch (Exception ex)
+            catch
             {
-                return StatusCode(500, new { Message = "An unexpected error occurred.", Details = ex.Message });
+                return false; // W przypadku błędu zwracamy false
             }
         }
+
     }
 }
