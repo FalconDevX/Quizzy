@@ -16,6 +16,7 @@ using System.Windows.Media;
 using static System.Net.WebRequestMethods;
 using System.IO.Compression;
 using Azure.Storage.Blobs;
+using System.Net;
 
 namespace WPF
 {
@@ -61,7 +62,7 @@ namespace WPF
         public UserService()
         {
             _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri("https://quizapi-dccjbsaedqcthte3.polandcentral-01.azurewebsites.net/api/");
+            _httpClient.BaseAddress = new Uri("https://quizzyapi-hke7dkckc6hugtbs.polandcentral-01.azurewebsites.net/api/");
         }
 
         public async Task<bool> IsLoginTakenApi(string login)
@@ -543,43 +544,39 @@ namespace WPF
         {
             _httpClient = new HttpClient
             {
-                BaseAddress = new Uri("https://quizzydatastorage-fthmhzfpgngphpb4.polandcentral-01.azurewebsites.net")
+                BaseAddress = new Uri("https://quizzyblob-f0b0dndfcmgvd4ft.polandcentral-01.azurewebsites.net/api")
             };
         }
 
         public async Task<string> CreateContainerAsync(string containerName)
         {
-            try
+            if (string.IsNullOrEmpty(containerName))
             {
-                if (string.IsNullOrEmpty(containerName))
-                {
-                    return "Nazwa kontenera nie może być pusta.";
-                }
-
-                string requestUrl = $"/api/Container/create-container?containerName={containerName}";
-
-                HttpResponseMessage response = await _httpClient.PostAsync(requestUrl, null);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    string result = await response.Content.ReadAsStringAsync();
-                    return $"Kontener '{containerName}' został pomyślnie utworzony.\n\n{result}";
-                }
-                else if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
-                {
-                    return $"Kontener '{containerName}' już istnieje.";
-                }
-                else
-                {
-                    string errorDetails = await response.Content.ReadAsStringAsync();
-                    return $"Wystąpił błąd podczas tworzenia kontenera: {response.StatusCode}\n{errorDetails}";
-                }
+                return "Nazwa kontenera nie może być pusta.";
             }
-            catch (Exception ex)
+
+            string requestUrl = $"/api/Container/create-container?containerName={containerName}";
+
+            HttpResponseMessage response = await _httpClient.PostAsync(requestUrl, null);
+
+            string responseContent = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
             {
-                return $"Wystąpił nieoczekiwany błąd: {ex.Message}";
+                var jsonResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseContent);
+                return $"Kontener '{containerName}' został pomyślnie utworzony.\n\n{jsonResponse.Message}";
+            }
+            else if (response.StatusCode == HttpStatusCode.Conflict)
+            {
+                return $"Kontener '{containerName}' już istnieje.";
+            }
+            else
+            {
+                return $"Wystąpił błąd podczas tworzenia kontenera: {response.StatusCode}\n{responseContent}";
             }
         }
+
+
 
         public async Task DownloadAndExtractBlobsAsync(string containerName)
         {
@@ -705,7 +702,7 @@ namespace WPF
             }
         }
 
-        private async Task UploadBlobToApi(string filePath, string containerName)
+        public async Task UploadBlobToApi(string filePath, string containerName)
         {
             try
             {
