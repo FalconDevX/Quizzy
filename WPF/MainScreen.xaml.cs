@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Collections.ObjectModel;
 using static System.Formats.Asn1.AsnWriter;
 using Microsoft.IdentityModel.Tokens;
+using System.ComponentModel;
 
 namespace WPF
 {
@@ -36,33 +37,102 @@ namespace WPF
         public string? Description { get; set; } 
     }
 
-    public static class VisualTreeHelperExtensions
+    public class EditableQuestion : INotifyPropertyChanged
     {
-        public static T? FindChild<T>(this DependencyObject parent, string childName) where T : FrameworkElement
+        private string _questionText;
+        private string _correctAnswer;
+        private ObservableCollection<Answer> _otherAnswersList = new ObservableCollection<Answer>();
+        private ImageSource _image; // Dodaj pole do przechowywania obrazu
+
+        public string QuestionText
         {
-            if (parent == null) return null;
-
-            int childCount = VisualTreeHelper.GetChildrenCount(parent);
-
-            for (int i = 0; i < childCount; i++)
+            get => _questionText;
+            set
             {
-                var child = VisualTreeHelper.GetChild(parent, i);
-
-                if (child is T frameworkElement && frameworkElement.Name == childName)
+                if (_questionText != value)
                 {
-                    return frameworkElement;
-                }
-
-                var childOfChild = FindChild<T>(child, childName);
-                if (childOfChild != null)
-                {
-                    return childOfChild;
+                    _questionText = value;
+                    OnPropertyChanged(nameof(QuestionText));
                 }
             }
+        }
 
-            return null;
+        public string CorrectAnswer
+        {
+            get => _correctAnswer;
+            set
+            {
+                if (_correctAnswer != value)
+                {
+                    _correctAnswer = value;
+                    OnPropertyChanged(nameof(CorrectAnswer));
+                }
+            }
+        }
+
+        public ObservableCollection<Answer> OtherAnswersList
+        {
+            get => _otherAnswersList;
+            set
+            {
+                if (_otherAnswersList != value)
+                {
+                    _otherAnswersList = value;
+                    OnPropertyChanged(nameof(OtherAnswersList));
+                }
+            }
+        }
+
+        public ImageSource Image
+        {
+            get => _image;
+            set
+            {
+                if (_image != value)
+                {
+                    _image = value;
+                    OnPropertyChanged(nameof(Image));
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
+
+
+
+
+    public class Answer : INotifyPropertyChanged
+    {
+        private string _text;
+
+        public string Text
+        {
+            get => _text;
+            set
+            {
+                if (_text != value)
+                {
+                    _text = value;
+                    OnPropertyChanged(nameof(Text));
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
+
+
     public partial class MainScreen : Window
     {
         internal ObservableCollection<Item> Items = new ObservableCollection<Item>();
@@ -817,7 +887,7 @@ namespace WPF
             if (!string.IsNullOrEmpty(Convert.ToString(currentQuestion.Image)))
             {
                 AzureBlobAPI azureBlobAPI = new AzureBlobAPI();
-                var imageSource = await azureBlobAPI.GetBlobImageAsync("files6", Convert.ToString($"{_currentQuizName}_{ _currentQuestionIndex}"));
+                var imageSource = await azureBlobAPI.GetBlobImageAsync( $"files{CurrentUser.UserId}",  Convert.ToString($"{_currentQuizName}_{ _currentQuestionIndex}"));
                 if (imageSource != null)
                 {
                     QuizQuestionImage.Source = imageSource;
@@ -874,28 +944,11 @@ namespace WPF
             {
                 var currentQuestion = _currentQuizQuestions[_currentQuestionIndex];
 
-                //int clickedIndex = -1;
-                /*
-                if (clickedButton == QuizButton1) clickedIndex = 0;
-                else if (clickedButton == QuizButton2) clickedIndex = 1;
-                else if (clickedButton == QuizButton3) clickedIndex = 2;
-                else if (clickedButton == QuizButton4) clickedIndex = 3;
-                */
                 if(clickedButton.Content == currentQuestion.Answers[currentQuestion.CorrectAnswerIndex])
                 {
                     _score++;
                 }
-                /*
-                if (clickedIndex == currentQuestion.CorrectAnswerIndex)
-                {
-                    //MessageBox.Show("Poprawna odpowiedź!", "Gratulacje", MessageBoxButton.OK, MessageBoxImage.Information);
-                    _score++; 
-                }
-                else
-                {
-                    //MessageBox.Show($"Niepoprawna odpowiedź. Poprawna odpowiedź to: {currentQuestion.Answers[currentQuestion.CorrectAnswerIndex]}", "Spróbuj ponownie", MessageBoxButton.OK, MessageBoxImage.Warning);
-                }
-                */
+
                 _currentQuestionIndex++;
                 if (_currentQuestionIndex < _currentQuizQuestions.Count)
                 {
@@ -951,405 +1004,321 @@ namespace WPF
 
         ///EDIT Quizes
 
-        private void LoadQuizForEditing(string jsonPath)
+        private async void EditQuizButton_Click(object sender, RoutedEventArgs e)
         {
-            SectionsPanel.Children.Clear();
-
-            QuizFile quizFile = new QuizFile();
-            Quiz quiz = quizFile.LoadQuizFromJson(jsonPath);
-
-            if (quiz != null && quiz.Questions != null)
-            {
-                QuizTitleTextBlock.Text = quiz.Name;
-
-                foreach (var question in quiz.Questions.Select((q, index) => new { Question = q, Index = index }))
-                {
-                    Border sectionBorder = new Border
-                    {
-                        Background = new SolidColorBrush(Color.FromRgb(20, 20, 40)),
-                        CornerRadius = new CornerRadius(5),
-                        Margin = new Thickness(5),
-                        Padding = new Thickness(10)
-                    };
-
-                    StackPanel sectionContent = new StackPanel();
-
-                    // Tworzenie pola tekstowego dla pytania
-                    TextBox questionTextBox = new TextBox
-                    {
-                        FontSize = 16,
-                        FontWeight = FontWeights.Bold,
-                        Foreground = new SolidColorBrush(Colors.White),
-                        Background = new SolidColorBrush(Color.FromRgb(30, 30, 50)),
-                        Margin = new Thickness(10, 0, 10, 5),
-                        TextWrapping = TextWrapping.Wrap,
-                        AcceptsReturn = true,
-                        Width = 400,
-                        MinWidth = 300,
-                        Text = question.Question.QuestionText
-                    };
-
-                    sectionContent.Children.Add(questionTextBox);
-
-                    // Kontener na odpowiedzi
-                    StackPanel answersPanel = new StackPanel();
-
-                    foreach (var answer in question.Question.Answers.Select((a, i) => new { Text = a, Index = i }))
-                    {
-                        DockPanel answerPanel = new DockPanel
-                        {
-                            Margin = new Thickness(0, 2, 0, 2)
-                        };
-
-                        TextBox answerTextBox = new TextBox
-                        {
-                            FontSize = 14,
-                            Foreground = new SolidColorBrush(Colors.White),
-                            Background = answer.Index == question.Question.CorrectAnswerIndex ? Brushes.Green : new SolidColorBrush(Color.FromRgb(40, 40, 60)),
-                            Margin = new Thickness(10, 0, 10, 0),
-                            TextWrapping = TextWrapping.Wrap,
-                            HorizontalAlignment = HorizontalAlignment.Stretch,
-                            MinWidth = 150,
-                            Text = answer.Text
-                        };
-
-                        Button removeAnswerButton = new Button
-                        {
-                            Content = "X",
-                            Width = 20,
-                            Height = 20,
-                            Foreground = new SolidColorBrush(Colors.White),
-                            Background = new SolidColorBrush(Color.FromRgb(60, 20, 20)),
-                            HorizontalAlignment = HorizontalAlignment.Right,
-                            Margin = new Thickness(5, 0, 0, 0)
-                        };
-
-                        removeAnswerButton.Click += (s, args) => answersPanel.Children.Remove(answerPanel);
-
-                        DockPanel.SetDock(answerTextBox, Dock.Left);
-                        DockPanel.SetDock(removeAnswerButton, Dock.Right);
-
-                        answerPanel.Children.Add(answerTextBox);
-                        answerPanel.Children.Add(removeAnswerButton);
-
-                        answersPanel.Children.Add(answerPanel);
-                    }
-
-                    sectionContent.Children.Add(answersPanel);
-
-                    // Przycisk dodania odpowiedzi
-                    Button addAnswerButton = new Button
-                    {
-                        Content = "Dodaj odpowiedź",
-                        Width = 120,
-                        Height = 30,
-                        Margin = new Thickness(10, 5, 10, 10),
-                        HorizontalAlignment = HorizontalAlignment.Left
-                    };
-                    addAnswerButton.Click += (s, args) =>
-                    {
-                        if (answersPanel.Children.OfType<DockPanel>().Count() >= 4)
-                        {
-                            MessageBox.Show("Możesz dodać maksymalnie 4 odpowiedzi.", "Ograniczenie", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        }
-                        else
-                        {
-                            DockPanel newAnswerPanel = new DockPanel
-                            {
-                                Margin = new Thickness(0, 2, 0, 2)
-                            };
-
-                            TextBox newAnswerTextBox = new TextBox
-                            {
-                                FontSize = 14,
-                                Foreground = new SolidColorBrush(Colors.White),
-                                Background = new SolidColorBrush(Color.FromRgb(40, 40, 60)),
-                                Margin = new Thickness(10, 0, 10, 0),
-                                TextWrapping = TextWrapping.Wrap,
-                                HorizontalAlignment = HorizontalAlignment.Stretch,
-                                MinWidth = 150
-                            };
-
-                            Button newRemoveAnswerButton = new Button
-                            {
-                                Content = "X",
-                                Width = 20,
-                                Height = 20,
-                                Foreground = new SolidColorBrush(Colors.White),
-                                Background = new SolidColorBrush(Color.FromRgb(60, 20, 20)),
-                                HorizontalAlignment = HorizontalAlignment.Right,
-                                Margin = new Thickness(5, 0, 0, 0)
-                            };
-
-                            newRemoveAnswerButton.Click += (s2, args2) =>
-                            {
-                                answersPanel.Children.Remove(newAnswerPanel);
-                            };
-
-                            DockPanel.SetDock(newAnswerTextBox, Dock.Left);
-                            DockPanel.SetDock(newRemoveAnswerButton, Dock.Right);
-
-                            newAnswerPanel.Children.Add(newAnswerTextBox);
-                            newAnswerPanel.Children.Add(newRemoveAnswerButton);
-
-                            answersPanel.Children.Add(newAnswerPanel);
-                        }
-                    };
-
-                    sectionContent.Children.Add(addAnswerButton);
-
-                    sectionBorder.Child = sectionContent;
-
-                    SectionsPanel.Children.Add(sectionBorder);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Nie udało się załadować pytań z quizu.", "Błąd", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
-        }
-
-
-        private void EditQuizButton_Click(object sender, RoutedEventArgs e)
-        {
+            // Pobierz quiz z DataContext przycisku
             var button = sender as Button;
-            var quiz = button?.DataContext;
+            var quiz = button?.DataContext as Item;
 
-            if (quiz != null)
+            if (quiz == null)
             {
-                var quizName = quiz.GetType().GetProperty("Name")?.GetValue(quiz, null)?.ToString();
-
-                if (!string.IsNullOrEmpty(quizName))
-                {
-                    string quizzesPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Quizzy", "Quizes");
-                    string jsonPath = System.IO.Path.Combine(quizzesPath, $"{quizName}.json");
-
-                    if (File.Exists(jsonPath))
-                    {
-                        LoadQuizForEditing(jsonPath);
-                        EditBorder.Visibility = Visibility.Visible;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Plik quizu nie został znaleziony.", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Quiz name is not available.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+                MessageBox.Show("Nie udało się zidentyfikować wybranego quizu.", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
             }
-            else
+
+            // Pobierz nazwę quizu
+            var quizName = quiz.Name;
+            if (string.IsNullOrWhiteSpace(quizName))
             {
-                MessageBox.Show("Unable to retrieve quiz data.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Wybrany quiz nie ma nazwy.", "Błąd", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
             }
-        }
 
-        private void AddSection_Click(object sender, RoutedEventArgs e)
-        {
-            Border sectionBorder = new Border
-            {
-                Background = new SolidColorBrush(Color.FromRgb(20, 20, 40)),
-                CornerRadius = new CornerRadius(5),
-                Margin = new Thickness(5),
-                Padding = new Thickness(10)
-            };
+            // Przypisz nazwę do zmiennej _currentQuizName
+            _currentQuizName = quizName;
 
-            StackPanel sectionContent = new StackPanel
-            {
-                HorizontalAlignment = HorizontalAlignment.Left
-            };
+            ShowOnlySelectedBorder("EditQuizBorder");
 
-            TextBox questionTextBox = new TextBox
-            {
-                Name = "QuestionTextBox",
-                FontSize = 16,
-                FontWeight = FontWeights.Bold,
-                Foreground = new SolidColorBrush(Colors.White),
-                Background = new SolidColorBrush(Color.FromRgb(30, 30, 50)),
-                Margin = new Thickness(10, 0, 10, 5),
-                TextWrapping = TextWrapping.Wrap,
-                AcceptsReturn = true,
-                Width = 400,
-                MinWidth = 300
-            };
-
-            sectionContent.Children.Add(questionTextBox);
-
-            // Kontener na odpowiedzi
-            StackPanel answersPanel = new StackPanel
-            {
-                Name = "AnswersPanel"
-            };
-            sectionContent.Children.Add(answersPanel);
-
-            // Przycisk dodania odpowiedzi
-            Button addAnswerButton = new Button
-            {
-                Content = "Dodaj odpowiedź",
-                Width = 120,
-                Height = 30,
-                Margin = new Thickness(10, 5, 10, 10),
-                HorizontalAlignment = HorizontalAlignment.Left
-            };
-            addAnswerButton.Click += (s, args) =>
-            {
-                if (answersPanel.Children.OfType<DockPanel>().Count() >= 4)
+            // Mapowanie pytań
+            var allQuestions = quiz.Questions
+                ?.Select((q, index) => new EditableQuestion
                 {
-                    MessageBox.Show("Możesz dodać maksymalnie 4 odpowiedzi.", "Ograniczenie", MessageBoxButton.OK, MessageBoxImage.Warning);
-                }
-                else
-                {
-                    DockPanel newAnswerPanel = new DockPanel
-                    {
-                        Margin = new Thickness(0, 2, 0, 2)
-                    };
-
-                    TextBox newAnswerTextBox = new TextBox
-                    {
-                        Name = "AnswerTextBox",
-                        FontSize = 14,
-                        Foreground = new SolidColorBrush(Colors.White),
-                        Background = new SolidColorBrush(Color.FromRgb(40, 40, 60)),
-                        Margin = new Thickness(10, 0, 10, 0),
-                        TextWrapping = TextWrapping.Wrap,
-                        HorizontalAlignment = HorizontalAlignment.Stretch,
-                        MinWidth = 150
-                    };
-
-                    Button removeAnswerButton = new Button
-                    {
-                        Content = "X",
-                        Width = 20,
-                        Height = 20,
-                        Foreground = new SolidColorBrush(Colors.White),
-                        Background = new SolidColorBrush(Color.FromRgb(60, 20, 20)),
-                        HorizontalAlignment = HorizontalAlignment.Right,
-                        Margin = new Thickness(5, 0, 0, 0)
-                    };
-                    removeAnswerButton.Click += (s2, args2) => answersPanel.Children.Remove(newAnswerPanel);
-
-                    DockPanel.SetDock(newAnswerTextBox, Dock.Left);
-                    DockPanel.SetDock(removeAnswerButton, Dock.Right);
-
-                    newAnswerPanel.Children.Add(newAnswerTextBox);
-                    newAnswerPanel.Children.Add(removeAnswerButton);
-
-                    answersPanel.Children.Add(newAnswerPanel);
-                }
-            };
-            sectionContent.Children.Add(addAnswerButton);
-
-            // Przycisk dodania zdjęcia
-            Button addImageButton = new Button
-            {
-                Content = "Dodaj zdjęcie",
-                Width = 120,
-                Height = 30,
-                Margin = new Thickness(10, 5, 10, 10),
-                HorizontalAlignment = HorizontalAlignment.Left
-            };
-            addImageButton.Click += (s, args) =>
-            {
-                MessageBox.Show("Funkcja dodawania zdjęcia nie jest jeszcze zaimplementowana.", "Informacja", MessageBoxButton.OK, MessageBoxImage.Information);
-            };
-            sectionContent.Children.Add(addImageButton);
-
-            // Przycisk usunięcia sekcji
-            Button removeSectionButton = new Button
-            {
-                Content = "Usuń sekcję",
-                Width = 120,
-                Height = 30,
-                Margin = new Thickness(10, 10, 10, 0),
-                HorizontalAlignment = HorizontalAlignment.Left
-            };
-            removeSectionButton.Click += (s, args) => SectionsPanel.Children.Remove(sectionBorder);
-
-            sectionContent.Children.Add(removeSectionButton);
-
-            sectionBorder.Child = sectionContent;
-
-            SectionsPanel.Children.Add(sectionBorder);
-        }
-
-
-        // Dodanie przycisku Save do zapisania nowo utworzonych pytań
-        private void DisplayQuizQuestions()
-        {
-            try
-            {
-                StringBuilder messageBuilder = new StringBuilder();
-
-                foreach (var child in SectionsPanel.Children)
-                {
-                    if (child is Border sectionBorder)
-                    {
-                        // Znajdź pole tekstowe pytania
-                        var questionTextBox = sectionBorder.FindChild<TextBox>("QuestionTextBox");
-                        if (questionTextBox == null || string.IsNullOrWhiteSpace(questionTextBox.Text))
+                    QuestionText = q.QuestionText,
+                    CorrectAnswer = q.Answers[q.CorrectAnswerIndex],
+                    OtherAnswersList = new ObservableCollection<Answer>(
+                        q.Answers
+                            .Where((ans, i) => i != q.CorrectAnswerIndex)
+                            .Select(answerText => new Answer { Text = answerText })
+                    ),
+                    // Pobierz obraz pytania, jeśli istnieje
+                    Image = string.IsNullOrEmpty(Convert.ToString(q.Image))
+                        ? null : Task.Run(async () =>
                         {
-                            MessageBox.Show("Brakuje treści pytania w sekcji. Upewnij się, że pytanie zostało wypełnione.");
-                            continue;
-                        }
+                            AzureBlobAPI azureBlobAPI = new AzureBlobAPI();
+                            return await azureBlobAPI.GetBlobImageAsync($"files{CurrentUser.UserId}", $"{quizName}_{index}");
+                        }).Result
+                })
+                .ToList();
 
-                        messageBuilder.AppendLine($"Pytanie: {questionTextBox.Text}");
-
-                        // Znajdź panel odpowiedzi
-                        var answersPanel = sectionBorder.FindChild<StackPanel>("AnswersPanel");
-                        if (answersPanel == null || answersPanel.Children.Count == 0)
-                        {
-                            MessageBox.Show("Brakuje odpowiedzi w sekcji. Dodaj co najmniej jedną odpowiedź.");
-                            continue;
-                        }
-
-                        // Iteruj przez odpowiedzi i sprawdź ich treść
-                        foreach (var answerChild in answersPanel.Children)
-                        {
-                            if (answerChild is DockPanel answerPanel)
-                            {
-                                var answerTextBox = answerPanel.FindChild<TextBox>("AnswerTextBox");
-                                if (answerTextBox != null && !string.IsNullOrWhiteSpace(answerTextBox.Text))
-                                {
-                                    bool isCorrect = answerTextBox.Background == Brushes.Green;
-                                    string correctLabel = isCorrect ? " (Poprawna)" : "";
-
-                                    messageBuilder.AppendLine($"- Odpowiedź: {answerTextBox.Text}{correctLabel}");
-                                }
-                                else
-                                {
-                                    MessageBox.Show("Jedna z odpowiedzi jest pusta. Uzupełnij wszystkie odpowiedzi.");
-                                }
-                            }
-                        }
-
-                        messageBuilder.AppendLine(); // Pusty wiersz między sekcjami
-                    }
-                }
-
-                // Wyświetl MessageBox z pytaniami i odpowiedziami
-                if (messageBuilder.Length > 0)
-                {
-                    MessageBox.Show(messageBuilder.ToString(), "Podgląd pytań i odpowiedzi", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-                else
-                {
-                    MessageBox.Show("Nie znaleziono pytań do wyświetlenia.", "Informacja", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-            }
-            catch (Exception ex)
+            if (allQuestions == null || allQuestions.Count == 0)
             {
-                MessageBox.Show($"Wystąpił błąd podczas wyświetlania pytań: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Wybrany quiz nie zawiera pytań.", "Błąd", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
             }
-        }
 
+            // Przypisz pytania do ListView
+            EditQuizListView.ItemsSource = new ObservableCollection<EditableQuestion>(allQuestions);
+        }
 
         private void SaveQuizButton_Click(object sender, RoutedEventArgs e)
         {
-            string quizzesPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Quizzy", "Quizes");
-            string jsonPath = System.IO.Path.Combine(quizzesPath, $"{QuizTitleTextBlock.Text}.json");
+            // Zapisz quiz lub wykonaj odpowiednią akcję
 
-            DisplayQuizQuestions();
+            // Po zapisaniu wróć do głównego ekranu
+            HomeBorder.Visibility = Visibility.Visible;
+            EditQuizBorder.Visibility = Visibility.Hidden;
+        }
+
+        private void AddQuestionButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Tworzenie nowego pytania
+            EditableQuestion newQuestion = new EditableQuestion
+            {
+                QuestionText = string.Empty,
+                CorrectAnswer = string.Empty,
+                OtherAnswersList = new ObservableCollection<Answer> // Inicjalizacja z pustymi odpowiedziami
+                {
+                    new Answer { Text = string.Empty }, // Pierwsza odpowiedź
+                    new Answer { Text = string.Empty }, // Druga odpowiedź
+                    new Answer { Text = string.Empty }  // Trzecia odpowiedź
+                }
+            };
+
+            // Pobieranie aktualnej listy pytań i dodanie nowego pytania
+            if (EditQuizListView.ItemsSource is ObservableCollection<EditableQuestion> currentQuestions)
+            {
+                currentQuestions.Add(newQuestion);
+            }
+            else
+            {
+                EditQuizListView.ItemsSource = new ObservableCollection<EditableQuestion> { newQuestion };
+            }
+        }
+
+        private void RemoveAnswerButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button &&
+                button.CommandParameter is Answer answerToRemove &&
+                EditQuizListView.SelectedItem is EditableQuestion selectedQuestion)
+            {
+                // Usuń odpowiedź
+                selectedQuestion.OtherAnswersList.Remove(answerToRemove);
+            }
+        }
+
+
+
+        private void AddAnswerButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (EditQuizListView.SelectedItem is EditableQuestion selectedQuestion)
+            {
+                // Sprawdź, czy liczba odpowiedzi nie przekracza 3
+                if (selectedQuestion.OtherAnswersList.Count >= 3)
+                {
+                    MessageBox.Show("Nie można dodać więcej niż 3 odpowiedzi.", "Informacja", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                // Dodaj nową odpowiedź
+                selectedQuestion.OtherAnswersList.Add(new Answer { Text = string.Empty });
+            }
+            else
+            {
+                MessageBox.Show("Nie wybrano pytania do edycji.", "Informacja", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+
+
+
+        private void AddAnswerToLastPosition_Click(object sender, RoutedEventArgs e)
+        {
+            if (EditQuizListView.SelectedItem is EditableQuestion selectedQuestion)
+            {
+                // Sprawdź, czy liczba odpowiedzi nie przekracza 3
+                if (selectedQuestion.OtherAnswersList.Count >= 3)
+                {
+                    MessageBox.Show("Nie można dodać więcej niż 3 odpowiedzi.", "Informacja", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                // Dodaj nowe puste pole odpowiedzi
+                selectedQuestion.OtherAnswersList.Add(new Answer { Text = string.Empty });
+            }
+            else
+            {
+                MessageBox.Show("Nie wybrano pytania do edycji.", "Informacja", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        private void RemoveQuestionButton_Click(object sender, RoutedEventArgs e)
+        {
+            if ((sender as Button)?.DataContext is EditableQuestion questionToRemove &&
+                EditQuizListView.ItemsSource is ObservableCollection<EditableQuestion> currentQuestions)
+            {
+                var result = MessageBox.Show(
+                    "Czy na pewno chcesz usunąć to pytanie?",
+                    "Potwierdzenie usunięcia",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    currentQuestions.Remove(questionToRemove);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Nie udało się usunąć pytania.", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void ChangeImageButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.CommandParameter is EditableQuestion question)
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog
+                {
+                    Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp"
+                };
+
+                if (openFileDialog.ShowDialog() == true)
+                {
+                    string filePath = openFileDialog.FileName;
+
+                    // Wczytaj obraz do pytania
+                    question.Image = new BitmapImage(new Uri(filePath));
+
+                    // Zmień wartość Image w JSON quizu
+                    UpdateQuestionImageInQuizJson(question, filePath);
+                }
+            }
+        }
+
+        private void UpdateQuestionImageInQuizJson(EditableQuestion question, string imagePath)
+        {
+            try
+            {
+                string quizzesPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Quizzy", "Quizes");
+                string quizFilePath = System.IO.Path.Combine(quizzesPath, $"{_currentQuizName}.json");
+
+                if (!File.Exists(quizFilePath))
+                {
+                    MessageBox.Show("Plik quizu nie został znaleziony.", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Odczytaj istniejący JSON
+                string jsonContent = File.ReadAllText(quizFilePath);
+                Quiz quiz = JsonSerializer.Deserialize<Quiz>(jsonContent);
+
+                // Znajdź pytanie, które należy zaktualizować
+                var targetQuestion = quiz?.Questions.FirstOrDefault(q => q.QuestionText == question.QuestionText);
+                if (targetQuestion == null)
+                {
+                    MessageBox.Show("Nie znaleziono pytania w quizie.", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Zmień wartość Image na identyfikator obrazu (np. "1")
+                targetQuestion.Image = 1; // Możesz zmienić wartość na dowolną, np. indeks obrazu
+
+                // Zapisz zaktualizowany JSON
+                string updatedJson = JsonSerializer.Serialize(quiz, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(quizFilePath, updatedJson);
+
+                MessageBox.Show("Obraz został pomyślnie zaktualizowany w quizie.", "Sukces", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Wystąpił błąd podczas aktualizacji obrazu w quizie: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+
+        private async void SaveEditedQuizButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // Pobierz zmodyfikowane pytania z ListView
+                var updatedQuestions = EditQuizListView.ItemsSource as ObservableCollection<EditableQuestion>;
+                if (updatedQuestions == null || updatedQuestions.Count == 0)
+                {
+                    MessageBox.Show("Brak pytań do zapisania.", "Błąd", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                // Ścieżka do pliku JSON
+                string jsonPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Quizzy", "Quizes", $"{_currentQuizName}.json");
+
+                // Załaduj istniejący quiz
+                Quiz quiz = null;
+                if (File.Exists(jsonPath))
+                {
+                    string existingJson = File.ReadAllText(jsonPath);
+                    quiz = JsonSerializer.Deserialize<Quiz>(existingJson);
+                }
+
+                if (quiz == null)
+                {
+                    quiz = new Quiz { Name = _currentQuizName, Questions = new List<Question>() };
+                }
+
+                // AzureBlobAPI - instancja klasy do zarządzania przesyłaniem plików
+                AzureBlobAPI azureBlobAPI = new AzureBlobAPI();
+
+                // Stwórz listę pytań w odpowiednim formacie do zapisania
+                var questionsToSave = new List<Question>();
+                foreach (var q in updatedQuestions)
+                {
+                    var existingQuestion = quiz.Questions?.FirstOrDefault(oldQ => oldQ.QuestionText == q.QuestionText);
+
+                    int? imageId = null;
+
+                    if (q.Image is BitmapImage bitmapImage)
+                    {
+                        // Zapisz obraz do tymczasowego pliku
+                        string tempFilePath = System.IO.Path.GetTempFileName();
+                        using (var fileStream = new FileStream(tempFilePath, FileMode.Create))
+                        {
+                            var encoder = new PngBitmapEncoder();
+                            encoder.Frames.Add(BitmapFrame.Create(bitmapImage));
+                            encoder.Save(fileStream);
+                        }
+
+                        // Prześlij obraz do Azure Blob Storage
+                        string containerName = $"files{CurrentUser.UserId}";
+                        await azureBlobAPI.UploadBlobToApi(tempFilePath, containerName, _currentQuizName+"_"+_currentQuestionIndex);
+
+                        // Usuń tymczasowy plik
+                        File.Delete(tempFilePath);
+                    }
+
+                    // Dodaj pytanie do listy
+                    questionsToSave.Add(new Question
+                    {
+                        QuestionText = q.QuestionText,
+                        CorrectAnswerIndex = 0, // Pierwsza odpowiedź jest poprawna
+                        Answers = new List<string> { q.CorrectAnswer }.Concat(q.OtherAnswersList.Select(a => a.Text)).ToList(),
+                        Image = 1 
+                    });
+                }
+
+                quiz.Questions = questionsToSave;
+
+                // Zapisz quiz do pliku JSON
+                string jsonContent = JsonSerializer.Serialize(quiz, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(jsonPath, jsonContent);
+
+                MessageBox.Show("Quiz zapisany pomyślnie!", "Sukces", MessageBoxButton.OK, MessageBoxImage.Information);
+                LoadAllQuizzes();
+                HomeBorder.Visibility = Visibility.Visible;
+                EditQuizBorder.Visibility = Visibility.Hidden;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Wystąpił błąd podczas zapisywania quizu: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
 

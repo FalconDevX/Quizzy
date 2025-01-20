@@ -17,9 +17,31 @@ using static System.Net.WebRequestMethods;
 using System.IO.Compression;
 using Azure.Storage.Blobs;
 using System.Net;
+using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace WPF
 {
+    public class AnswerIndexConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            // Znajdź element rodzica ItemsControl
+            if (parameter is ItemsControl itemsControl && value is string stringValue)
+            {
+                var itemsSource = itemsControl.ItemsSource as IList<string>;
+                return itemsSource?.IndexOf(stringValue) ?? -1;
+            }
+
+
+            return -1;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
     public partial class App : Application
     {
     }
@@ -688,7 +710,7 @@ namespace WPF
                 {
                     try
                     {
-                        await UploadBlobToApi(filePath, containerName);
+                        await UploadBlobToApi(filePath, containerName, "allblobs");
                     }
                     catch (Exception ex)
                     {
@@ -702,20 +724,29 @@ namespace WPF
             }
         }
 
-        public async Task UploadBlobToApi(string filePath, string containerName)
+        public async Task UploadBlobToApi(string filePath, string containerName, string fileName)
         {
             try
             {
                 using (var content = new MultipartFormDataContent())
                 {
+                    // Utwórz zawartość pliku
                     var fileContent = new StreamContent(System.IO.File.OpenRead(filePath));
                     fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
-                    content.Add(fileContent, "file", Path.GetFileName(filePath));
 
+                    // Sprawdź, czy nazwa pliku ma pozostać bez zmian
+                    string finalFileName = fileName == "allblobs" ? Path.GetFileName(filePath) : fileName;
+
+                    // Dodaj plik do żądania z finalną nazwą
+                    content.Add(fileContent, "file", finalFileName);
+
+                    // Twórz URL do żądania
                     string requestUrl = $"/api/Blob/upload?containerName={Uri.EscapeDataString(containerName)}";
 
+                    // Wyślij żądanie HTTP POST
                     HttpResponseMessage response = await _httpClient.PostAsync(requestUrl, content);
 
+                    // Obsłuż błędy odpowiedzi
                     if (!response.IsSuccessStatusCode)
                     {
                         string errorDetails = await response.Content.ReadAsStringAsync();
@@ -725,9 +756,11 @@ namespace WPF
             }
             catch (Exception ex)
             {
-                throw new Exception($"Błąd przesyłania pliku '{Path.GetFileName(filePath)}': {ex.Message}");
+                throw new Exception($"Błąd przesyłania pliku '{Path.GetFileName(filePath)}' jako '{fileName}': {ex.Message}");
             }
         }
+
+
 
         public async Task<bool> CheckContainerExistsByUserID(string contName)
         {

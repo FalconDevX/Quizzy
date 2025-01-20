@@ -493,7 +493,7 @@ namespace WPF
                     CurrentUser.UserId = await userService.GetUserIdByLoginApi(login);
                     AzureBlobAPI azureBlobAPI = new AzureBlobAPI();
                     await azureBlobAPI.CreateContainerAsync($"ident{CurrentUser.UserId}");
-                    var answer = await azureBlobAPI.CreateContainerAsync($"file{CurrentUser.UserId}");
+                    var answer = await azureBlobAPI.CreateContainerAsync($"files{CurrentUser.UserId}");
                     MessageBox.Show(answer);
                     mainScreen.UserNameTextBlock.Text = $"Hi, {displayName}";
                     mainScreen.Show();

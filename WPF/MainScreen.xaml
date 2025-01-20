@@ -14,6 +14,7 @@
 
 
     <Window.Resources>
+
         <!-- Definicja kolorów jako zasobów -->
         <SolidColorBrush x:Key="ButtonMouseOverColor" Color="#332EB7"/>
         <SolidColorBrush x:Key="ButtonPressedColor" Color="#4A46BB"/>
@@ -1017,9 +1018,8 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock x:Name="QuizTitleTextBlock" Text="Tytuł Quizu" FontSize="24" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,20" />
-
-                    <Button Content="Dodaj sekcję" Width="150" Height="30" FontSize="14" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5" Grid.Row="1"
-            Click="AddSection_Click" />
+                    
+                    <Button Content="Dodaj sekcję" Width="150" Height="30" FontSize="14" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5" Grid.Row="1"/>
 
                     <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,0">
                         <StackPanel x:Name="SectionsPanel" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,0,10,0">
@@ -1027,7 +1027,7 @@
                         </StackPanel>
                     </ScrollViewer>
 
-                    <Button Content="Save" Click="SaveQuizButton_Click" Width="100" Height="30" Margin="10"/>
+                    <Button Content="Save" Width="100" Height="30" Margin="10"/>
 
                 </Grid>
             </Border>
@@ -1123,6 +1123,7 @@
 
         </Border>
 
+        <!-- QuizView -->
         <Grid x:Name="QuizView" Visibility="Hidden">
             <Button Content="Back to Home" FontSize="20" Style="{StaticResource RoundedButtonStyle}" Width="150" Height="50" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20" Click="BackToHomeButtonFromQuizView_Click"/>
 
@@ -1172,6 +1173,89 @@
                 </Grid>
             </Border>
         </Grid>
+
+        <Border x:Name="EditQuizBorder" Visibility="Collapsed" Background="#0B013D" Margin="328,60,65,49">
+            <Grid>
+                <StackPanel>
+                    <TextBlock Text="Edit Quiz" FontSize="24" FontWeight="Bold" Margin="10" Foreground="White" />
+                    <ListView x:Name="EditQuizListView">
+                        <ListView.View>
+                            <GridView>
+                                <!-- Kolumna dla pytania -->
+                                <GridViewColumn Header="Question" Width="300">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel>
+                                                <TextBox Text="{Binding QuestionText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                 MinWidth="150" Margin="0,0,0,5" />
+                                                <Button Content="Remove Question" Width="120" Height="30" HorizontalAlignment="Left" 
+                                                CommandParameter="{Binding}" 
+                                                Click="RemoveQuestionButton_Click" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+
+                                <!-- Kolumna dla poprawnej odpowiedzi -->
+                                <GridViewColumn Header="Correct Answer" Width="200">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding CorrectAnswer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinWidth="150" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+
+                                <!-- Kolumna dla innych odpowiedzi -->
+                                <GridViewColumn Header="Other Answers" Width="500">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel>
+                                                <ItemsControl ItemsSource="{Binding OtherAnswersList}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel Orientation="Horizontal" Margin="2">
+                                                                <TextBox Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                                 MinWidth="200" Margin="2" Padding="2" MinHeight="30" />
+                                                                <Button Content="X" Width="20" Height="20" Margin="2" 
+                                                                CommandParameter="{Binding}" 
+                                                                Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ItemsControl}}" 
+                                                                Click="RemoveAnswerButton_Click" />
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                                <Button Content="+" Width="20" Height="20" Margin="5,0,0,0" Click="AddAnswerButton_Click" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+
+                                <!-- Kolumna dla obrazu -->
+                                <GridViewColumn Header="Image" Width="150">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel>
+                                                <!-- Wyświetlanie obrazu -->
+                                                <Image Source="{Binding Image}" Width="100" Height="100" Margin="5" Stretch="Uniform" />
+                                                <!-- Przycisk do edycji obrazu -->
+                                                <Button Content="Change Image" Width="120" Height="30" HorizontalAlignment="Left" 
+                                                CommandParameter="{Binding}" 
+                                                Click="ChangeImageButton_Click" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+
+                    <Button Content="Add Question" Width="100" Height="40" Margin="10" Click="AddQuestionButton_Click" />
+                    <Button Content="Save" Width="100" Height="40" Margin="10" Click="SaveEditedQuizButton_Click" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+
 
     </Grid>
 
