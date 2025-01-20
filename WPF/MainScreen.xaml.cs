@@ -627,6 +627,7 @@ namespace WPF
 
         private void BackToHome()
         {
+            _score = 0;
             LoadAllQuizzes();
 
             CategoryQuizComboBox.SelectedItem = null;
@@ -769,6 +770,7 @@ namespace WPF
 
         private void BackToHomeButtonFromQuizView_Click(object sender, RoutedEventArgs e)
         {
+            _score = 0;
             QuizView.Visibility = Visibility.Hidden;
             HomeBorder.Visibility = Visibility.Visible;
             SideBarGrid.Visibility = Visibility.Visible;
@@ -856,7 +858,7 @@ namespace WPF
         }
 
         private int _score = 0;
-        private void AnswerButton_Click(object sender, RoutedEventArgs e)
+        private async void AnswerButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button clickedButton)
             {
@@ -882,6 +884,7 @@ namespace WPF
                 _currentQuestionIndex++;
                 if (_currentQuestionIndex < _currentQuizQuestions.Count)
                 {
+                    await Task.Delay(150);
                     DisplayQuestion();
                 }
                 else
