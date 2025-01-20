@@ -1,0 +1,7 @@
+﻿appsettings.json
+.vs/
+bin/
+obj/
+UnitTest/
+appsettings.Development.json
+AzureBlobStorage/AzureBlobStorage/bin/

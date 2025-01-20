@@ -366,6 +366,8 @@ namespace WPF
         //login button click
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
+            LoginButton.IsEnabled = false;
+
             string identifier = EmailTextBoxLogin.Text.Trim();
             string password;
 
@@ -388,6 +390,7 @@ namespace WPF
                 
                 if (isAuthenticated)
                 {
+                    LoginButton.IsEnabled = true;
                     LoadingSpinner.Visibility = Visibility.Hidden;
                     MessageBox.Show("Login successful.");
 
@@ -411,7 +414,7 @@ namespace WPF
                 else
                 {
                     await Task.Delay(5000);
-
+                    LoginButton.IsEnabled = true;
 
                     LoadingSpinner.Visibility = Visibility.Hidden;
                  
