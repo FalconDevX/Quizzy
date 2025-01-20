@@ -180,6 +180,7 @@ namespace WPF
 
         private void SideBarButton_Click(object sender, RoutedEventArgs e)
         {
+            MessageBox.Show("Feature not implemented yet");
             SideBarClick(sender, e);
             if (sender is ToggleButton clickedButton)
             {
@@ -201,24 +202,21 @@ namespace WPF
         //Home button clicked
         private void HomeButton_Click(object sender, RoutedEventArgs e)
         {
-            SideBarClick(sender, e);
-            SideBarButton_Click(sender, new RoutedEventArgs());
-            ShowOnlySelectedBorder("HomeBorder");
+            SideBarClick(sender, e); // Zarządzanie stanem przycisków
+            ShowOnlySelectedBorder("HomeBorder"); // Pokaż tylko widok Home
         }
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            SideBarClick(sender, e);
-            SideBarButton_Click(sender, new RoutedEventArgs());
-            ShowOnlySelectedBorder("EditBorder");
+            SideBarClick(sender, e); // Zarządzanie stanem przycisków
+            //ShowOnlySelectedBorder("EditBorder"); // Pokaż tylko widok Edit
+            MessageBox.Show("Feature not implemented yet");
         }
 
-        //Settings button clicked
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            SideBarClick(sender, e);
-            SideBarButton_Click(sender, new RoutedEventArgs());
-            ShowOnlySelectedBorder("SettingsBorder");
+            SideBarClick(sender, e); // Zarządzanie stanem przycisków
+            ShowOnlySelectedBorder("SettingsBorder"); // Pokaż tylko widok Settings
         }
 
         //show selected border(current panel from sidebar) function
@@ -228,17 +226,18 @@ namespace WPF
             {
                 if (child is Border border)
                 {
-                    if (border.Name == borderName)
-                    {
-                        border.Visibility = Visibility.Visible;
-                    }
-                    else
-                    {
-                        border.Visibility = Visibility.Collapsed;
-                    }
+                    border.Visibility = border.Name == borderName ? Visibility.Visible : Visibility.Collapsed;
                 }
             }
+
+            // Jeśli użytkownik opuścił edytor quizów, zresetuj jego dane
+            if (borderName != "EditQuizBorder")
+            {
+                ResetEditQuizData();
+            }
         }
+
+
 
         ///SETTINGS///
 
@@ -450,6 +449,8 @@ namespace WPF
             {
                 avatarImage = await _avatarService.GetAvatarAsync(userId);
 
+                //MessageBox.Show(Convert.ToBase64String(avatarImage));
+
                 if (avatarImage == null)
                 {
                     avatarImage = new BitmapImage(new Uri("/Resources/MainScreen/SideBar/DefaultLogoIcon.png", UriKind.Relative));
@@ -529,6 +530,7 @@ namespace WPF
                     Name = quiz.Name,
                     Category = quiz.Category,
                     LastModified = quiz.LastModified,
+                    Description = quiz.Description,
                     QuestionCount = quiz.Questions.Count,
                     Image = imageSource,
                     Questions = quiz.Questions
@@ -791,29 +793,26 @@ namespace WPF
             }
         }
 
-        private ToggleButton _activeButton; 
+        private ToggleButton _activeButton;
 
         private void SideBarClick(object sender, RoutedEventArgs e)
         {
-            var clickedButton = sender as ToggleButton;
-
-            if (_activeButton == clickedButton)
+            if (sender is ToggleButton clickedButton)
             {
-                clickedButton.IsChecked = true; 
-                return;
-            }
+                // Odznacz wszystkie inne przyciski w panelu SideBar
+                foreach (var child in SideBarPanel.Children)
+                {
+                    if (child is ToggleButton button && button != clickedButton)
+                    {
+                        button.IsChecked = false;
+                    }
+                }
 
-            if (_activeButton != null)
-            {
-                _activeButton.IsChecked = false;
-            }
-
-            if (clickedButton != null)
-            {
-                _activeButton = clickedButton;
+                // Ustaw kliknięty przycisk jako aktywny
                 clickedButton.IsChecked = true;
             }
         }
+
 
         private string _currentQuizName;
 
@@ -875,7 +874,6 @@ namespace WPF
                 QuizView.Visibility = Visibility.Hidden;
                 HomeBorder.Visibility = Visibility.Visible;
                 SideBarGrid.Visibility = Visibility.Visible;
-
                 return;
             }
 
@@ -883,11 +881,10 @@ namespace WPF
 
             QuizQestion.Text = currentQuestion.QuestionText;
 
-
             if (!string.IsNullOrEmpty(Convert.ToString(currentQuestion.Image)))
             {
                 AzureBlobAPI azureBlobAPI = new AzureBlobAPI();
-                var imageSource = await azureBlobAPI.GetBlobImageAsync( $"files{CurrentUser.UserId}",  Convert.ToString($"{_currentQuizName}_{ _currentQuestionIndex}"));
+                var imageSource = await azureBlobAPI.GetBlobImageAsync($"files{CurrentUser.UserId}", $"{_currentQuizName}_{_currentQuestionIndex}");
                 if (imageSource != null)
                 {
                     QuizQuestionImage.Source = imageSource;
@@ -903,39 +900,34 @@ namespace WPF
                 QuizQuestionImage.Visibility = Visibility.Hidden;
             }
 
-            if (currentQuestion.Answers != null && currentQuestion.Answers.Count >= 4)
+            if (currentQuestion.Answers != null && currentQuestion.Answers.Count >= 1 && currentQuestion.Answers.Count <= 4)
             {
-
                 var random = new Random();
                 var shuffledAnswers = currentQuestion.Answers.OrderBy(x => random.Next()).ToList();
 
-                // Przypisz losowe odpowiedzi do przycisków
-                QuizButton1.Content = shuffledAnswers[0];
-                QuizButton2.Content = shuffledAnswers[1];
-                QuizButton3.Content = shuffledAnswers[2];
-                QuizButton4.Content = shuffledAnswers[3];
-                /*
-                QuizButton1.Content = currentQuestion.Answers[3];
-                QuizButton2.Content = currentQuestion.Answers[2];
-                QuizButton3.Content = currentQuestion.Answers[1];
-                QuizButton4.Content = currentQuestion.Answers[0];
-                */
-                QuizButton1.Click -= AnswerButton_Click;
-                QuizButton2.Click -= AnswerButton_Click;
-                QuizButton3.Click -= AnswerButton_Click;
-                QuizButton4.Click -= AnswerButton_Click;
+                var answerButtons = new List<Button> { QuizButton1, QuizButton2, QuizButton3, QuizButton4 };
 
-                QuizButton1.Click += AnswerButton_Click;
-                QuizButton2.Click += AnswerButton_Click;
-                QuizButton3.Click += AnswerButton_Click;
-                QuizButton4.Click += AnswerButton_Click;
+                // Reset button visibility and click events
+                foreach (var button in answerButtons)
+                {
+                    button.Visibility = Visibility.Hidden;
+                    button.Click -= AnswerButton_Click;
+                }
+
+                // Assign answers to visible buttons
+                for (int i = 0; i < shuffledAnswers.Count; i++)
+                {
+                    answerButtons[i].Content = shuffledAnswers[i];
+                    answerButtons[i].Visibility = Visibility.Visible;
+                    answerButtons[i].Click += AnswerButton_Click;
+                }
             }
             else
             {
                 MessageBox.Show("Nieprawidłowa liczba odpowiedzi w pytaniu.", "Błąd", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-
         }
+
 
         private int _score = 0;
         private async void AnswerButton_Click(object sender, RoutedEventArgs e)
@@ -1235,23 +1227,17 @@ namespace WPF
             }
         }
 
-
         private async void SaveEditedQuizButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 // Pobierz zmodyfikowane pytania z ListView
                 var updatedQuestions = EditQuizListView.ItemsSource as ObservableCollection<EditableQuestion>;
-                if (updatedQuestions == null || updatedQuestions.Count == 0)
-                {
-                    MessageBox.Show("Brak pytań do zapisania.", "Błąd", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
 
                 // Ścieżka do pliku JSON
                 string jsonPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Quizzy", "Quizes", $"{_currentQuizName}.json");
 
-                // Załaduj istniejący quiz
+                // Załaduj istniejący quiz lub utwórz nowy, jeśli nie istnieje
                 Quiz quiz = null;
                 if (File.Exists(jsonPath))
                 {
@@ -1269,41 +1255,48 @@ namespace WPF
 
                 // Stwórz listę pytań w odpowiednim formacie do zapisania
                 var questionsToSave = new List<Question>();
-                foreach (var q in updatedQuestions)
+                if (updatedQuestions != null)
                 {
-                    var existingQuestion = quiz.Questions?.FirstOrDefault(oldQ => oldQ.QuestionText == q.QuestionText);
-
-                    int? imageId = null;
-
-                    if (q.Image is BitmapImage bitmapImage)
+                    foreach (var q in updatedQuestions)
                     {
-                        // Zapisz obraz do tymczasowego pliku
-                        string tempFilePath = System.IO.Path.GetTempFileName();
-                        using (var fileStream = new FileStream(tempFilePath, FileMode.Create))
+                        var existingQuestion = quiz.Questions?.FirstOrDefault(oldQ => oldQ.QuestionText == q.QuestionText);
+
+                        int? imageId = existingQuestion?.Image; // Zachowaj istniejącą wartość obrazu
+
+                        if (q.Image is BitmapImage bitmapImage)
                         {
-                            var encoder = new PngBitmapEncoder();
-                            encoder.Frames.Add(BitmapFrame.Create(bitmapImage));
-                            encoder.Save(fileStream);
+                            // Zapisz obraz do tymczasowego pliku
+                            string tempFilePath = System.IO.Path.GetTempFileName();
+                            using (var fileStream = new FileStream(tempFilePath, FileMode.Create))
+                            {
+                                var encoder = new PngBitmapEncoder();
+                                encoder.Frames.Add(BitmapFrame.Create(bitmapImage));
+                                encoder.Save(fileStream);
+                            }
+
+                            // Prześlij obraz do Azure Blob Storage
+                            string containerName = $"files{CurrentUser.UserId}";
+                            string fileName = $"{_currentQuizName}_{updatedQuestions.IndexOf(q)}";
+                            await azureBlobAPI.UploadBlobToApi(tempFilePath, containerName, fileName);
+
+                            // Usuń tymczasowy plik
+                            File.Delete(tempFilePath);
+
+                            imageId = 1; // Zmień na 1, jeśli obraz został dodany lub zmieniony
                         }
 
-                        // Prześlij obraz do Azure Blob Storage
-                        string containerName = $"files{CurrentUser.UserId}";
-                        await azureBlobAPI.UploadBlobToApi(tempFilePath, containerName, _currentQuizName+"_"+_currentQuestionIndex);
-
-                        // Usuń tymczasowy plik
-                        File.Delete(tempFilePath);
+                        // Dodaj pytanie do listy
+                        questionsToSave.Add(new Question
+                        {
+                            QuestionText = q.QuestionText,
+                            CorrectAnswerIndex = 0, // Pierwsza odpowiedź jest poprawna
+                            Answers = new List<string> { q.CorrectAnswer }.Concat(q.OtherAnswersList.Select(a => a.Text)).ToList(),
+                            Image = q.Image == null ? null : existingQuestion?.Image ?? 1 // Ustaw na null, jeśli obraz został usunięty
+                        });
                     }
-
-                    // Dodaj pytanie do listy
-                    questionsToSave.Add(new Question
-                    {
-                        QuestionText = q.QuestionText,
-                        CorrectAnswerIndex = 0, // Pierwsza odpowiedź jest poprawna
-                        Answers = new List<string> { q.CorrectAnswer }.Concat(q.OtherAnswersList.Select(a => a.Text)).ToList(),
-                        Image = 1 
-                    });
                 }
 
+                // Przypisz zmodyfikowaną listę pytań do quizu
                 quiz.Questions = questionsToSave;
 
                 // Zapisz quiz do pliku JSON
@@ -1319,6 +1312,28 @@ namespace WPF
             {
                 MessageBox.Show($"Wystąpił błąd podczas zapisywania quizu: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+
+        private void RemoveImageButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.CommandParameter is EditableQuestion question)
+            {
+                // Ustaw obraz na null w pytaniu
+                question.Image = null;
+
+                MessageBox.Show("Obraz został usunięty.", "Sukces", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
+        private void ResetEditQuizData()
+        {
+            // Ustawienia ListView na pustą kolekcję
+            EditQuizListView.ItemsSource = null;
+
+            // Reset innych danych edytora (opcjonalnie)
+            _currentQuizName = string.Empty;
+            _currentQuizQuestions.Clear();
         }
 
 
