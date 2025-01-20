@@ -835,11 +835,21 @@ namespace WPF
 
             if (currentQuestion.Answers != null && currentQuestion.Answers.Count >= 4)
             {
-                QuizButton1.Content = currentQuestion.Answers[0];
-                QuizButton2.Content = currentQuestion.Answers[1];
-                QuizButton3.Content = currentQuestion.Answers[2];
-                QuizButton4.Content = currentQuestion.Answers[3];
 
+                var random = new Random();
+                var shuffledAnswers = currentQuestion.Answers.OrderBy(x => random.Next()).ToList();
+
+                // Przypisz losowe odpowiedzi do przycisków
+                QuizButton1.Content = shuffledAnswers[0];
+                QuizButton2.Content = shuffledAnswers[1];
+                QuizButton3.Content = shuffledAnswers[2];
+                QuizButton4.Content = shuffledAnswers[3];
+                /*
+                QuizButton1.Content = currentQuestion.Answers[3];
+                QuizButton2.Content = currentQuestion.Answers[2];
+                QuizButton3.Content = currentQuestion.Answers[1];
+                QuizButton4.Content = currentQuestion.Answers[0];
+                */
                 QuizButton1.Click -= AnswerButton_Click;
                 QuizButton2.Click -= AnswerButton_Click;
                 QuizButton3.Click -= AnswerButton_Click;
@@ -864,13 +874,18 @@ namespace WPF
             {
                 var currentQuestion = _currentQuizQuestions[_currentQuestionIndex];
 
-                int clickedIndex = -1;
-
+                //int clickedIndex = -1;
+                /*
                 if (clickedButton == QuizButton1) clickedIndex = 0;
                 else if (clickedButton == QuizButton2) clickedIndex = 1;
                 else if (clickedButton == QuizButton3) clickedIndex = 2;
                 else if (clickedButton == QuizButton4) clickedIndex = 3;
-
+                */
+                if(clickedButton.Content == currentQuestion.Answers[currentQuestion.CorrectAnswerIndex])
+                {
+                    _score++;
+                }
+                /*
                 if (clickedIndex == currentQuestion.CorrectAnswerIndex)
                 {
                     //MessageBox.Show("Poprawna odpowiedź!", "Gratulacje", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -880,7 +895,7 @@ namespace WPF
                 {
                     //MessageBox.Show($"Niepoprawna odpowiedź. Poprawna odpowiedź to: {currentQuestion.Answers[currentQuestion.CorrectAnswerIndex]}", "Spróbuj ponownie", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
-
+                */
                 _currentQuestionIndex++;
                 if (_currentQuestionIndex < _currentQuizQuestions.Count)
                 {
