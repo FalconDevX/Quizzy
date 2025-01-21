@@ -1,74 +1,103 @@
-**Quizzy**
+# Quizzy
 
-**Overview**
-This project is a Windows Presentation Foundation (WPF) desktop application, built to provide an engaging and interactive quiz experience. The application includes functionalities for users to register, log in, customize their profile, and participate in quizzes.
+## Overview
+Quizzy is a Windows Presentation Foundation (WPF) desktop application designed to offer an engaging and interactive quiz experience. Users can register, log in, customize their profiles, and participate in quizzes with a variety of features tailored for personalization and learning.
 
-**Features**
-- **User Registration and Login**: Users can register with an email and password, and log in using either their email or login name.
-- **User Authentication**: Secure login mechanism utilizing SQL Server to authenticate users.
-- **Customizable User Profiles**: Users can upload an avatar or choose from default avatars available.
-- **Dynamic Panels**: The application uses animations for showing and hiding different panels like login, registration, and settings.
-- **Validation**: Input validation for email and password during registration, ensuring a strong password policy.
-- **Custom Avatars**: Users can set a default avatar or upload a personal image to represent their profile.
-- **User-Specific Settings**: Each user has their own settings, stored in the database, including avatar image and login preferences.
+## Features
+- **User Registration and Login**: Secure user registration using email and password. Login functionality supports both email and username.
+- **User Authentication**: Utilizes SQL Server for secure storage and authentication of user credentials.
+- **Customizable Profiles**: Users can upload a custom avatar or select one from a set of predefined avatars.
+- **Animated Panels**: Smooth transitions between login, registration, and other panels using animations.
+- **Password Validation**: Strong password policies, requiring at least one uppercase letter, one special character, and a length between 6 and 15 characters.
+- **Quiz Management**: Create, edit, and delete quizzes, with the ability to upload custom images and provide detailed quiz descriptions.
+- **Dynamic Content Loading**: Load quizzes dynamically from JSON files or Azure Blob Storage.
+- **User-Specific Settings**: Save and restore user settings, including avatars and progress, across sessions.
+- **Responsive UI**: Modern and user-friendly interface with support for animations and dynamic data binding.
+- **Azure Blob Storage Integration**: Supports uploading, downloading, and managing quiz data and user files using Azure Blob Storage APIs.
 
-**Technologies Used**
-- **.NET Framework** with **WPF** for the desktop application.
-- **C#** for implementing business logic.
-- **SQL Server** for user data storage and retrieval.
-- **Microsoft Win32** APIs for interacting with the file system and managing resources.
-- **XAML** for defining the UI elements and layout.
+## Technologies Used
+- **.NET Framework** and **WPF** for the desktop application.
+- **C#** for the application logic.
+- **SQL Server** for database management.
+- **Azure Blob Storage** for quiz and user data storage.
+- **XAML** for the user interface layout and design.
+- **Newtonsoft.Json** and **System.Text.Json** for JSON parsing.
 
-**Application Structure**
-- **App.xaml.cs**: This file contains global settings for the application, including registration, login, and user profile functionalities.
-- **MainScreen.xaml.cs**: Contains the logic for the main user interface, including avatar settings, sidebar navigation, and overall layout.
-- **StartScreen.xaml.cs**: Manages the login and registration panels with animations and validation checks for user input.
+## Application Structure
+### Key Files
+- **App.xaml.cs**: Contains global application logic, including user authentication and global settings.
+- **MainScreen.xaml.cs**: The main interface for managing quizzes, user settings, and navigation.
+- **StartScreen.xaml.cs**: Handles login and registration functionalities with animations.
+- **ChangeLoginWindow.xaml.cs**: Allows users to change their login credentials securely.
+- **ChangePasswordWindow.xaml.cs**: Implements password change functionality with validation.
+- **DeleteWindow.xaml.cs**: Provides account deletion features.
+- **BlobController.cs**: Handles interactions with Azure Blob Storage, such as uploading, downloading, and managing blobs.
+- **ContainerController.cs**: Manages Azure Blob Storage containers, including creation and deletion.
+- **ChangeUserInfo.cs**: Provides APIs for updating user login, password, and avatar.
+- **DeleteInfo.cs**: API endpoint for securely deleting user accounts.
+- **GetUserId.cs**: Retrieves user IDs based on email or login.
+- **GetUserInfo.cs**: Fetches user details such as email, login, and avatar.
 
-**How to Run the Application**
-1. Clone the repository to your local machine.
-2. Ensure you have **.NET Framework 4.7.2** or higher installed.
-3. Update the `App.config` file with your SQL Server connection string.
-4. Build and run the project using **Visual Studio 2019** or later.
+### Folder Structure
+- `Resources/MainScreen/Avatars`: Contains predefined avatar images.
+- `Resources/Quizzes`: Default resources for quizzes.
+- `Resources/SideBar`: Resources for the sidebar UI.
+- `AppData/Quizzy`: Stores user-specific quiz data locally.
 
-**Dependencies**
-- **Microsoft.Win32** for file dialog and system resource access.
-- **System.Data.SqlClient** for database connectivity.
-- **System.Windows** namespaces for UI elements.
+## How to Run
+1. Clone the repository.
+2. Install **.NET Framework 4.7.2** or higher.
+3. Set up a SQL Server database and update the `App.config` file with the connection string.
+4. Configure Azure Blob Storage settings in the application configuration.
+5. Build and run the project in **Visual Studio 2019** or later.
 
-**Setup Instructions**
+## Dependencies
+- **Microsoft.Win32**: For file system interactions.
+- **System.Data.SqlClient**: For database operations.
+- **Azure.Storage.Blobs**: To manage Azure Blob Storage.
+- **Newtonsoft.Json**: For JSON operations.
+
+## Setup Instructions
 1. Open the solution file in Visual Studio.
-2. Replace the placeholder connection string in `App.config` with your own SQL Server connection details.
-3. Run the project by pressing `F5` or selecting **Debug > Start Debugging** in Visual Studio.
+2. Replace placeholders in the `App.config` file with appropriate database connection details.
+3. Configure Azure Blob Storage settings.
+4. Run the project via Visual Studio’s debug mode (`F5`).
 
-**Key Functionalities Explained**
-**User Registration & Login**
-- Users can register with a unique login and email. Passwords are currently stored in plain text but encryption will be added in future updates.
-- The `LoginUser` function in `App.xaml.cs` authenticates users against the stored credentials in the SQL Server database.
+## Key Functionalities
+### User Registration and Login
+- Implements secure user authentication via SQL Server.
+- Passwords are hashed using SHA256 during registration.
 
-**Avatars and Profile Management**
-- Users can upload custom avatars or select from a set of predefined images located in the `Resources/MainScreen/Avatars` directory.
-- Avatar images are stored as byte arrays in the database, providing a consistent experience across user sessions.
+### Quiz Management
+- Users can create, edit, delete, and manage quizzes dynamically.
+- Quiz data is stored locally in JSON files and can be uploaded/downloaded from Azure Blob Storage.
 
-**Animated UI Panels**
-- The `StartScreen` uses animations to transition between login and registration panels, providing a smooth and modern user experience.
-- XAML-defined storyboards (`FadeIn` and `FadeOut`) are used to manage these animations seamlessly.
+### Custom Avatars
+- Users can upload custom avatars or select from predefined options.
+- Avatars are saved as byte arrays in the database and displayed using dynamic image binding.
 
-**Contributing**
-Contributions are welcome! If you would like to add new features or improve existing ones:
-- Fork this repository.
-- Create a new branch for your feature or bugfix.
-- Submit a pull request with a clear explanation of your changes.
+### Azure Blob Storage Integration
+- Users can upload and download quizzes, avatars, and other files.
+- The application includes APIs for creating and managing containers and blobs in Azure Blob Storage.
 
-**License**
-This project is licensed under the MIT License. Feel free to use it in your own projects.
+### Animated Panels
+- Smooth transitions between panels using XAML storyboards for `FadeIn` and `FadeOut` effects.
 
-**Contact**
-For any inquiries, you can reach me at GitHub
+## Screenshots
+- **Login Screen**: ![Login Screen](Screenshots/LoginScreen.png)
+- **Registration Screen**: ![Register Screen](Screenshots/RegisterScreen.png)
+- **Quiz Management**: ![Quiz Management](Screenshots/QuizManagement.png)
+- **Settings Screen**: ![Settings Screen](Screenshots/SettingsScreen.png)
 
-**Screenshots**
-- **Login Screen**: ![Login Screen](Screenshots/LoginQuizzy.png)
-- **Register Screen**: ![Main Screen](Screenshots/RegisterQuizzy.png)
-- **Home Screen**: ![Main Screen](Screenshots/HomeScreen.png)
-- **Settings Screen**: ![Main Screen](Screenshots/SettingsScreen.png)
-Feel free to explore the application and contribute to make it even better!
+## Contributing
+Contributions are welcome! Follow these steps:
+1. Fork the repository.
+2. Create a feature branch for your changes.
+3. Submit a pull request with a clear explanation of your modifications.
+
+## License
+This project is licensed under the MIT License. Feel free to use, modify, and distribute it as needed.
+
+## Contact
+For questions or feedback, please contact via GitHub Issues or the provided contact details in the repository.
 
